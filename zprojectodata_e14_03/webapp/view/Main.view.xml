@@ -1,0 +1,178 @@
+<mvc:View controllerName="zprojectodatae1403.controller.Main"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	height="100%">
+	<ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false" useIconTabBar="true">
+		<headerTitle>
+			<ObjectPageHeader objectTitle="Section sample">
+				<actions>
+					<ObjectPageHeaderActionButton
+					icon="sap-icon://search"
+					text="Search"
+					hideText="false"
+					press="onSearch"
+					type="Emphasized" >
+					</ObjectPageHeaderActionButton>
+				</actions>
+			</ObjectPageHeader>
+		</headerTitle>
+
+		<headerContent>
+			<l:Grid containerQuery="true" defaultSpan="XL2 L4 M6 S12">
+				<m:VBox >
+					<m:Label text= "OrderID"></m:Label>
+					<m:Input id="idOrderID"></m:Input>
+					<!--
+					type="Number"
+					valueState="Error"
+					valueStateText="Error Message!"
+					  -->
+				</m:VBox>
+				<m:VBox >
+					<m:Label text= "OrderDate"></m:Label>
+					<m:DatePicker id="idOrderDate" 
+					displayFormat="yyyy-MM-dd"
+					valueFormat="yyyyMMdd"></m:DatePicker>
+				</m:VBox>
+				<m:VBox >
+					<m:Label text= "label1"></m:Label>
+					<m:Input ></m:Input>
+				</m:VBox>
+				<m:VBox >
+					<m:Label text= "label1"></m:Label>
+					<m:Input ></m:Input>
+				</m:VBox>
+				<m:VBox >
+					<m:Label text= "label1"></m:Label>
+					<m:Input ></m:Input>
+				</m:VBox>
+			</l:Grid>
+		</headerContent>
+
+		<sections>
+			<ObjectPageSection titleUppercase="false" title="Section 3">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false">
+						<blocks>
+							<m:Table id="idProductsTable"
+								inset="false"
+								items="{/Orders}">
+								<!-- sap.m.Table -->
+								<!-- <m:Table id="idProductsTable"
+								inset="false"
+								items="{
+									path : '/Products',
+									filters : [ {
+									path : 'UnitsOnOrder',
+									operator : 'NE',
+									value1: '0' },
+									{ path : 'ProductName',
+									operator: 'Contains',
+									value1 : 'C'}],
+									sorter: [{
+									path : 'UnitsInStock',
+									descending : true
+									},{
+									path : 'UnitsOnOrder',
+									ascending : true}]
+									}"
+									> -->
+								<m:headerToolbar>
+									<m:OverflowToolbar>
+										<m:content>
+											<m:Title text="Product Name" level="H2" />
+											<m:ToolbarSpacer />
+										</m:content>
+									</m:OverflowToolbar>
+								</m:headerToolbar>
+								<m:columns>
+									<m:Column>
+										<m:Text text="OrderID" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="CustomerID" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="OrderDate" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="RequiredDate" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="ShippedDate" />
+									</m:Column>
+									<!-- <m:Column>
+										<m:Text text="result" />
+									</m:Column> -->
+									<!-- <m:Column>
+										<m:Text text="Custom Sum" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="Result" />
+									</m:Column> -->
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem vAlign="Middle">
+										<m:cells>
+											<m:Text text="{OrderID}" />
+											<m:Text text="{CustomerID}" />
+											<m:Text
+												text="{
+												path: 'OrderDate',
+												formatter: '.formatter.dateTime'
+											}" />
+											<m:Text
+												text="{
+												path: 'RequiredDate',
+												formatter: '.formatter.dateTime'
+											}
+											" />
+											<m:Text
+												text="{
+												path: 'ShippedDate',
+												formatter: '.formatter.dateTime'
+											}
+											" />
+											<!-- <core:Icon src="sap-icon://circle-task-2"
+												color="{= ${OrderID}  &lt; 10253 || ${OrderID} === 10253 ? '#1DDB16' : '#FF0000' }"
+											>
+											</core:Icon> -->
+											<!-- <m:Text text = "{
+												parts: [
+												{path : 'UnitsInStock' },
+												{path : 'UnitsOnOrder' }
+												],
+												formatter : '.formatter.onSum'
+											} " /> -->
+											<!-- "{= (${UnitsInStock} + ${UnitsOnOrder}) > 50 ?
+											#1DDB16 : #FF0000 }"
+												<m:Text text="{= ${UnitsInStock} + ${UnitsOnOrder} }"
+													visible="{= (${UnitsInStock} + ${UnitsOnOrder}) &lt; 50 ? false : true }" /> -->
+											<!-- <core:Icon src="sap-icon://circle-task-2" 
+													   color="{= (${UnitsInStock} + ${UnitsOnOrder}) > 50 || (${UnitsInStock} + ${UnitsOnOrder}) &lt; 30?
+											'#1DDB16' : '#FF0000' }"
+													>
+											</core:Icon> -->
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection titleUppercase="false" title="Section 4">
+				<subSections>
+					<ObjectPageSubSection titleUppercase="false">
+						<blocks>
+							<m:Text text="test" />
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>
