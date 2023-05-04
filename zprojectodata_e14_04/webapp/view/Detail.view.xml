@@ -3,7 +3,10 @@
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns="sap.m"
 		xmlns:f="sap.f"
+<<<<<<< HEAD
 		xmlns:t="sap.ui.table"
+=======
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
 		xmlns:layout="sap.ui.layout"
 		height="100%">
 		<f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
@@ -33,6 +36,7 @@
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
+<<<<<<< HEAD
 				<layout:VerticalLayout>
 					<Input value="{detail>/data/OrderID}" description="OrderID"/>
 					<!-- { data : { OrderID : 10248, key2 : '문자', ... } -->
@@ -42,6 +46,9 @@
 					<Input value="{detail>/data/ShipName}" description="ShipName"/>
 				</layout:VerticalLayout>
 				
+=======
+				<Text text="test"/>
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
 			</f:content>
 			<!-- DynamicPage Footer -->
 			<f:footer>
