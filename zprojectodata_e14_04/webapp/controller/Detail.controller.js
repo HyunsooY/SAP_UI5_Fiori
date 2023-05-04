@@ -1,22 +1,34 @@
 sap.ui.define([
+<<<<<<< HEAD
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel"
+=======
+    "sap/ui/core/mvc/Controller"
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
+<<<<<<< HEAD
     function (Controller, JSONModel) {
+=======
+    function (Controller) {
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
         "use strict";
 
         return Controller.extend("zprojectodatae1404.controller.Detail", {
             onInit: function () {
+<<<<<<< HEAD
                 this.getView().setModel(new JSONModel(), "detail");
 
+=======
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.getRoute("RouteDetail").attachPatternMatched(this._onPatternMatched, this);
             },
             _onPatternMatched: function(oEvent) {
                 // oEvent.getParameters().arguments
+<<<<<<< HEAD
                 var oView = this.getView();
                 var oArgu = oEvent.getParameter("arguments");
                 var oDetailModel = oView.getModel('detail'); // Local JSONModel
@@ -44,6 +56,17 @@ sap.ui.define([
                     error: function() {
                         oView.setBusy(false);
                         sap.m.MessageToast.show('에러 발생');
+=======
+                var oArgu = oEvent.getParameter("arguments");
+                var oModel = this.getView().getModel(); // Northwind OData Model
+                var oFilter = new sap.ui.model.Filter('OrderID', 'EQ', oArgu.key);
+                console.log(oArgu); // { key : 10248 }
+
+                oModel.read("/Orders", {
+                    filters: [oFilter],
+                    success: function(oReturn) {
+                        console.log(oReturn.results[0]);
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
                     }
                 });
             },

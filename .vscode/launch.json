@@ -850,6 +850,7 @@
             "env": {
                 "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
             }
+<<<<<<< HEAD
         },
         {
             "name": "Start zprojectodata_e14_05",
@@ -983,6 +984,8 @@
             "env": {
                 "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
             }
+=======
+>>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
         }
     ],
     "compounds": []
