@@ -9,6 +9,17 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("sap.btp.ux400solving.controller.Main", {
+            formatter: {
+                transformDiscontinued : function(sDiscontinued) {
+                    if(sDiscontinued == true) {
+                        sDiscontinued = 'Yes';
+                    }else{
+                        sDiscontinued = 'No';  
+                    };
+                    return sDiscontinued;
+                }
+            },
+
             onInit: function () {
                 var oRandomData = {
                     Random : [
@@ -48,5 +59,17 @@ sap.ui.define([
                 var oDialog = oEvent.getSource().getParent();
                 oDialog.close();
             },
+
+            onValueChange: function(oEvent) {
+                var oInput = oEvent.getSource();
+                var iValue = parseInt(oInput.getValue());
+                if(iValue < 1 || iValue > 100 ){
+                    oInput.setValueState('Error');
+                    oInput.setValueStateText('1 이상 100 이하의 숫자를 입력하세요.');
+                }else{
+                    oInput.setValueState('None');
+                    oInput.setValueStateText('');
+                }
+            }
         });
     });

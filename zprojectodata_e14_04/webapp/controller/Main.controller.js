@@ -18,10 +18,6 @@ sap.ui.define([
                 var sKey = this.getView().getModel().getProperty(sPath+'/OrderID');
 
                 oRouter.navTo("RouteDetail", {
-<<<<<<< HEAD
-                    
-=======
->>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
                     "key" : sKey
                 });
             },
@@ -66,10 +62,7 @@ sap.ui.define([
             _search: function(sKey) {
                 var oFilter = new sap.ui.model.Filter('CustomerID', 'EQ', sKey);
                 this.byId("idProductsTable").getBinding("items").filter([oFilter]);
-<<<<<<< HEAD
-=======
                 // debugger
->>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
             }
         });
     });
