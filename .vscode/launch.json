@@ -850,7 +850,6 @@
             "env": {
                 "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
             }
-<<<<<<< HEAD
         },
         {
             "name": "Start zprojectodata_e14_05",
@@ -984,8 +983,86 @@
             "env": {
                 "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
             }
-=======
->>>>>>> f50db88f84593bacac190ba377be8b5b516bb007
+        },
+        {
+            "name": "Start ux400_solving",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "cwd": "${workspaceFolder}/ux400_solving",
+            "windows": {
+                "runtimeExecutable": "npx.cmd"
+            },
+            "runtimeArgs": [
+                "fiori",
+                "run"
+            ],
+            "args": [
+                "--open",
+                "test/flpSandbox.html#sapbtpux400solving-display"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "port": 9229,
+            "env": {
+                "DEBUG": "--inspect",
+                "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
+            }
+        },
+        {
+            "name": "Start ux400_solving Mock",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/ux400_solving",
+            "runtimeExecutable": "npx",
+            "windows": {
+                "runtimeExecutable": "npx.cmd"
+            },
+            "runtimeArgs": [
+                "fiori",
+                "run"
+            ],
+            "args": [
+                "--config",
+                "./ui5-mock.yaml",
+                "--open",
+                "test/flpSandbox.html#sapbtpux400solving-display"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "port": 9229,
+            "env": {
+                "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
+            }
+        },
+        {
+            "name": "Start ux400_solving Local",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/ux400_solving",
+            "runtimeExecutable": "npx",
+            "windows": {
+                "runtimeExecutable": "npx.cmd"
+            },
+            "runtimeArgs": [
+                "fiori",
+                "run"
+            ],
+            "args": [
+                "--config",
+                "./ui5-local.yaml",
+                "--open",
+                "test/flpSandbox.html#sapbtpux400solving-display"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "port": 9229,
+            "env": {
+                "FIORI_TOOLS_URL_PARAMS": "sap-ui-xx-viewCache=false"
+            }
         }
     ],
     "compounds": []
