@@ -6,7 +6,7 @@
             <VBox class="sapUiLargeMargin">
                 <Text text="버튼을 클릭하면 아래 Input에 값이 랜덤으로 채워집니다."/>
                 <Input id="idInput" type="Number" change="onValueChange" valueState="None"/>
-                <Button text="Random" press="onRandomPress"/>
+                <Button id="idButton" text="Random" press="onRandomPress"/>
             </VBox>
             <VBox class="sapUiLargeMargin">
                 <t:Table rows="{list>/Random}">

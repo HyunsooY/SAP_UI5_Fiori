@@ -1,7 +1,7 @@
 {
   "_version": "1.49.0",
   "sap.app": {
-    "id": "sap.btp.ux400solving",
+    "id": "ER.zfermembership",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,11 +13,11 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.9.4",
-      "toolsId": "c6eca3af-e4fe-45a5-bfdb-f996128a8590"
+      "toolsId": "cd66dcdc-cb61-4459-a22d-5b1f54d7e475"
     },
     "dataSources": {
       "mainService": {
-        "uri": "/v2/northwind/northwind.svc/",
+        "uri": "/sap/opu/odata/sap/ZGWER_CUST_SRV/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -44,7 +44,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": false,
+    "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.113.0",
       "libs": {
@@ -66,7 +66,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "sap.btp.ux400solving.i18n.i18n"
+          "bundleName": "ER.zfermembership.i18n.i18n"
         }
       },
       "": {
@@ -87,7 +87,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "viewPath": "sap.btp.ux400solving.view",
+        "viewPath": "ER.zfermembership.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false
@@ -99,6 +99,13 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "name": "RouteJoin",
+          "pattern": "join",
+          "target": [
+            "TargetJoin"
+          ]
         }
       ],
       "targets": {
@@ -108,11 +115,18 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        },
+        "TargetJoin": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Join",
+          "viewName": "Join"
         }
       }
     },
     "rootView": {
-      "viewName": "sap.btp.ux400solving.view.App",
+      "viewName": "ER.zfermembership.view.App",
       "type": "XML",
       "async": true,
       "id": "App"

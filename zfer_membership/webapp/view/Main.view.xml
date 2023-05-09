@@ -1,0 +1,9 @@
+<mvc:View controllerName="ER.zfermembership.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="EReON 로그인">
+        <content >
+            <Button text="회원가입" press="onJoin"/>
+        </content>
+    </Page>
+</mvc:View>

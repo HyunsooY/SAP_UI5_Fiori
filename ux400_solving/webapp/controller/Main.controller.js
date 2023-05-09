@@ -16,7 +16,7 @@ sap.ui.define([
                     }else{
                         sDiscontinued = 'No';  
                     };
-                    return sDiscontinued;
+                    return sDiscontinued; // return sDiscontinued === true ? 'Yes' : 'No';
                 }
             },
 
@@ -61,15 +61,22 @@ sap.ui.define([
             },
 
             onValueChange: function(oEvent) {
-                var oInput = oEvent.getSource();
-                var iValue = parseInt(oInput.getValue());
-                if(iValue < 1 || iValue > 100 ){
-                    oInput.setValueState('Error');
-                    oInput.setValueStateText('1 이상 100 이하의 숫자를 입력하세요.');
-                }else{
-                    oInput.setValueState('None');
-                    oInput.setValueStateText('');
-                }
+                // var oInput = oEvent.getSource();
+                // var iValue = parseInt(oInput.getValue());
+                // if(iValue < 1 || iValue > 100 ){
+                //     oInput.setValueState('Error');
+                //     oInput.setValueStateText('1 이상 100 이하의 숫자를 입력하세요.');
+                // }else{
+                //     oInput.setValueState('None');
+                //     oInput.setValueStateText('');
+                // }
+                let oControl = this.byId("idInput");
+                let iNum = Number(oControl.getValue());
+                let isOK = iNum >= 1 && iNum <= 100; // true 또는 false
+
+                oControl.setValueState(isOK ? 'None' : 'Error');
+                oControl.setValueStateText(isOK ? '' : '1~100 사이의 숫자를 입력하세요');
+                this.byId("idButton").setEnabled(isOK ? true : false);
             }
         });
     });

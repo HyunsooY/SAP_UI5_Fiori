@@ -17,7 +17,7 @@
                             <Text text="{ProductID}" wrapping="false"/>
                         </t:template>
                     </t:Column>
-                    <t:Column >
+                    <t:Column width="200px">
                         <Label text="ProductName"/>
                         <t:template>
                             <Text text="{ProductName}" wrapping="false"/>

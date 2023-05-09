@@ -1,7 +1,7 @@
 {
   "_version": "1.49.0",
   "sap.app": {
-    "id": "sap.btp.ux400solving",
+    "id": "sap.btp.ux410solving",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.9.4",
-      "toolsId": "c6eca3af-e4fe-45a5-bfdb-f996128a8590"
+      "toolsId": "7095db70-ce5a-42b3-b1f7-8e39927398e3"
     },
     "dataSources": {
       "mainService": {
@@ -66,7 +66,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "sap.btp.ux400solving.i18n.i18n"
+          "bundleName": "sap.btp.ux410solving.i18n.i18n"
         }
       },
       "": {
@@ -87,7 +87,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "viewPath": "sap.btp.ux400solving.view",
+        "viewPath": "sap.btp.ux410solving.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false
@@ -99,6 +99,13 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "name": "RouteDetail",
+          "pattern": "detail/{OrderID}/{ProductID}",
+          "target": [
+            "TargetDetail"
+          ]
         }
       ],
       "targets": {
@@ -108,11 +115,18 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        },
+        "TargetDetail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Detail",
+          "viewName": "Detail"
         }
       }
     },
     "rootView": {
-      "viewName": "sap.btp.ux400solving.view.App",
+      "viewName": "sap.btp.ux410solving.view.App",
       "type": "XML",
       "async": true,
       "id": "App"
