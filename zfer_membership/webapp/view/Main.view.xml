@@ -4,6 +4,7 @@
     <Page id="page" title="EReON 로그인">
         <content >
             <Button text="회원가입" press="onJoin"/>
+            <Button text="회원가입 Dialog버전" press="onJoinEreon"/>
         </content>
     </Page>
 </mvc:View>

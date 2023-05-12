@@ -26,7 +26,14 @@ sap.ui.define([
                 let sType = this.byId("idComboBoxType").getSelectedKey();
                 let oFilter;
                 // let oFilter = sOrderID ? new Filter("OrderID","EQ",sOrderID) : [];
-                
+                // new Filter("Date", "BT", 오늘, 내일); -> BT 일 경우 Value 2개 설정
+
+                // if(!sType){
+                //     this.byId("idComboBoxType").setValueState("Error");
+                //     return;  // return문을 타면 아래 로직은 타지 않음
+                // }
+                // this.byId("idComboBoxType").setValueState("None");
+
                 if (sOrderID) oFilter = new Filter("OrderID", "EQ", sOrderID);
                 this.byId("idVizFrame").setVizType(sType);
                 this.byId("idDataset").getBinding("data").filter(oFilter);

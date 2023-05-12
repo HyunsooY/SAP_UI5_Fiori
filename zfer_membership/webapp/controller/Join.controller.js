@@ -29,21 +29,12 @@ sap.ui.define([
                 this.oModel.read("/CustidSet",{
                     success : function(oReturn){
                         console.log("READ: ", oReturn.results[0]); // oReturn.results[0].CustidMax
-                        var nID = Number(oReturn.results[0].CustidMax.substr(1,5));
-                        nID += 1;
-                        var sID = new String;
-                        if(nID >= 1 && nID < 10){
-                            sID = "E0000" + nID;
-                        }else if(nID >= 10 && nID < 100){
-                            sID = "E000" + nID;
-                        }else if(nID >= 100 && nID < 1000){
-                            sID = "E00" + nID;
-                        }else if(nID >= 1000 && nID < 10000){
-                            sID = "E0" + nID;
-                        }else{
-                            sID = "E" + nID;
-                        };
-                        this.byId("idInputID").setValue(sID);
+                        // var nID = Number(oReturn.results[0].CustidMax.substr(1,5));
+                        // nID += 1;
+                        // var sID = new String(nID);
+                        // sID = 'E' + sID.padStart(5, '0');
+                        // this.byId("idInputID").setValue(sID);
+                        this.byId("idInputID").setValue(oReturn.results[0].CustidMax);
                     }.bind(this)
                 });
                 this.byId("idJDate").setValue(`${today.getFullYear()}.${today.getMonth()+1}.${today.getDate()}`);
