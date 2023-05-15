@@ -92,13 +92,19 @@
 										<SegmentedButtonItem icon="sap-icon://female" key="F" text="여성"/>
 									</items>
 								</SegmentedButton>
-								<Label text="생년월일" />									
+								<Label text="생년월일" />
+								<!-- <DatePicker id="idBirthDate" value="{
+										constraints : {displayFormat : 'Date'},
+										path : 'join/>Birth',
+										type : 'sap.ui.model.odata.type.DateTime'
+										}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+										change="onValueChange" valueState="None" width="403px"/>									 -->
 								<DatePicker id="idBirthDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
 									change="onValueChange" valueState="None" width="403px"/>
 								<!-- <Input id="idBDate"  enabled="false" /> -->
 								<Label text="전화번호" />									
 								<Input id="idInputTel" value="{join>/Telno}" change="onValueChange"
-									valueState="None" placeholder="0000000000, '-' 없이 입력하세요." width="403px" />
+									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" />
 								<Label text="주소"/>
 								<Input id="idInputAdd" value="{join>/Address}" change="onValueChange"
                     				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" />
@@ -161,19 +167,19 @@
 										layout="ResponsiveGridLayout">
 									<form:content>
 										<Label text="아이디"/>
-										<Text id="ProductNameChosen" text="{join>/Custid}"/>
+										<Text text="{join>/Custid}"/>
 										<Label text="성명"/>
-										<Text id="ProductWeightChosen" text="{join>/Name}"/>
+										<Text text="{join>/Name}"/>
 										<Label text="성별"/>
-										<Text id="ProductManufacturerChosen" text="{join>/Gender}"/>
+										<Text text="{join>/Gender}"/>
 										<Label text="생년월일"/>
-										<Text id="ProductDescriptionChosen1" text="{join>/Birth}"/>
+										<Text text="{join>/Birth}"/>
 										<Label text="전화번호"/>
-										<Text id="ProductDescriptionChosen2" text="{join>/Telno}"/>
+										<Text text="{join>/Telno}"/>
 										<Label text="주소"/>
-										<Text id="ProductDescriptionChosen3" text="{join>/Address}"/>
-										<Label text="가입일자"/>
-										<Text id="ProductDescriptionChosen4" text="{join>/Joindate}"/>
+										<Text text="{join>/Address}"/>
+										<!-- <Label text="가입일자"/> -->
+										<!-- <Text id="ProductDescriptionChosen4" text="{join>/Joindate}"/> -->
 										<Link press="editStepTwo" text="Edit" />
 									</form:content>
 								</form:SimpleForm>
@@ -185,7 +191,7 @@
 										layout="ResponsiveGridLayout">
 									<form:content>
 										<Label text="면허번호"/>
-										<Text id="ManufacturingDate1" text="{join>/Licnum}"/>
+										<Text text="{join>/Licnum}"/>
 										<Label text="면허증 등록 여부"/>
 										<Text id="idLicenseCheck" text=""/>
 										<Link press="editStepThree" text="Edit" />

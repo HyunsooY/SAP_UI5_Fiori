@@ -66,10 +66,10 @@ sap.ui.define([
                             this.oModel.create("/CustomerSet", oCustomer, {
                                 success: function() {
                                     sap.m.MessageToast.show("Create Success!");
+                                },
+                                error: function() {
+                                    sap.m.MessageToast.show("Error Success!");
                                 }
-                                // error: function() {
-                                //     sap.m.MessageToast.show("Error Success!");
-                                // }
                             });
                             this.byId("idDialog").close();
                             this.getView().getModel().setData(Object.assign({}, oData));
@@ -216,12 +216,6 @@ sap.ui.define([
                 this.handleButtonsVisibility();
             },
     
-            setProductType: function (oEvent) {
-                var sProductType = oEvent.getSource().getTitle();
-                this.getView().getModel().setProperty("/productType", sProductType);
-                this.byId("ProductStepChosenType").setText("Chosen product type: " + sProductType);
-                this._oWizard.validateStep(this.byId("AdultStep"));
-            },
             setAdultCheckFromSegmented: function(oEvent) {
                 var oModel = this.getView().getModel();
                 var sAdultCheck = oEvent.getParameters().item.getKey();
@@ -348,10 +342,6 @@ sap.ui.define([
                 this._handleMessageBoxOpen("회원가입을 취소하시겠습니까?", "warning");
             },
     
-            handleWizardSubmit: function () {
-                this._handleMessageBoxOpen("회원가입하시겠습니까?", "confirm");
-            },
-
             _handleMessageBoxOpen: function (sMessage, sMessageBoxType) {
                 MessageBox[sMessageBoxType](sMessage, {
                     actions: [MessageBox.Action.YES, MessageBox.Action.NO],
