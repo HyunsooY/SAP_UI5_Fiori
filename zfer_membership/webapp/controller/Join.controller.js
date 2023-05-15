@@ -25,7 +25,7 @@ sap.ui.define([
                 oRouter.getRoute("RouteJoin").attachPatternMatched(this._onPatternMatched, this);
                 this.getView().setModel(new JSONModel(), "join");
                 this._defaultSet();
-                let today = new Date;              
+                let today = new Date;         
                 this.oModel.read("/CustidSet",{
                     success : function(oReturn){
                         console.log("READ: ", oReturn.results[0]); // oReturn.results[0].CustidMax
@@ -37,7 +37,18 @@ sap.ui.define([
                         this.byId("idInputID").setValue(oReturn.results[0].CustidMax);
                     }.bind(this)
                 });
+                if(today.getMonth()+1 < 10) {
+                    if(today.getDate() < 10) {
+                        this.byId("idJDate").setValue(`${today.getFullYear()}0${today.getMonth()+1}0${today.getDate()}`);
+                    }else{
+                    this.byId("idJDate").setValue(`${today.getFullYear()}0${today.getMonth()+1}${today.getDate()}`);
+                    }
+                }else{if(today.getDate() < 10){
+                    this.byId("idJDate").setValue(`${today.getFullYear()}${today.getMonth()+1}s0${today.getDate()}`);
+                }else{
                 this.byId("idJDate").setValue(`${today.getFullYear()}.${today.getMonth()+1}.${today.getDate()}`);
+                }
+                }
             },
             _defaultSet: function() {
                 // odata model 변수 세팅

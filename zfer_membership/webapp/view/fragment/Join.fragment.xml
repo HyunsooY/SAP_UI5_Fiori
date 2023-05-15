@@ -4,7 +4,8 @@
 	xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
 	xmlns:u="sap.ui.unified"
-	xmlns:layout="sap.ui.layout">
+	xmlns:layout="sap.ui.layout"
+	xmlns:image="sap.suite.ui.commons.imageeditor">
 	<Dialog
 		id="idDialog"
 		showHeader="false"
@@ -12,7 +13,7 @@
 		contentHeight="70%"
 		contentWidth="80%">
 		<f:DynamicPage
-			stickySubheaderProvider="CreateProductWizard"
+			stickySubheaderProvider="CreateJoinWizard"
 			toggleHeaderOnTitleClick="false"
 			class="sapUiNoContentPadding"
 			showFooter="true">
@@ -24,130 +25,115 @@
 				</f:DynamicPageTitle>
 			</f:title>
 			<f:content>
-				<Wizard id="CreateProductWizard"
+				<Wizard id="CreateJoinWizard"
 						class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
 						showNextButton="false"
 						navigationChange="handleNavigationChange"
 						renderMode="Page">
-					<WizardStep id="ProductTypeStep"
-								title="가입 여부 확인"
+					<WizardStep id="AdultStep"
+								title="미성년자 여부 확인"
 								validated="true"
 								activate="productTypeActivate">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="EReON에 오신 걸 환영합니다."
-								showIcon="true" type="Success"/>
 						<Text class="sapUiSmallMarginBottom"
-								text="기존 가입 여부를 확인합니다."/>
+								text="EReON에 오신 걸 환영합니다."/>
+						<MessageStrip class="sapUiSmallMarginBottom"
+								text="당신은 만 18세 이상입니까?"
+								showIcon="true" type="Warning"/>
 						<VBox
 								alignItems="Start"
 								justifyContent="Center"
 								width="100%">
-                            <HBox >
-                                <Label text="성 명" showColon="true"/>
-                                <Input enabled="false" width="30px"/>
+							<SegmentedButton
+								width="320px"
+								selectedKey="{}"
+								selectionChange="setAdultCheckFromSegmented">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://accept" key="yes" text="예"/>
+									<SegmentedButtonItem icon="sap-icon://cancel" key="no" text="아니오"/>
+								</items>
+							</SegmentedButton>
+                            <!-- <HBox >
+                                <Label text="성 명" />
+                                <Input enabled="false" width="35px"/>
                                 <Input />   
                             </HBox>
 							<HBox>
-                                <Label text="생년월일" showColon="true"/>
+                                <Label text="생년월일" />
                                 <Input enabled="false" width="10px"/>
                                 <Input />
-                            </HBox>
-                            
+                            </HBox> -->
 						</VBox>
+						<MessageStrip id="idAdultCheck"
+								class="sapUiSmallMarginTop"
+								text="만 18세 미만은 가입하실 수 없습니다"
+								showIcon="true" type="Error" visible="false"/>
 					</WizardStep>
-					<WizardStep id="ProductInfoStep"
+					<WizardStep id="CustInfoStep"
 								validated="false"
-								title="Product Information"
+								title="고객 정보 입력"
 								activate="additionalInfoValidation">
 						<MessageStrip class="sapUiSmallMarginBottom"
-								text="만 18세 이상입니까?"
-								showIcon="true" type="Warning"/>
-						<Text text="Cras tellus leo, volutpat vitae ullamcorper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien et viverra imperdiet, orci erat porttitor nulla, eget commodo metus nibh nec ipsum. Aliquam lacinia euismod metus, sollicitudin pellentesque purus volutpat eget. Pellentesque egestas erat quis eros convallis mattis. Mauris hendrerit sapien a malesu corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	"/>
-						<form:SimpleForm
+								text="고객 정보를 입력해 주십시오."
+								showIcon="true" type="Information"/>
+							<form:SimpleForm
 								editable="true">
-							<Label text="Name" required="true"/>
-							<Input valueStateText="Enter 6 symbols or more"
-									valueState="{/productNameState}" id="ProductName" liveChange="additionalInfoValidation"
-									placeholder="Enter name with length greater than 6" value="{/productName}"/>
-							<Label text="Weight" required="true"/>
-							<Input valueStateText="Enter digits"
-									valueState="{/productWeightState}" id="ProductWeight"
-									liveChange="additionalInfoValidation" type="Number" placeholder="Enter digits"
-									value="{/productWeight}"/>
-							<Label text="Manufacturer"/>
-							<Select selectedKey="{/productManufacturer}">
-								<core:Item key="Apple" text="Apple"/>
-								<core:Item key="Microsoft" text="Microsoft"/>
-								<core:Item key="Google" text="Google"/>
-								<core:Item key="Sony" text="Sony"/>
-								<core:Item key="Samsung" text="Samsung"/>
-								<core:Item key="Logitech" text="Logitech"/>
-							</Select>
-							<Label text="Description"/>
-							<TextArea value="{/productDescription}" rows="8"/>
+								<Label text="아이디" />									
+								<Input id="idInputID" value="{join>/Custid}" enabled="false" width="403px"/>
+								<Label text="성 명" />
+								<Input id="idInputName" value="{join>/Name}" change="onValueChange"
+									valueState="None" placeholder="조아핑" width="403px"/>
+								<Label text="성 별" />
+								<SegmentedButton
+									width="403px"
+									selectedKey="{join>/Gender}"
+									selectedItem="setGenderFromSegmented">
+									<items>
+										<SegmentedButtonItem icon="sap-icon://male" key="M" text="남성"/>
+										<SegmentedButtonItem icon="sap-icon://female" key="F" text="여성"/>
+									</items>
+								</SegmentedButton>
+								<Label text="생년월일" />									
+								<DatePicker id="idBirthDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+									change="onValueChange" valueState="None" width="403px"/>
+								<!-- <Input id="idBDate"  enabled="false" /> -->
+								<Label text="전화번호" />									
+								<Input id="idInputTel" value="{join>/Telno}" change="onValueChange"
+									valueState="None" placeholder="0000000000, '-' 없이 입력하세요." width="403px" />
+								<Label text="주소"/>
+								<Input id="idInputAdd" value="{join>/Address}" change="onValueChange"
+                    				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" />
+								<Label text="가입일자" visible="false"/>								
+								<!-- <Input id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',
+										constraints: {displayFormat: 'Date'}" enabled="false" width="403px" visible="false"/> -->
+								<!-- <DatePicker id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',
+										constraints: {displayFormat: 'Date'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+										 width="403px"/> -->
 						</form:SimpleForm>
+
 					</WizardStep>
-					<WizardStep id="OptionalInfoStep"
+					<WizardStep id="LicenseInfoStep"
 								validated="true"
 								activate="optionalStepActivation"
-								title="Optional Information">
+								title="면허 정보 입력">
 						<MessageStrip class="sapUiSmallMarginBottom"
-								text="You can validate steps by default with the validated='true' property of the step. The next button is always enabled."
+								text="면허 정보를 입력해 주십시오."
 								showIcon="true"/>
-						<Text text="Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec ppellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	"/>
+						<!-- <Text text="	"/> -->
 						<form:SimpleForm
 								editable="true">
-							<Label text="Cover photo"/>
+							<Label text="면허증 사본"/>
 							<u:FileUploader
-									width="100%"
+									id="idUploader"
+									width="403px"
 									tooltip="Upload product cover photo to the local server"
 									style="Emphasized"
-									placeholder="Choose a file for Upload..."/>
-							<Label text="Manufacturing date"/>
-							<DatePicker
-									id="DP3"
-									displayFormat="short"
-									value="{/manufacturingDate}"/>
-							<Label text="Availability"/>
-							<SegmentedButton selectedKey="{/availabilityType}">
-								<items>
-									<SegmentedButtonItem key="In store" text="In store"/>
-									<SegmentedButtonItem key="In depot" text="In depot"/>
-									<SegmentedButtonItem key="In repository" text="In repository"/>
-									<SegmentedButtonItem key="Out of stock" text="Out of stock"/>
-								</items>
-							</SegmentedButton>
-							<Label text="Size"/>
-							<Input value="{/size}"/>
-							<ComboBox maxWidth="100px" selectedKey="{/measurement}">
-								<core:Item key="X" text="X"/>
-								<core:Item key="Y" text="Y"/>
-								<core:Item key="Z" text="Z"/>
-							</ComboBox>
-
-						</form:SimpleForm>
-					</WizardStep>
-					<WizardStep id="PricingStep"
-								activate="pricingActivate"
-								complete="pricingComplete"
-								validated="true"
-								title="Pricing">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="You can use the wizard previousStep() and nextStep() methods to navigate from step to step without validation. Also you can use the GoToStep(step) method to scroll programmatically to previously visited steps."
-								showIcon="true"/>
-						<form:SimpleForm
-								editable="true">
-							<Label text="Price"/>
-							<Input value="{/productPrice}"/>
-							<Label text="Discount group"/>
-							<ComboBox selectedKey="{/discountGroup}">
-								<core:Item key="Kids" text="Kids"/>
-								<core:Item key="Teens" text="Teens"/>
-								<core:Item key="Adults" text="Adults"/>
-								<core:Item key="Elderly" text="Elderly"/>
-							</ComboBox>
-							<Label text=" VAT is included"/>
-							<CheckBox selected="{/productVAT}"/>
+									placeholder="Choose a file for Upload..."
+									change="onChangeImage"/>
+							<Label text="Image"/>
+							<Image id="idImage" src="" width="{/imageWidth}" />
+							<Label text="면허번호"/>
+							<Input id="idInputLic" value="{join>/Licnum}" change="onValueChange"
+                    			valueState="None" placeholder="11-10-154201-00" width="403px" />
 						</form:SimpleForm>
 					</WizardStep>
 					<WizardStep
@@ -155,72 +141,54 @@
 							activate="reviewActivate"
 							complete="reviewComplete"
 							validated="true"
-							title="Review page">
+							title="Review">
 								<form:SimpleForm
-										title="1. Product Type"
+										title="1. 미성년자 여부 확인"
 										minWidth="1024"
 										editable="false"
 										layout="ResponsiveGridLayout">
 									<form:content>
-										<Label text="Type"/>
-										<Text id="ProductTypeChosen" text="{/productType}"/>
+										<Label text="미성년자 여부"/>
+										<Text id="idAdultCheckReview" text="확인"/>
 										<Link press="editStepOne" text="Edit" />
 									</form:content>
 								</form:SimpleForm>
 
 								<form:SimpleForm
-										title="2. Product Information"
+										title="2. 고객 정보 입력"
 										minWidth="1024"
 										editable="false"
 										layout="ResponsiveGridLayout">
 									<form:content>
-										<Label text="Name"/>
-										<Text id="ProductNameChosen" text="{/productName}"/>
-										<Label text="Weight"/>
-										<Text id="ProductWeightChosen" text="{/productWeight}"/>
-										<Label text="Manufacturer"/>
-										<Text id="ProductManufacturerChosen" text="{/productManufacturer}"/>
-										<Label text="Description"/>
-										<Text id="ProductDescriptionChosen" text="{/productDescription}"/>
+										<Label text="아이디"/>
+										<Text id="ProductNameChosen" text="{join>/Custid}"/>
+										<Label text="성명"/>
+										<Text id="ProductWeightChosen" text="{join>/Name}"/>
+										<Label text="성별"/>
+										<Text id="ProductManufacturerChosen" text="{join>/Gender}"/>
+										<Label text="생년월일"/>
+										<Text id="ProductDescriptionChosen1" text="{join>/Birth}"/>
+										<Label text="전화번호"/>
+										<Text id="ProductDescriptionChosen2" text="{join>/Telno}"/>
+										<Label text="주소"/>
+										<Text id="ProductDescriptionChosen3" text="{join>/Address}"/>
+										<Label text="가입일자"/>
+										<Text id="ProductDescriptionChosen4" text="{join>/Joindate}"/>
 										<Link press="editStepTwo" text="Edit" />
 									</form:content>
 								</form:SimpleForm>
 
 								<form:SimpleForm
-										title="3. Optional Information"
+										title="3. 면허 정보 입력"
 										minWidth="1024"
 										editable="false"
 										layout="ResponsiveGridLayout">
 									<form:content>
-										<Label text="Some text"/>
-										<Text text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. "/>
-										<Label text="Manufacturing Date"/>
-										<Text id="ManufacturingDate" text="{/manufacturingDate}"/>
-										<Label text="Availability"/>
-										<Text id="AvailabilityChosen" text="{/availabilityType}"/>
-										<Label text="Size"/>
-										<HBox>
-											<Text id="Size" text="{/size}"/>
-											<Text id="Size2" class="sapUiTinyMarginBegin" text="{/measurement}"/>
-										</HBox>
+										<Label text="면허번호"/>
+										<Text id="ManufacturingDate1" text="{join>/Licnum}"/>
+										<Label text="면허증 등록 여부"/>
+										<Text id="idLicenseCheck" text=""/>
 										<Link press="editStepThree" text="Edit" />
-									</form:content>
-								</form:SimpleForm>
-
-								<form:SimpleForm
-										title="4. Pricing"
-										minWidth="1024"
-										editable="false"
-										layout="ResponsiveGridLayout">
-									<form:content>
-										<Label text="Price"/>
-										<Text id="ProductPriceChosen" text="{/productPrice}"/>
-										<Label text="Discount Group"/>
-										<Text id="DiscountGroupChosen" text="{/discountGroup}"/>
-										<Label text="VAT Included"/>
-										<Text id="ProductVATChosen" text="{/productVAT}"/>
-										<Link press="editStepFour" text="Edit" />
 									</form:content>
 								</form:SimpleForm>
 					</WizardStep>
@@ -230,11 +198,11 @@
 			<f:footer>
 				<OverflowToolbar>
 					<ToolbarSpacer/>
-					<Button text="Previous" visible="{/backButtonVisible}" press="onDialogBackButton" />
-					<Button text="Next Step" type="Emphasized" enabled="{/nextButtonEnabled}" visible="{/nextButtonVisible}" press="onDialogNextButton" />
+					<Button text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
+					<Button text="다음" type="Emphasized" enabled="{/nextButtonEnabled}" visible="{/nextButtonVisible}" press="onDialogNextButton" />
 					<Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
-					<Button text="Finish" type="Emphasized" visible="{/finishButtonVisible}" press="handleWizardSubmit" />
-					<Button	text="Cancel" type="Transparent" press="handleWizardCancel"/>
+					<Button text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" />
+					<Button	text="취소" type="Transparent" press="handleWizardCancel"/>
 				</OverflowToolbar>
 			</f:footer>
 		</f:DynamicPage>

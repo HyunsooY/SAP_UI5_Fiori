@@ -52,6 +52,20 @@ sap.ui.define([
                     }.bind(this),
                 });
 
+                /* var oModel = this.getView().getModel();
+                var oPopupModel = this.getView().getModel("book");
+                oModel.read(sBindPath, {
+                    urlParameters: { $expand: "to_Item" },
+                    success: function(oReturn) {
+                        oPopupModel.setData(oReturn);
+                    }.bind(this),
+                });
+                */
+                
+                /* read 구문 사용하지 않고 해당 데이터 추출하는 방법
+                var oSelectedData = oEvent.getSource().getBindingContext().getObject({ $expand: "to_Item" });
+                var aDetail = oSelectedData.to_Item;
+                */
                 if(oDialog){
                     oDialog.open();
                 }else{
