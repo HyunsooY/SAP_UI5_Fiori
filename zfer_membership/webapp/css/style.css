@@ -1,1 +1,52 @@
 /* Enter your custom styles here */
+.mainPage {
+    background-image: url("/model/image/background/EReON.png");
+    background-size: 40%;
+    background-position:  top;
+    background-repeat: no-repeat;
+    /* position: absolute;
+    top: 150px; */
+    
+    /* back */
+    /* Other styles */
+  }
+
+.mainVbox {
+    /* background-position: center; */
+    position: absolute;
+    /* align-items: center;
+    align-self: center; */
+    bottom: 100px;
+    top: 270px;
+    left: 440px;
+
+    /* position: 'center'; */
+
+}
+
+.Vbox1 {
+    position: relative;
+    top: 20px;
+}
+
+.button1 {
+    position: relative;
+    top: 20px;
+    left: 40px;
+    color: #56BDF7;
+}
+
+.button2 {
+    position: relative;
+    top: 20px;
+    left: 65px;
+    color: #56BDF7;
+}
+
+.LoginButton {
+    color: #56BDF7;
+}
+
+.JoinButton {
+    color: #56BDF7
+}

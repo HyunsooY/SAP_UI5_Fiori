@@ -99,8 +99,14 @@
 										type : 'sap.ui.model.odata.type.DateTime'
 										}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
 										change="onValueChange" valueState="None" width="403px"/>									 -->
-								<DatePicker id="idBirthDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
-									change="onValueChange" valueState="None" width="403px"/>
+								<!-- <DatePicker id="idBirthDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+									change="onValueChange" valueState="None" width="403px"/> -->
+								<DatePicker id="idBirthDate" 
+											value="{join>/Birth}"
+											displayFormat="yyyy-MM-dd" 
+											valueFormat="yyyy-MM-dd"
+											change="onValueChange" valueState="None" width="403px"/>
+
 								<!-- <Input id="idBDate"  enabled="false" /> -->
 								<Label text="전화번호" />									
 								<Input id="idInputTel" value="{join>/Telno}" change="onValueChange"
@@ -108,7 +114,10 @@
 								<Label text="주소"/>
 								<Input id="idInputAdd" value="{join>/Address}" change="onValueChange"
                     				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" />
-								<Label text="가입일자" visible="false"/>								
+								<Label text="가입일자" visible="false"/>
+								<DatePicker id="idJoinDate" 
+												value="{join>/Joindate}"
+												valueState="None" width="403px" visible="false"/>								
 								<!-- <Input id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',
 										constraints: {displayFormat: 'Date'}" enabled="false" width="403px" visible="false"/> -->
 								<!-- <DatePicker id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',

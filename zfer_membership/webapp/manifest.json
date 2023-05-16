@@ -101,10 +101,10 @@
           ]
         },
         {
-          "name": "RouteJoin",
-          "pattern": "join",
+          "name": "RouteLogin",
+          "pattern": "login/{Custid}/{Name}",
           "target": [
-            "TargetJoin"
+            "TargetLogin"
           ]
         }
       ],
@@ -116,12 +116,12 @@
           "viewId": "Main",
           "viewName": "Main"
         },
-        "TargetJoin": {
+        "TargetLogin": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "Join",
-          "viewName": "Join"
+          "viewId": "Login",
+          "viewName": "Login"
         }
       }
     },

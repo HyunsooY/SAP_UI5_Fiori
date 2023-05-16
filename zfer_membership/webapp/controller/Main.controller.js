@@ -9,6 +9,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
+
     function (Controller, JSONModel, MessageToast, MessageBox, Fragment, CoreLibrary) {
         "use strict";
         var ValueState = CoreLibrary.ValueState,
@@ -24,7 +25,10 @@ sap.ui.define([
 			    oModel.setData(oInitialModelState);
 			    this.getView().setModel(oModel);
                 this.getView().setModel(new JSONModel(), "join");
-                this._defaultSet();                
+                this.getView().setModel(new JSONModel(), "login");
+                this._defaultSet();
+                this.byId("LoginButton").addStyleClass("LoginButton");
+                this.byId("JoinButton").addStyleClass("JoinButton");               
             },
             _defaultSet: function() {
                 // odata model 변수 세팅
@@ -40,8 +44,25 @@ sap.ui.define([
             },
 
             onLogin: function() {
-                var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("RouteMain", {}, true);
+                let sId = this.byId("idLoginID").getValue();
+                let sName = this.byId("idLoginName").getValue();
+                let sPath = this.oModel.createKey("/LoginSet", {
+                    Custid : sId,
+                    Name : sName
+                });
+                this.oModel.read(sPath, {
+                    success: function(oReturn) {
+                        var oRouter = this.getOwnerComponent().getRouter();
+                        oRouter.navTo("RouteLogin", {
+                            Custid : sId,
+                            Name : sName
+                        }, true);
+                    }.bind(this),
+                    error: function() {
+                        sap.m.MessageToast.show("존재하지 않는 회원입니다!");
+                    }
+                })
+                
             },            
             onCreate: function() {
                 let oCustomer = this.oMainModel.getData();
@@ -63,12 +84,14 @@ sap.ui.define([
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.YES) {
                             this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
+                            oCustomer.Birth = new Date(oCustomer.Birth);
+                            oCustomer.Joindate = new Date();
                             this.oModel.create("/CustomerSet", oCustomer, {
                                 success: function() {
-                                    sap.m.MessageToast.show("Create Success!");
+                                    sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");
                                 },
                                 error: function() {
-                                    sap.m.MessageToast.show("Error Success!");
+                                    sap.m.MessageToast.show("회원가입이 정상적으로 이루어지지 않았습니다.");
                                 }
                             });
                             this.byId("idDialog").close();
@@ -106,11 +129,11 @@ sap.ui.define([
 
                 // this.byId("idButton").setEnabled(iName !== '' && iBirth !== '' && iTel !== '' && iAdd !== '' && iLic !== ''? true : false);
             },
-            onJoin: function() {
+            // onJoin: function() {
 
-                var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("RouteJoin", {});
-            },
+            //     var oRouter = this.getOwnerComponent().getRouter();
+            //     oRouter.navTo("RouteJoin", {});
+            // },
             
             onJoinEreon: function () {
                 var oView = this.getView();                
@@ -137,22 +160,6 @@ sap.ui.define([
                     success : function(oReturn){
                         console.log("READ: ", oReturn.results[0]);
                         this.byId("idInputID").setValue(oReturn.results[0].CustidMax);
-                    
-                        // if(today.getMonth()+1 < 10) {
-                        //     if(today.getDate() < 10) {
-                        //         this.byId("idJoinDate").setValue(`${today.getFullYear()}0${today.getMonth()+1}0${today.getDate()}`);
-                        //     }else{
-                        //     this.byId("idJoinDate").setValue(`${today.getFullYear()}0${today.getMonth()+1}${today.getDate()}`);
-                        //     }
-                        // }else{if(today.getDate() < 10){
-                        //     this.byId("idJoinDate").setValue(`${today.getFullYear()}${today.getMonth()+1}0${today.getDate()}`);
-                        // }else{
-                        // this.byId("idJoinDate").setValue(`${today.getFullYear()}${today.getMonth()+1}-${today.getDate()}`);
-                        // }
-                        // };
-                        // oImgModel = new JSONModel(sap.ui.require.toUrl("sap/ui/demo/mock/img.json"));
-                        // this.getView().setModel(oImgModel, "img");
-                        
                     }.bind(this)
                 });
             },

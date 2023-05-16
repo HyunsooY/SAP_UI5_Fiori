@@ -1,0 +1,13 @@
+<mvc:View controllerName="ER.zfermembership.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+    <Page id="page" title="{i18n>title}" showHeader="false">
+        <content>
+            <OverflowToolbar style="Clear">
+                <ToolbarSpacer />
+                <Button text="내 정보" press="onMyPage" ariaHasPopup="Dialog"/>
+                <Button text="로그아웃" press="onLogout" />
+            </OverflowToolbar>
+        </content>
+    </Page>
+</mvc:View>
