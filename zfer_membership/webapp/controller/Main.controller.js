@@ -66,6 +66,15 @@ sap.ui.define([
             },            
             onCreate: function() {
                 let oCustomer = this.oMainModel.getData();
+                let sAdultCheck = this.byId("idAdultCheckReview").getText();
+                let sID = this.byId("idIDReview").getText();
+                let sName = this.byId("idNameReview").getText();
+                let sGender = this.byId("idGenderReview").getText();
+                let sBirth = this.byId("idBirthReview").getText();
+                let sTelno = this.byId("idTelnoReview").getText();
+                let sAddress = this.byId("idAddressReview").getText();
+                let sLicnum = this.byId("idLicnumReview").getText();
+                let sLicenseCheck = this.byId("idLicenseCheck").getText();
 
                 // if(iName === '' || iBirth === '' || iTel === '' || iAdd === '' || iLic === ''){
                 //     this.onValueChange();
@@ -79,28 +88,31 @@ sap.ui.define([
                 //         }
                 //     });
                 // }
-                MessageBox["confirm"]("회원가입하시겠습니까?", {
-                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                    onClose: function (oAction) {
-                        if (oAction === MessageBox.Action.YES) {
-                            this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
-                            oCustomer.Birth = new Date(oCustomer.Birth);
-                            oCustomer.Joindate = new Date();
-                            this.oModel.create("/CustomerSet", oCustomer, {
-                                success: function() {
-                                    sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");
-                                },
-                                error: function() {
-                                    sap.m.MessageToast.show("회원가입이 정상적으로 이루어지지 않았습니다.");
+                if(sAdultCheck === '' || sID === '' || sName === '' || sGender === '' || sBirth === '' ||
+                    sTelno === '' || sAddress === '' || sLicnum === '' || sLicenseCheck === '') {
+                        sap.m.MessageToast.show("입력되지 않은 정보가 존재합니다.")
+                    }else{
+                        MessageBox["confirm"]("회원가입하시겠습니까?", {
+                            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                            onClose: function (oAction) {
+                                if (oAction === MessageBox.Action.YES) {
+                                    this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
+                                    oCustomer.Birth = new Date(oCustomer.Birth);
+                                    oCustomer.Joindate = new Date();
+                                    this.oModel.create("/CustomerSet", oCustomer, {
+                                        success: function() {
+                                            sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");
+                                        },
+                                        error: function() {
+                                            sap.m.MessageToast.show("회원가입이 정상적으로 이루어지지 않았습니다.");
+                                        }
+                                    });
+                                    this.byId("idDialog").close();
+                                    this.getView().getModel().setData(Object.assign({}, oData));
                                 }
-                            });
-                            this.byId("idDialog").close();
-                            this.getView().getModel().setData(Object.assign({}, oData));
-                        }
-                    }.bind(this)
-                });
-                
-                
+                            }.bind(this)
+                        });
+                    };
             },
             onValueChange: function(oEvent) {
                 let oControlName = this.byId("idInputName");
@@ -127,7 +139,7 @@ sap.ui.define([
 
                 // this.byId("idBDate").setValue(this.byId("idBirthDate").getValue());
 
-                // this.byId("idButton").setEnabled(iName !== '' && iBirth !== '' && iTel !== '' && iAdd !== '' && iLic !== ''? true : false);
+                // this.byId("idJoinButton").setEnabled(iName !== '' && iBirth !== '' && iTel !== '' && iAdd !== '' && iLic !== ''? true : false);
             },
             // onJoin: function() {
 

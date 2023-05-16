@@ -176,17 +176,17 @@
 										layout="ResponsiveGridLayout">
 									<form:content>
 										<Label text="아이디"/>
-										<Text text="{join>/Custid}"/>
+										<Text id="idIDReview" text="{join>/Custid}"/>
 										<Label text="성명"/>
-										<Text text="{join>/Name}"/>
+										<Text id="idNameReview" text="{join>/Name}"/>
 										<Label text="성별"/>
-										<Text text="{join>/Gender}"/>
+										<Text id="idGenderReview" text="{join>/Gender}"/>
 										<Label text="생년월일"/>
-										<Text text="{join>/Birth}"/>
+										<Text id="idBirthReview" text="{join>/Birth}"/>
 										<Label text="전화번호"/>
-										<Text text="{join>/Telno}"/>
+										<Text id="idTelnoReview" text="{join>/Telno}"/>
 										<Label text="주소"/>
-										<Text text="{join>/Address}"/>
+										<Text id="idAddressReview" text="{join>/Address}"/>
 										<!-- <Label text="가입일자"/> -->
 										<!-- <Text id="ProductDescriptionChosen4" text="{join>/Joindate}"/> -->
 										<Link press="editStepTwo" text="Edit" />
@@ -200,7 +200,7 @@
 										layout="ResponsiveGridLayout">
 									<form:content>
 										<Label text="면허번호"/>
-										<Text text="{join>/Licnum}"/>
+										<Text id="idLicnumReview" text="{join>/Licnum}"/>
 										<Label text="면허증 등록 여부"/>
 										<Text id="idLicenseCheck" text=""/>
 										<Link press="editStepThree" text="Edit" />
@@ -216,7 +216,7 @@
 					<Button text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
 					<Button text="다음" type="Emphasized" enabled="{/nextButtonEnabled}" visible="{/nextButtonVisible}" press="onDialogNextButton" />
 					<Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
-					<Button text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" />
+					<Button id="idJoinButton" text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" />
 					<Button	text="취소" type="Transparent" press="handleWizardCancel"/>
 				</OverflowToolbar>
 			</f:footer>
