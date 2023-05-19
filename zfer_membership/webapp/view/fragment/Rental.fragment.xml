@@ -1,0 +1,288 @@
+<core:FragmentDefinition xmlns:table="sap.ui.table"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
+	xmlns:layout="sap.ui.layout"
+	xmlns:image="sap.suite.ui.commons.imageeditor">
+	<Dialog
+		id="idRentalDialog"
+		showHeader="false"
+		verticalScrolling="false"
+		contentHeight="100%"
+		contentWidth="80%">
+		<f:DynamicPage
+			stickySubheaderProvider="CreateRental"
+			toggleHeaderOnTitleClick="false"
+			class="sapUiNoContentPadding"
+			showFooter="true">
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="EReON 차량 대여"/>
+					</f:heading>
+				</f:DynamicPageTitle>
+			</f:title>
+			<f:content>
+				<Wizard id="CreateRental"
+						class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+						showNextButton="false"
+						navigationChange="handleNavigationChange"
+						renderMode="Page">
+					<WizardStep id="ZoneSelectStep"
+								title="지점 선택"
+								validated="true"
+								activate="productTypeActivate">
+						<VBox class="sapUiLargeMarginBottom">
+						<Text class="sapUiSmallMarginBottom"
+								text="대여 지점을 선택합니다."/>
+						<!-- <MessageStrip class="sapUiSmallMarginBottom"
+								text="당신은 만 18세 이상입니까?"
+								showIcon="true" type="Warning"/> -->
+						<VBox
+								alignItems="Start"
+								justifyContent="Center"
+								width="100%"
+                                class="sapUiSmallMarginBottom">
+                            
+                            <HBox >
+                                <VBox >
+                                <Label text="대여지점 정보"/>
+                                    <ComboBox id="idStaBranchComboBox"
+                                            items="{
+                                                path: '/BranchinfoSet',
+                                                templateShareable: true
+                                            }" width="240px" change="onSelectStaBranch">
+                                        <core:ListItem key="{Branch}" text="{Branchname}"/>
+                                    </ComboBox>
+                                </VBox>
+                                <VBox id="idStaoz" class="sapUiMediumMarginBeginEnd" visible="false">
+                                    <Label text="대여존 정보"/>
+                                    <ComboBox id="idStaZoneComboBox"
+                                            items="{
+                                                path: 'onzone>/list1',
+                                                templateShareable: true
+                                            }" width="240px" change="onSelectStaZone">
+                                        <core:ListItem key="{onzone>Oz}" text="{onzone>Ozname}"/>
+                                    </ComboBox>
+                                </VBox>
+								<!-- <VBox id="idStaCar" visible="false" >
+									<Label text="차량 선택"/>
+									<Button text="차량 선택"/>
+								</VBox> -->
+                            </HBox>                            
+						</VBox>
+                        <Text id="idStaozText" text=""/>
+						</VBox>
+						<VBox>
+                        <Text class="sapUiSmallMarginBottom"
+								text="반납 지점을 선택합니다."/>
+                            <VBox
+								alignItems="Start"
+								justifyContent="Center"
+								width="100%"
+                                class="sapUiSmallMarginBottom">
+                                <HBox >
+                                    <VBox >
+                                    <Label text="반납지점 정보"/>
+                                        <ComboBox id="idRetBranchComboBox"
+                                                items="{
+                                                    path: '/BranchinfoSet',
+                                                    templateShareable: true
+                                                }" width="240px" change="onSelectRetBranch">
+                                            <core:ListItem key="{Branch}" text="{Branchname}"/>
+                                        </ComboBox>
+                                    </VBox>
+                                    <VBox id="idRetoz" class="sapUiMediumMarginBeginEnd" visible="false">
+                                        <Label text="반납존 정보"/>
+                                        <ComboBox id="idRetZoneComboBox"
+                                                items="{
+                                                    path: 'onzone>/list2',
+                                                    templateShareable: true
+                                                }" width="240px" change="onSelectRetZone">
+                                            <core:ListItem key="{onzone>Oz}" text="{onzone>Ozname}"/>
+                                        </ComboBox>
+                                    </VBox>
+									
+                                </HBox>                            
+                            </VBox>
+                        <Text id="idRetozText" text=""/>
+						</VBox>
+					</WizardStep>
+					<WizardStep id="CarSelectStep"
+								
+								title="차량 선택"
+								>
+								<Table id="idCarTable"
+									items="{path:'rentcar>/car'}"
+									mode="SingleSelect"
+									selectionChange="onCarSelectChange">
+									<headerToolbar>
+										<Toolbar >
+											<Title text="{onzone>/now/Ozname}"/>
+										</Toolbar>
+									</headerToolbar>
+									<columns>
+										<Column >
+											<Text text="차량 이미지"/>
+										</Column>
+										<Column visible="false" >
+											<Text text="차량ID"/>
+										</Column>
+										<Column >
+											<Text text="차종"/>
+										</Column>
+										<Column >
+											<Text text="색상"/>
+										</Column>
+										<Column >
+											<Text text="번호판"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem >
+											<cells>
+												<Image id="idCarImage" src="{= '/model/image/cty/' + ${rentcar>Ctyid} + '.png' }"/>
+												<Text text="{rentcar>Carid}" visible="false"/>
+												<Text text="{rentcar>Ctyname}"/>
+												<Text text="{rentcar>Colname}"/>
+												<Text text="{rentcar>Canum}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+								<!-- validated="false"
+								activate="additionalInfoValidation" -->
+						<!-- <MessageStrip class="sapUiSmallMarginBottom"
+								text="차량을 선택합니다."
+								showIcon="true" type="Information"/> -->
+					</WizardStep>
+					<WizardStep id="InfoStep"
+								validated="true"
+								activate="optionalStepActivation"
+								title="기타 정보 입력">
+						<MessageStrip class="sapUiSmallMarginBottom"
+								text="기타 추가 정보를 입력합니다."
+								showIcon="true"/>
+						<!-- <Text text="	"/> -->
+						<form:SimpleForm
+								editable="true">
+							<Label text="대여일자" class="sapUiSmallMarginBottom"/>
+							<DatePicker id="idStadate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onValueChange" 
+										valueState="None" valueStateText="" width="403px"/>
+							<Label text="대여 예정시각" class="sapUiSmallMarginBottom"/>
+							<TimePicker
+								id="idStatime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onValueChange"
+								support2400="true" maskMode="{= true ? 'On' : 'Off'}" placeholder="HH:mm:ss" valueState="None"
+								width="403px"/>
+							<Label text="반납 예정일자" class="sapUiSmallMarginBottom"/>
+							<DatePicker id="idRetdate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onValueChange" 
+										valueState="None" width="403px"/>
+							<Label text="반납 예정시각" class="sapUiSmallMarginBottom"/>
+							<TimePicker
+								id="idRettime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onValueChange"
+								support2400="true" maskMode="{= true ? 'On' : 'Off'}" placeholder="HH:mm:ss" 
+								width="403px"/>
+							<Label text="보험" width="403px"/>
+							<ComboBox id="idInsuranceComboBox"
+								items="{/InsuranceSet}" width="403px" change="onValueChange" class="sapUiSmallMarginBottom">
+								<core:ListItem key="{Insuranceid}" text="{Insstandard}"/>
+							</ComboBox>
+						</form:SimpleForm>
+						<form:SimpleForm class="sapUiSmallMarginTop">
+							<Title text="대여 요금"/>
+							<Text text="111111" class="boldText"/>
+							<Button id="idRetfeeCalc" text="대여요금 계산" press="onRetfeeCalc" width="200px"/>
+						</form:SimpleForm>
+					</WizardStep>
+					<WizardStep
+							id="ReviewPage"
+							activate="reviewActivate"
+							complete="reviewComplete"
+							validated="true"
+							title="Review">
+								<form:SimpleForm
+										title="1. 지점 선택"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="대여 Zone"/>
+										<HBox >
+											<Text id="idStaZone" text="" visible="false"/>
+											<Text id="idStaText" text=""/>
+										</HBox>
+										<Label text="반납 Zone"/>
+										<HBox >
+											<Text id="idRetZone" text="" visible="false"/>
+											<Text id="idRetText" text=""/>
+										</HBox>
+										<Link press="editStepOne" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="2. 차량 선택"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Text id="idCarid" text="" visible="false"/>
+										<Label text="차종"/>
+										<Text id="idCtyText" text=""/>
+										<Label text="색상"/>
+										<Text id="idColText" text=""/>
+										<Label text="차량 번호판"/>
+										<Text id="idCanum" text=""/>
+										<Link press="editStepOne" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="3. 기타 정보"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="대여일자"/>
+										<Text id="idStadateText" text=""/>
+										<Label text="대여 예정시각"/>
+										<Text id="idStatimeText" text=""/>
+										<Label text="반납 예정일자"/>
+										<Text id="idRetdateText" text=""/>
+										<Label text="반납 예정시각"/>
+										<Text id="idRettimeText" text=""/>
+										<Label text="보험"/>
+										<Text id="idInsurText" text=""/>
+										<Link press="editStepThree" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="4. 요금"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="대여 요금"/>
+										<Text id="idRetfeeText" text="1111" class="boldText"/>
+									</form:content> 
+								</form:SimpleForm>
+					</WizardStep>
+				</Wizard>
+			</f:content>
+
+			<f:footer>
+				<OverflowToolbar>
+					<ToolbarSpacer/>
+					<Button id="idBackButton" text="이전" visible="false" press="onDialogBackButton" />
+					<Button id="idNextButton" text="다음" type="Emphasized" enabled="{/nextButtonEnabled}" visible="false" press="onDialogNextButton" />
+					<!-- <Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" /> -->
+					<Button id="idSetButton" text="신청" type="Emphasized" visible="false" press="onCreate" />
+					<Button	id="idCancelButton" text="취소" type="Transparent" press="handleWizardCancel"/>
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+	</Dialog>
+</core:FragmentDefinition>

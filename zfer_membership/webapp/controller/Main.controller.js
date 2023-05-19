@@ -126,10 +126,51 @@ sap.ui.define([
                 let iAdd = oControlAdd.getValue();
                 let iLic = oControlLic.getValue();
 
+                let currentDate = new Date();
+                let birthDate = new Date(iBirth);
+                let yearDiff = currentDate.getFullYear() - birthDate.getFullYear();
+                let monthDiff = birthDate.getMonth() - currentDate.getMonth();
+                let dayDiff = birthDate.getDate() - currentDate.getDate();
+
                 oControlName.setValueState(iName ? 'None' : 'Error');
                 oControlName.setValueStateText(iName ? '' : '이름을 입력해주세요.');
-                oControlBirth.setValueState(iBirth ? 'None' : 'Error');
-                oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
+               
+                if(yearDiff < 18){
+                    oControlBirth.setValueState('Error');
+                    oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
+                    this.byId("idNextButton").setEnabled(false);
+                    // this.getView().getModel().setProperty("/nextButtonEnabled", false);
+                }else if(yearDiff === 18){
+                    if(monthDiff > 0){
+                        oControlBirth.setValueState('Error');
+                        oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
+                        this.byId("idNextButton").setEnabled(false);
+                        // this.getView().getModel().setProperty("/nextButtonEnabled", false);
+                    }else if(monthDiff === 0){
+                        if(dayDiff > 0){
+                            oControlBirth.setValueState('Error');
+                            oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
+                            this.byId("idNextButton").setEnabled(false);
+                            // this.getView().getModel().setProperty("/nextButtonEnabled", false);
+                        }else{
+                            oControlBirth.setValueState(iBirth ? 'None' : 'Error');
+                            oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
+                            this.byId("idNextButton").setEnabled(true);
+                            // this.getView().getModel().setProperty("/nextButtonEnabled", true);    
+                        }
+                    }else{
+                        oControlBirth.setValueState(iBirth ? 'None' : 'Error');
+                        oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
+                        this.byId("idNextButton").setEnabled(true);
+                        // this.getView().getModel().setProperty("/nextButtonEnabled", true);
+                    }
+                }else{
+                    oControlBirth.setValueState(iBirth ? 'None' : 'Error');
+                    oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
+                    this.byId("idNextButton").setEnabled(true);
+                    // this.getView().getModel().setProperty("/nextButtonEnabled", true);
+                };
+                this.byId("idBdate").setValue(iBirth);
                 oControlTel.setValueState(iTel ? 'None' : 'Error');
                 oControlTel.setValueStateText(iTel ? '' : '전화번호를 입력해주세요.');
                 oControlAdd.setValueState(iAdd ? 'None' : 'Error');
@@ -201,7 +242,7 @@ sap.ui.define([
                 switch (this._iSelectedStepIndex){
                     case 0:
                         oModel.setProperty("/nextButtonVisible", true);
-                        oModel.setProperty("/nextButtonEnabled", true);
+                        // oModel.setProperty("/nextButtonEnabled", true);
                         oModel.setProperty("/backButtonVisible", false);
                         oModel.setProperty("/reviewButtonVisible", false);
                         oModel.setProperty("/finishButtonVisible", false);
@@ -241,10 +282,12 @@ sap.ui.define([
 
                 if(sAdultCheck === "no") {
                     this.byId("idAdultCheck").setVisible(true);
-                    oModel.setProperty("/nextButtonEnabled", false);
+                    this.byId("idCheckBirth").setVisible(false);
+                    // oModel.setProperty("/nextButtonEnabled", false);
                 }else{
                     this.byId("idAdultCheck").setVisible(false);
-                    oModel.setProperty("/nextButtonEnabled", true);
+                    this.byId("idCheckBirth").setVisible(true);
+                    // oModel.setProperty("/nextButtonEnabled", true);
                     this.byId("idAdultCheckReview").setText("확인");
                 };
 

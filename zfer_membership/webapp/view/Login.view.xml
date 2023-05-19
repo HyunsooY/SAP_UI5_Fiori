@@ -1,13 +1,74 @@
 <mvc:View controllerName="ER.zfermembership.controller.Login"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table"
+    xmlns:webc="sap.ui.webc.main" xmlns:fiori="sap.ui.webc.fiori"
+    xmlns:form="sap.ui.layout.form">
     <Page id="page" title="{i18n>title}" showHeader="false">
         <content>
             <OverflowToolbar style="Clear">
                 <ToolbarSpacer />
-                <Button text="내 정보" press="onMyPage" ariaHasPopup="Dialog"/>
-                <Button text="로그아웃" press="onLogout" />
+                <!-- <Button text="내 정보" press="onMyPage" ariaHasPopup="Dialog"/> -->
+                <Button text="로그아웃" press="onLogout" type="Emphasized" />
             </OverflowToolbar>
+            <HBox height="640px">
+                <fiori:SideNavigation id="sideNavigation" selectionChange="onSelectionChange">
+                    <fiori:header text="Work"/>
+                    <fiori:SideNavigationItem id="item1" icon="home" text="Home" selected="true"/>
+                    <fiori:SideNavigationItem id="item2" icon="employee" text="내 정보"/>
+                    <fiori:SideNavigationItem icon="car-rental" text="차량 대여" >
+                        <fiori:items>   
+                            <fiori:SideNavigationSubItem id="item3" text="대여 신청" />
+                            <fiori:SideNavigationSubItem id="item4" text="대여 확인" />
+                            <fiori:SideNavigationSubItem id="item5" text="대여 이력" />
+                        </fiori:items>
+                    </fiori:SideNavigationItem>
+                    <fiori:SideNavigationItem icon="calendar" text="Events"/>
+                    <fiori:fixedItems>
+                        <!-- <fiori:SideNavigationItem icon="chain-link" text="Useful Links" /> -->
+                        <fiori:SideNavigationItem icon="action-settings" text="Setting" />
+                    </fiori:fixedItems>
+                </fiori:SideNavigation>
+                <Image id="idHome" src="/model/image/background/EReON.jpg" width="100%"/>
+                <VBox >
+                    <form:SimpleForm width="1048px" id="idMyInfo" visible="false">
+                        <form:toolbar>
+                            <Toolbar height="60px">
+                                <Avatar
+                                        src="sap-icon://account"
+                                        displayShape="Circle"
+                                    />
+                                <Text text="내 정보 상세"/>
+                                <ToolbarSpacer />
+                                <Button id="idInfoChange" text="변경" press="onInfoChange"/>
+                                <Button id="idInfoUpdate" text="저장" type="Emphasized" press="onInfoUpdate" enabled="false"/>
+                                <Button id="idInfoDelete" text="회원탈퇴" press="onInfoDelete" type="Critical"/>
+                            </Toolbar>
+                        </form:toolbar>
+                        <form:content>
+                            <Label text="아이디"/>
+                            <Text text="{login>/login/Custid}" width="403px"/>
+                            <Label text="성명"/>
+                            <Text text="{login>/login/Name}" width="403px"/>
+                            <Label text="성별"/>
+                            <Text text="{login>/login/Gender}" width="403px"/>
+                            <Label text="생년월일"/>
+                            <Text text="{path : 'login>/login/Birth', formatter: '.formatter.dateTime'}" width="403px"/>
+                            <Label text="전화번호"/>
+                            <VBox >
+                                <Text id="idTelnoText" text="{login>/login/Telno}" visible="true" width="403px"/>
+                                <Input id="idTelnoInput" value="{login>/login/Telno}" visible="false" width="403px"/>
+                            </VBox>
+                            <Label text="주소"/>
+                            <VBox >
+                                <Text id="idAddressText" text="{login>/login/Address}" visible="true" width="403px"/>
+                                <Input id="idAddressInput" value="{login>/login/Address}" visible="false" width="403px"/>
+                            </VBox>
+                            <Label text="가입일자"/>
+                            <Text text="{path : 'login>/login/Joindate', formatter: '.formatter.dateTime'}" width="403px"/>
+                        </form:content>
+                    </form:SimpleForm>
+                </VBox>
+            </HBox>
         </content>
     </Page>
 </mvc:View>

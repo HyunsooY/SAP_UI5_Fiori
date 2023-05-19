@@ -52,21 +52,19 @@
 									<SegmentedButtonItem icon="sap-icon://cancel" key="no" text="아니오"/>
 								</items>
 							</SegmentedButton>
-                            <!-- <HBox >
-                                <Label text="성 명" />
-                                <Input enabled="false" width="35px"/>
-                                <Input />   
-                            </HBox>
-							<HBox>
-                                <Label text="생년월일" />
-                                <Input enabled="false" width="10px"/>
-                                <Input />
-                            </HBox> -->
 						</VBox>
 						<MessageStrip id="idAdultCheck"
 								class="sapUiSmallMarginTop"
 								text="만 18세 미만은 가입하실 수 없습니다"
 								showIcon="true" type="Error" visible="false"/>
+						<VBox id="idCheckBirth" class="sapUiSmallMarginTop">
+							<Label text="생년월일" />
+							<DatePicker id="idBirthDate" 
+										value="{join>/Birth}"
+										displayFormat="yyyy-MM-dd" 
+										valueFormat="yyyy-MM-dd"
+										change="onValueChange" valueState="None" width="403px"/>
+						</VBox>
 					</WizardStep>
 					<WizardStep id="CustInfoStep"
 								validated="false"
@@ -81,7 +79,7 @@
 								<Input id="idInputID" value="{join>/Custid}" enabled="false" width="403px"/>
 								<Label text="성 명" />
 								<Input id="idInputName" value="{join>/Name}" change="onValueChange"
-									valueState="None" placeholder="조아핑" width="403px"/>
+									valueState="None" placeholder="조아핑" width="403px" type="Text"/>
 								<Label text="성 별" />
 								<SegmentedButton
 									width="403px"
@@ -93,27 +91,27 @@
 									</items>
 								</SegmentedButton>
 								<Label text="생년월일" />
-								<!-- <DatePicker id="idBirthDate" value="{
+								<!-- <DatePicker id="idBate" value="{
 										constraints : {displayFormat : 'Date'},
 										path : 'join/>Birth',
 										type : 'sap.ui.model.odata.type.DateTime'
 										}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
 										change="onValueChange" valueState="None" width="403px"/>									 -->
-								<!-- <DatePicker id="idBirthDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+								<!-- <DatePicker id="idBDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
 									change="onValueChange" valueState="None" width="403px"/> -->
-								<DatePicker id="idBirthDate" 
+								<!-- <DatePicker id="idBDate" 
 											value="{join>/Birth}"
 											displayFormat="yyyy-MM-dd" 
 											valueFormat="yyyy-MM-dd"
-											change="onValueChange" valueState="None" width="403px"/>
-
+											change="onValueChange" valueState="None" width="403px"/> -->
+								<Input id="idBdate" value="{join>/Birth}" enabled="false" width="403px" />
 								<!-- <Input id="idBDate"  enabled="false" /> -->
 								<Label text="전화번호" />									
 								<Input id="idInputTel" value="{join>/Telno}" change="onValueChange"
-									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" />
+									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" type="Tel"/>
 								<Label text="주소"/>
 								<Input id="idInputAdd" value="{join>/Address}" change="onValueChange"
-                    				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" />
+                    				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" type="Text" />
 								<Label text="가입일자" visible="false"/>
 								<DatePicker id="idJoinDate" 
 												value="{join>/Joindate}"
@@ -148,7 +146,7 @@
 							<Image id="idImage" src="" width="{/imageWidth}" />
 							<Label text="면허번호"/>
 							<Input id="idInputLic" value="{join>/Licnum}" change="onValueChange"
-                    			valueState="None" placeholder="11-10-154201-00" width="403px" />
+                    			valueState="None" placeholder="11-10-154201-00" width="403px" type="Text" />
 						</form:SimpleForm>
 					</WizardStep>
 					<WizardStep
@@ -213,9 +211,9 @@
 			<f:footer>
 				<OverflowToolbar>
 					<ToolbarSpacer/>
-					<Button text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
-					<Button text="다음" type="Emphasized" enabled="{/nextButtonEnabled}" visible="{/nextButtonVisible}" press="onDialogNextButton" />
-					<Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
+					<Button id="idBackButton" text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
+					<Button id="idNextButton" text="다음" type="Emphasized" enabled="false" visible="{/nextButtonVisible}" press="onDialogNextButton" />
+					<Button id="idReviewButton" text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
 					<Button id="idJoinButton" text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" />
 					<Button	text="취소" type="Transparent" press="handleWizardCancel"/>
 				</OverflowToolbar>

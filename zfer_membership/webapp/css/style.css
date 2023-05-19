@@ -50,3 +50,9 @@
 .JoinButton {
     color: #56BDF7
 }
+
+.boldText {
+    font: bold;
+    font-size: large;
+    font-weight: bold;
+}
