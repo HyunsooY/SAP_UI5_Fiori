@@ -184,15 +184,16 @@
 								id="idRettime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onValueChange"
 								support2400="true" maskMode="{= true ? 'On' : 'Off'}" placeholder="HH:mm:ss" 
 								width="403px"/>
-							<Label text="보험" width="403px"/>
+							<Label text="보험"/>
 							<ComboBox id="idInsuranceComboBox"
-								items="{/InsuranceSet}" width="403px" change="onValueChange" class="sapUiSmallMarginBottom">
+								items="{/InsuranceSet}" width="403px" change="onSelectInsurance" class="sapUiSmallMarginBottom">
 								<core:ListItem key="{Insuranceid}" text="{Insstandard}"/>
 							</ComboBox>
 						</form:SimpleForm>
 						<form:SimpleForm class="sapUiSmallMarginTop">
-							<Title text="대여 요금"/>
-							<Text text="111111" class="boldText"/>
+							<Title text="대여 요금" />
+							<Text id="idRettotfee" class="boldText"/>
+							<Text id="idCurrency" text="KRW" class="boldText" visible="false"/>
 							<Button id="idRetfeeCalc" text="대여요금 계산" press="onRetfeeCalc" width="200px"/>
 						</form:SimpleForm>
 					</WizardStep>
@@ -266,7 +267,8 @@
 										layout="ResponsiveGridLayout">
 									<form:content>
 										<Label text="대여 요금"/>
-										<Text id="idRetfeeText" text="1111" class="boldText"/>
+										<Text id="idRettotfeeText" class="boldText"/>
+										<Text text="KRW" class="boldText"/>
 									</form:content> 
 								</form:SimpleForm>
 					</WizardStep>

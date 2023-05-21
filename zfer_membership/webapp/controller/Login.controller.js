@@ -37,8 +37,10 @@ sap.ui.define([
 			    oModel.setData(oInitialModelState);
 
                 var oRouter = this.getOwnerComponent().getRouter();
+                
                 oRouter.getRoute("RouteLogin").attachPatternMatched(this._onPatternMatched, this);
                 this.getView().setModel(new JSONModel(), "login");
+                this.getView().setModel(new JSONModel(), "charge");
                 this._defaultSet();
 
                 this.getView().setModel(new JSONModel(), "onzone");
@@ -49,27 +51,6 @@ sap.ui.define([
                     }.bind(this)
                 });
 
-                this.getView().setModel(new JSONModel(), "charge");
-                this.oModel.read('/FeeSet', {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/fee', oReturn.results);
-                    }.bind(this)
-                });
-                this.oModel.read('/InsuranceSet', {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/insurance', oReturn.results);
-                    }.bind(this)
-                });
-                this.oModel.read('/GradeSet', {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/grade', oReturn.results);
-                    }.bind(this)
-                });
-                this.oModel.read('/CustrentalSet', {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/rentalcount', oReturn.results);
-                    }.bind(this)
-                })
             },
             _defaultSet: function() {
                 // odata model 변수 세팅
@@ -86,7 +67,11 @@ sap.ui.define([
                     });
                 let sLoginPath = this.oModel.createKey("/CustomerSet", {
                     Custid : oArgu.Custid
-                })
+                });
+                let sCntPath = this.oModel.createKey("/RetcountSet", {
+                    Custid : oArgu.Custid
+                });
+
                 this.oModel.read(sPath, {
                     success: function(oReturn) {
                         console.log(oReturn);
@@ -98,7 +83,35 @@ sap.ui.define([
                         console.log(oReturn);
                         this.oMainModel.setProperty('/customer', oReturn);
                     }.bind(this)
-                })
+                });
+
+                this.oModel.read(sCntPath, {
+                    success: function(oReturn){
+                        this.getView().getModel("charge").setProperty('/retcount', oReturn);
+                    }.bind(this)
+                });
+                
+                var Retcount = this.getView().getModel("charge").getProperty('/retcount/Rentalcount');
+                var Grade = new String;
+                if(Retcount >= 20 && Retcount < 40){
+                    Grade = 'N';
+                }else if(Retcount >= 40 && Retcount < 70){
+                    Grade = 'O';
+                }else if(Retcount >= 70 && Retcount < 100){
+                    Grade = 'R';
+                }else if(Retcount >= 100){
+                    Grade = 'E';
+                }else{
+                    Grade = 'Z';
+                }
+                var sGradePath = this.oModel.createKey("/GradeSet", {
+                    Gradeid : Grade
+                });
+                this.oModel.read(sGradePath, {
+                    success: function(oReturn){
+                        this.getView().getModel("charge").setProperty('/grade', oReturn);
+                    }.bind(this)
+                });
             },
 
             onLogout: function() {
@@ -277,6 +290,34 @@ sap.ui.define([
                 this.byId("idRetZone").setText(sRetzone);
                 this.byId("idRetText").setText(sZone);
             },
+
+            onCarSelectChange: function(oEvent) {
+                let aRent = oEvent.getSource().getSelectedItems();
+                let Ctyid = new String;
+                for (var i = 0; i < aRent.length; i++) {
+                    var sSelectSrc = aRent[i].getCells()[0].getSrc();  // 차량 사진 저장위치, 사진 이름이 바뀌면 수정필요!
+                    var sSelectCarid = aRent[i].getCells()[1].getText();
+                    var sSelectCtyText = aRent[i].getCells()[2].getText();
+                    var sSelectColor = aRent[i].getCells()[3].getText();
+                    var sSelectCanum = aRent[i].getCells()[4].getText();
+                }
+                this.getView().getModel("rentcar").setProperty('/selectcar', {Carid : sSelectCarid});
+                Ctyid = sSelectSrc.substr(17, 5);
+                this.byId("idCarid").setText(sSelectCarid);
+                this.byId("idCtyText").setText(sSelectCtyText);
+                this.byId("idColText").setText(sSelectColor);
+                this.byId("idCanum").setText(sSelectCanum);
+
+                let sFeePath = this.oModel.createKey("/FeeSet", {
+                    Ctyid : Ctyid
+                });
+                
+                this.oModel.read(sFeePath, {
+                    success: function(oReturn){
+                        this.getView().getModel("charge").setProperty('/fee', oReturn);
+                    }.bind(this)
+                });
+            },
          
             onValueChange: function(oEvent) {
                 let currentDate = new Date();
@@ -407,23 +448,6 @@ sap.ui.define([
                 let sInsuranceKey = this.byId("idInsuranceComboBox").getSelectedKey();
                 this.byId("idInsurText").setText(sInsurText);
             },
-
-            onCarSelectChange: function(oEvent) {
-                let aRent = oEvent.getSource().getSelectedItems();
-
-                for (var i = 0; i < aRent.length; i++) {
-                    var aSelectedData = aRent[i].getCells();
-                    var sSelectCarid = oEvent.getSource().getSelectedItems()[i].getCells()[1].getText();
-                    var sSelectCtyid = oEvent.getSource().getSelectedItems()[i].getCells()[2].getText();
-                    var sSelectColor = oEvent.getSource().getSelectedItems()[i].getCells()[3].getText();
-                    var sSelectCanum = oEvent.getSource().getSelectedItems()[i].getCells()[4].getText();
-                }
-                this.getView().getModel("rentcar").setProperty('/selectcar', {Carid : sSelectCarid});
-                this.byId("idCarid").setText(sSelectCarid);
-                this.byId("idCtyText").setText(sSelectCtyid);
-                this.byId("idColText").setText(sSelectColor);
-                this.byId("idCanum").setText(sSelectCanum);
-            },
     
             onDialogAfterOpen: function () {
                 this._oWizard = this.byId("CreateRental");
@@ -464,9 +488,72 @@ sap.ui.define([
                 }
     
             },
+            onSelectInsurance: function() {
+                let Insurance = this.byId("idInsuranceComboBox").getSelectedKey();
+                let sInsPath = this.oModel.createKey("/InsuranceSet", {
+                    Insuranceid : Insurance
+                });
+                this.oModel.read(sInsPath, {
+                    success: function(oReturn){
+                        this.getView().getModel("charge").setProperty('/insurance', oReturn);
+                    }.bind(this)
+                });
+            },
 
             onRetfeeCalc: function() {
+                let iStadate = this.byId("idStadate").getDateValue();
+                let iRetdate = this.byId("idRetdate").getDateValue();
+                let iStatime = this.byId("idStatime").getDateValue();
+                let iRettime = this.byId("idRettime").getDateValue();
+                let StaDate = new Date(iStadate.getFullYear(), iStadate.getMonth(), iStadate.getDate(), iStatime.getHours(), iStatime.getMinutes(), iStatime.getSeconds());
+                let RetDate = new Date(iRetdate.getFullYear(), iRetdate.getMonth(), iRetdate.getDate(), iRettime.getHours(), iRettime.getMinutes(), iRettime.getSeconds());
+                var Night1 = new Date(iStadate.getFullYear(), iStadate.getMonth(), iStadate.getDate(), 0, 0, 0);
+                var Night2 = new Date(iStadate.getFullYear(), iStadate.getMonth(), iStadate.getDate(), 4, 0, 0);
+                var iRetfee = new Number;
+                var iRettotfee = new Number;
+                let timeDiff = (RetDate - StaDate) / (1000 * 60 * 60);
+                let timeDiffMinute = timeDiff * 60;
                 
+                var oFee = this.getView().getModel("charge").getProperty('/fee');
+                var oDiscount = this.getView().getModel("charge").getProperty('/grade');
+                var oInsurance = this.getView().getModel("charge").getProperty('/insurance');
+
+                // timeDiffMinute = Number(timeDiffMinute);
+                oFee.Retfee = Number(oFee.Retfee);
+                oFee.Extrafee = Number(oFee.Extrafee);
+                oDiscount.Discount = Number(oDiscount.Discount);
+                oInsurance.Insrate = Number(oInsurance.Insrate);
+
+                if(timeDiffMinute <= 30){
+                    iRetfee = oFee.Retfee;
+                }else{
+                    iRetfee = oFee.Retfee + (timeDiffMinute - 30) / 10 * oFee.Extrafee;
+                };
+                console.log(iRetfee);
+                if(StaDate.getDay() === 0 || StaDate.getDay() === 6){
+                    if(StaDate >= Night1 && StaDate <= Night2){
+                        iRetfee = iRetfee;
+                    }else{
+                        iRetfee = iRetfee * 1.4;
+                    };
+                }else{
+                    if(StaDate >= Night1 && StaDate <= Night2){
+                        iRetfee = iRetfee * 0.7;
+                    }else{
+                        iRetfee = iRetfee;
+                    };
+                };
+
+                iRetfee = iRetfee - oDiscount.Discount;
+                
+                iRettotfee = iRetfee * (1 + oInsurance.Insrate / 100);
+                iRettotfee = Math.floor(iRettotfee);
+                iRettotfee = Math.floor(iRettotfee / 10) * 10;
+
+                this.byId("idCurrency").setVisible(true);
+                this.byId("idRettotfee").setText(iRettotfee);
+                this.byId("idRettotfeeText").setText(iRettotfee);
+
             },
     
             handleNavigationChange: function (oEvent) {

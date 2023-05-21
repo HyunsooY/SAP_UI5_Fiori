@@ -65,6 +65,8 @@
                             </VBox>
                             <Label text="가입일자"/>
                             <Text text="{path : 'login>/login/Joindate', formatter: '.formatter.dateTime'}" width="403px"/>
+                            <Label text="고객등급"/>
+                            <Text text="{charge>/grade/Gradeid}" width="403px"/>
                         </form:content>
                     </form:SimpleForm>
                 </VBox>
