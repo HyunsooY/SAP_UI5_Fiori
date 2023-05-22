@@ -75,6 +75,7 @@ sap.ui.define([
                 let sAddress = this.byId("idAddressReview").getText();
                 let sLicnum = this.byId("idLicnumReview").getText();
                 let sLicenseCheck = this.byId("idLicenseCheck").getText();
+                let sNewDate = new Date();
 
                 // if(iName === '' || iBirth === '' || iTel === '' || iAdd === '' || iLic === ''){
                 //     this.onValueChange();
@@ -98,7 +99,7 @@ sap.ui.define([
                                 if (oAction === MessageBox.Action.YES) {
                                     this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
                                     oCustomer.Birth = new Date(oCustomer.Birth);
-                                    oCustomer.Joindate = new Date();
+                                    oCustomer.Joindate = new Date(sNewDate.getMinutes + 540);
                                     this.oModel.create("/CustomerSet", oCustomer, {
                                         success: function() {
                                             sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");

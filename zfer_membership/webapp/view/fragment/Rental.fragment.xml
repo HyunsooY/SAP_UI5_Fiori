@@ -256,6 +256,7 @@
 										<Text id="idRettimeText" text=""/>
 										<Label text="보험"/>
 										<Text id="idInsurText" text=""/>
+										<Text id="idBktime" text="" visible="false"/>
 										<Link press="editStepThree" text="Edit" />
 									</form:content>
 								</form:SimpleForm>
@@ -268,7 +269,8 @@
 									<form:content>
 										<Label text="대여 요금"/>
 										<Text id="idRettotfeeText" class="boldText"/>
-										<Text text="KRW" class="boldText"/>
+										<Text id="idCurkey" text="KRW" class="boldText"/>
+										<Text id="idRetfee" visible="false"/>
 									</form:content> 
 								</form:SimpleForm>
 					</WizardStep>
@@ -281,8 +283,8 @@
 					<Button id="idBackButton" text="이전" visible="false" press="onDialogBackButton" />
 					<Button id="idNextButton" text="다음" type="Emphasized" enabled="{/nextButtonEnabled}" visible="false" press="onDialogNextButton" />
 					<!-- <Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" /> -->
-					<Button id="idSetButton" text="신청" type="Emphasized" visible="false" press="onCreate" />
-					<Button	id="idCancelButton" text="취소" type="Transparent" press="handleWizardCancel"/>
+					<Button id="idSetButton" text="신청" type="Emphasized" enabled="false" visible="false" press="onCreate" />
+					<Button	id="idCancelButton" text="취소" type="Transparent" press="onCancel"/>
 				</OverflowToolbar>
 			</f:footer>
 		</f:DynamicPage>

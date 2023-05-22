@@ -490,6 +490,7 @@ sap.ui.define([
             },
             onSelectInsurance: function() {
                 let Insurance = this.byId("idInsuranceComboBox").getSelectedKey();
+                let sInsur = this.byId("idInsuranceComboBox")._getSelectedItemText();
                 let sInsPath = this.oModel.createKey("/InsuranceSet", {
                     Insuranceid : Insurance
                 });
@@ -498,6 +499,8 @@ sap.ui.define([
                         this.getView().getModel("charge").setProperty('/insurance', oReturn);
                     }.bind(this)
                 });
+
+                this.byId("idInsurText").setText(sInsur);
             },
 
             onRetfeeCalc: function() {
@@ -529,7 +532,7 @@ sap.ui.define([
                 }else{
                     iRetfee = oFee.Retfee + (timeDiffMinute - 30) / 10 * oFee.Extrafee;
                 };
-                console.log(iRetfee);
+
                 if(StaDate.getDay() === 0 || StaDate.getDay() === 6){
                     if(StaDate >= Night1 && StaDate <= Night2){
                         iRetfee = iRetfee;
@@ -550,10 +553,71 @@ sap.ui.define([
                 iRettotfee = Math.floor(iRettotfee);
                 iRettotfee = Math.floor(iRettotfee / 10) * 10;
 
+                iRettotfee = iRettotfee.toLocaleString();
                 this.byId("idCurrency").setVisible(true);
+                this.byId("idBktime").setText(timeDiff);
+                this.byId("idRetfee").setText(iRetfee);
                 this.byId("idRettotfee").setText(iRettotfee);
                 this.byId("idRettotfeeText").setText(iRettotfee);
 
+            },
+
+            onCreate: function() {
+                let sCustid = this.getView().getModel("login").getProperty('/login/Custid');
+                let sCarid = this.byId("idCarid").getText();
+                let Rndate = this.byId("idStadate").getDateValue();
+                let Rtdate = this.byId("idRetdate").getDateValue();
+                let UtcMinute = Rndate.getTimezoneOffset();
+                let sRndate = new Date(Rndate.setMinutes(Rndate.getMinutes() - UtcMinute));
+                let sRtdate = new Date(Rtdate.setMinutes(Rtdate.getMinutes() - UtcMinute));
+                let oStatime = this.byId("idStatime").getDateValue();
+                let oEndtime = this.byId("idRettime").getDateValue();
+                let sStatime = 'PT'+oStatime.getHours()+'H'+oStatime.getMinutes()+'M'+oStatime.getSeconds()+'S';
+                let sEndtime = 'PT'+oEndtime.getHours()+'H'+oEndtime.getMinutes()+'M'+oEndtime.getSeconds()+'S';
+                let sStaoz =  this.byId("idStaZone").getText();
+                let sRetoz = this.byId("idRetZone").getText();
+                let sGrade = this.getView().getModel("charge").getProperty('/grade/Gradeid');
+                let sInsurance = this.getView().getModel("charge").getProperty('/insurance/Insuranceid');
+                let sRetfee = this.byId("idRetfee").getText();
+                let sCurkey = this.byId("idCurkey").getText();
+                
+                let oRental = {
+                    Custid : sCustid,
+                    Carid : sCarid,
+                    Rndate : sRndate,
+                    Rtdate : sRtdate,
+                    Staoz : sStaoz,
+                    Retoz : sRetoz,
+                    Statime : sStatime,
+                    Endtime : sEndtime,
+                    Retstatime : sStatime, // 스케쥴링 테이블 부재로 인한 대여시작시각 강제 할당
+                    Grade : sGrade,
+                    Insurance : sInsurance,
+                    Retfee : sRetfee,
+                    Curkey : sCurkey
+                };
+
+                console.log(oRental);
+
+                MessageBox["confirm"]("신청하시겠습니까?", {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: function (oAction) {
+                        if (oAction === MessageBox.Action.YES) {
+                            this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
+                            this.oModel.create("/RentalSet", oRental, {
+                                success: function() {
+                                    sap.m.MessageToast.show("고객님의 차량 대여 신청이 정상적으로 처리되었습니다.");
+                                },
+                                error: function() {
+                                    sap.m.MessageToast.show("서버 문제 발생으로 인하여 대여 신청이 실패하였습니다.");
+                                }
+                            });
+                            this.byId("idRentalDialog").close();
+                            this.getView().getModel().setData(Object.assign({}, oData));
+                        }
+                    }.bind(this)
+                });
+                
             },
     
             handleNavigationChange: function (oEvent) {
@@ -561,50 +625,6 @@ sap.ui.define([
                 this._iSelectedStepIndex = this._oWizard.getSteps().indexOf(this._oSelectedStep);
                 this.handleButtonsVisibility();
             },
-            
-            // Validation 이후 추가 예정
-
-            // additionalInfoValidation: function () {
-            //     var oModel = this.getView().getModel(),
-            //         sName = this.byId("ProductName").getValue(),
-            //         iWeight = parseInt(this.byId("ProductWeight").getValue());
-    
-            //     this.handleButtonsVisibility();
-    
-            //     if (isNaN(iWeight)) {
-            //         this._oWizard.setCurrentStep(this.byId("CarSelectStep"));
-            //         oModel.setProperty("/productWeightState", ValueState.Error);
-            //     } else {
-            //         oModel.setProperty("/productWeightState", ValueState.None);
-            //     }
-    
-            //     if (sName.length < 6) {
-            //         this._oWizard.setCurrentStep(this.byId("CarSelectStep"));
-            //         oModel.setProperty("/productNameState", ValueState.Error);
-            //     } else {
-            //         oModel.setProperty("/productNameState", ValueState.None);
-            //     }
-    
-            //     if (sName.length < 6 || isNaN(iWeight)) {
-            //         this._oWizard.invalidateStep(this.byId("CarSelectStep"));
-            //         oModel.setProperty("/nextButtonEnabled", false);
-            //         oModel.setProperty("/finishButtonVisible", false);
-            //     } else {
-            //         this._oWizard.validateStep(this.byId("CarSelectStep"));
-            //         oModel.setProperty("/nextButtonEnabled", true);
-            //     }
-            // },
-    
-            // optionalStepActivation: function () {
-            //     MessageToast.show(
-            //         'This event is fired on activate of Step3.'
-            //     );
-            // },
-            // optionalStepCompletion: function () {
-            //     MessageToast.show(
-            //         'This event is fired on complete of Step3. You can use it to gather the information, and lock the input data.'
-            //     );
-            // },
     
             editStepOne: function () {
                 this._handleNavigationToStep(0);
@@ -625,6 +645,7 @@ sap.ui.define([
             _handleNavigationToStep: function (iStepNumber) {
                 this._pDialog.then(function(oDialog){
                     oDialog.open();
+                    this._setButtonSetting();
                     this._oWizard.goToStep(this._oWizard.getSteps()[iStepNumber], true);
                 }.bind(this));
             },
@@ -641,7 +662,8 @@ sap.ui.define([
     
                 this._iSelectedStepIndex++;
                 this._oSelectedStep = oNextStep;
-    
+                
+                this._setButtonSetting();
                 this.handleButtonsVisibility();
             },
     
@@ -657,18 +679,70 @@ sap.ui.define([
     
                 this._iSelectedStepIndex--;
                 this._oSelectedStep = oPreviousStep;
-    
+                
+                this._setButtonSetting();
                 this.handleButtonsVisibility();
             },
+
+            _setButtonSetting: function(){
+                let sStaText = this.byId("idStaText").getText();
+                let sRetText = this.byId("idRetText").getText();
+                let sCtyText = this.byId("idCtyText").getText();
+                let sColText = this.byId("idColText").getText();
+                let sCanum = this.byId("idCanum").getText();
+                let sStadateText = this.byId("idStadateText").getText();
+                let sStatimeText = this.byId("idStatimeText").getText();
+                let sRetdateText = this.byId("idRetdateText").getText();
+                let sRettimeText = this.byId("idRettimeText").getText();
+                let sInsuranceText = this.byId("idInsurText").getText();
+                let sRettotfeeText = this.byId("idRettotfeeText").getText();
+                if(sStaText && sRetText && sCtyText && sColText && sCanum && sStadateText && sStatimeText
+                     && sRetdateText && sRettimeText && sInsuranceText && sRettotfeeText){
+                        this.byId("idSetButton").setEnabled(true);
+                    }else{
+                        this.byId("idSetButton").setEnabled(false);
+                    }
+            },
     
-            handleWizardCancel: function () {
-                // this._handleMessageBoxOpen("회원가입을 취소하시겠습니까?", "warning");
+            onCancel: function () {
                 MessageBox["warning"]("차량 대여를 취소하시겠습니까?", {
                     actions: [MessageBox.Action.YES, MessageBox.Action.NO],
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.YES) {
                             this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
+                            
+                            if(this.byId("idStaZoneComboBox").getValue()){
+                                this.getView().getModel("rentcar").setProperty('/car', []);
+                                };
+                            this.byId("idStaBranchComboBox").setValue('');
+                            this.byId("idStaZoneComboBox").setValue('');
+                            this.byId("idStaoz").setVisible(false);
+                            this.byId("idRetBranchComboBox").setValue('');
+                            this.byId("idRetZoneComboBox").setValue('');
+                            this.byId("idRetoz").setVisible(false);
+                            this.byId("idStadate").setValue('');
+                            this.byId("idStatime").setValue('');
+                            this.byId("idRetdate").setValue('');
+                            this.byId("idRettime").setValue('');
+                            this.byId("idInsuranceComboBox").setValue('');
+                            this.byId("idRettotfee").setText('');
+                            this.byId("idStaText").setText('');
+                            this.byId("idRetText").setText('');
+                            this.byId("idCtyText").setText('');
+                            this.byId("idColText").setText('');
+                            this.byId("idCanum").setText('');
+                            this.byId("idStadateText").setText('');
+                            this.byId("idStatimeText").setText('');
+                            this.byId("idRetdateText").setText('');
+                            this.byId("idRettimeText").setText('');
+                            this.byId("idInsurText").setText('');
+                            this.byId("idRettotfeeText").setText('');
+                            this.byId("idCurrency").setVisible(false);
+                            this.byId("idStaozText").setText('');
+                            this.byId("idRetozText").setText('');
+                            
                             this.byId("idRentalDialog").close();
+
                             this.getView().getModel().setData(Object.assign({}, oData));
                         }
                     }.bind(this)

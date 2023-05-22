@@ -29,8 +29,8 @@
                     </fiori:fixedItems>
                 </fiori:SideNavigation>
                 <Image id="idHome" src="/model/image/background/EReON.jpg" width="100%"/>
-                <VBox >
-                    <form:SimpleForm width="1048px" id="idMyInfo" visible="false">
+                <VBox id="idMyInfo" visible="false">
+                    <form:SimpleForm width="1048px" >
                         <form:toolbar>
                             <Toolbar height="60px">
                                 <Avatar
@@ -69,6 +69,28 @@
                             <Text text="{charge>/grade/Gradeid}" width="403px"/>
                         </form:content>
                     </form:SimpleForm>
+                </VBox>
+                
+                <VBox>
+                    <Table >
+                        <headerToolbar>
+                            <Toolbar >
+                                <Title />
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column >
+                                <Text />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem >
+                                <cells>
+                                    <Text />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
                 </VBox>
             </HBox>
         </content>
