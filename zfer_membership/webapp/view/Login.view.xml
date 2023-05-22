@@ -84,18 +84,59 @@
                         </form:toolbar>
                         <form:content>
                             <HBox >
-                                <VBox >
+                                <VBox class="sapUiSmallMarginBegin">
                                     <Image src="{= '/model/image/cty/' + ${login>/rental/Ctyid} + '.png' }"/>
-                                </VBox>
-                                <VBox>
-                                    <VBox class="sapUiSmallMarginBottom">
-                                    <Label text="대여지점"/>
-                                    <Text text="{login>/rental/Staname}"/>
+                                    <VBox class="sapUiLargeMarginTop sapUiSmallMarginBottom">
+                                        <Label text="차종"/>
+                                        <Text text="{login>/rental/Ctyname}"/>
                                     </VBox>
-                                    <Label text="대여 일자"/>
-                                    <Text text="{login>/rental/Rtdate}"/>
-                                    <Label text="반납지점"/>
-                                    <Text text="{login>/rental/Retname}"/>
+                                    <VBox class="sapUiSmallMarginBottom">
+                                        <Label text="색상"/>
+                                        <Text text="{login>/rental/Colname}"/>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="번호판"/>
+                                        <Text text="{login>/rental/Canum}"/>
+                                    </VBox>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBeginEnd" visible="false">
+                                    <VBox class="sapUiSmallMarginBottom">
+                                        <Label text="대여 예정지점"/>
+                                        <Text text="{login>/rental/Staname}"/>
+                                    </VBox>
+                                    <VBox class="sapUiSmallMarginBottom" width="200px">
+                                        <Label text="대여 예정일자"/>
+                                        <Text text="{login>/rental/Rtdate}" width="200px"/>
+                                    </VBox>
+                                    <VBox class="sapUiLargeMarginBottom">
+                                        <Label text="대여 예정시각"/>
+                                        <Text text="{login>/rental/Statime}"/>
+                                    </VBox>
+                                    <VBox class="sapUiSmallMarginBottom">
+                                        <Label text="반납 예정지점"/>
+                                        <Text text="{login>/rental/Retname}"/>
+                                    </VBox>
+                                    <VBox class="sapUiSmallMarginBottom" width="200px">
+                                        <Label text="반납 예정일자"/>
+                                        <Text text="{login>/rental/Rndate}" width="200px"/>
+                                    </VBox>
+                                    <VBox >
+                                        <Label text="반납 예정시각"/>
+                                        <Text text="{login>/rental/Endtime}"/>
+                                    </VBox>
+                                </VBox>
+                                <VBox >
+                                    <VBox class="sapUiLargeMarginBottom">
+                                        <Label text="보험료"/>
+                                        <Text text="{login>/rental/Insurance}"/>
+                                    </VBox>
+                                    <VBox class="sapUiLargeMarginTopBottom">
+                                        <Label text="대여 요금"/>
+                                        <HBox>
+                                            <Text text="{login>/rental/Retfee}" class="boldText sapUiSmallMarginEnd"/>
+                                            <Text text="{login>/rental/Curkey}"/>
+                                        </HBox>
+                                    </VBox>
                                 </VBox>
                             </HBox>
                             <!-- <Label text="아이디"/>
