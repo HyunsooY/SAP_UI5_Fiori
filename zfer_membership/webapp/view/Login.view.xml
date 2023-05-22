@@ -70,8 +70,60 @@
                         </form:content>
                     </form:SimpleForm>
                 </VBox>
-                
-                <VBox>
+                <VBox id="idMyRental" visible="false">
+                    <form:SimpleForm width="1048px" >
+                        <form:toolbar>
+                            <Toolbar height="100px">
+                                <Avatar
+                                        src="sap-icon://car-rental"
+                                        displayShape="Square"
+                                        displaySize="L"
+                                    />
+                                <Text text="나의 대여 현황"/>
+                            </Toolbar>
+                        </form:toolbar>
+                        <form:content>
+                            <HBox >
+                                <VBox >
+                                    <Image src="{= '/model/image/cty/' + ${login>/rental/Ctyid} + '.png' }"/>
+                                </VBox>
+                                <VBox>
+                                    <VBox class="sapUiSmallMarginBottom">
+                                    <Label text="대여지점"/>
+                                    <Text text="{login>/rental/Staname}"/>
+                                    </VBox>
+                                    <Label text="대여 일자"/>
+                                    <Text text="{login>/rental/Rtdate}"/>
+                                    <Label text="반납지점"/>
+                                    <Text text="{login>/rental/Retname}"/>
+                                </VBox>
+                            </HBox>
+                            <!-- <Label text="아이디"/>
+                            <Text text="{login>/login/Custid}" width="403px"/>
+                            <Label text="성명"/>
+                            <Text text="{login>/login/Name}" width="403px"/>
+                            <Label text="성별"/>
+                            <Text text="{login>/login/Gender}" width="403px"/>
+                            <Label text="생년월일"/>
+                            <Text text="{path : 'login>/login/Birth', formatter: '.formatter.dateTime'}" width="403px"/>
+                            <Label text="전화번호"/>
+                            <Text id="" text="{login>/login/Telno}" visible="true" width="403px"/>
+                            <Label text="주소"/>
+                            <Text id="" text="{login>/login/Address}" visible="true" width="403px"/>
+                            <Label text="가입일자"/>
+                            <Text text="{path : 'login>/login/Joindate', formatter: '.formatter.dateTime'}" width="403px"/>
+                            <Label text="고객등급"/>
+                            <Text text="{charge>/grade/Gradeid}" width="403px"/> -->
+                        </form:content>
+                        <Toolbar >
+                            <ToolbarSpacer />
+                            <Button id="idRentalCancel" text="대여 취소" press="onRentalCancel"/>
+                            <Button id="idCarReturn" text="차량 반납" type="Emphasized" press="onCarReturn"/>
+                        </Toolbar>
+                    </form:SimpleForm>
+                </VBox>
+
+                <VBox id="idMyRentalHistory" visible="false">
                     <Table >
                         <headerToolbar>
                             <Toolbar >

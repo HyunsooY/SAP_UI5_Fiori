@@ -200,12 +200,25 @@ sap.ui.define([
 
             onSelectionChange: function(oEvent) {
                 let sText = oEvent.getParameters().item.mProperties.text;
+                let jsonData = this.oMainModel.getProperty("/login");
+                let sCurrentPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : jsonData.Custid
+                });
                 if(sText === 'Home'){
                     this.byId("idHome").setVisible(true);
                     this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '내 정보'){
                     this.byId("idHome").setVisible(false);
                     this.byId("idMyInfo").setVisible(true);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
+                }else if (sText === '차량 대여'){
+                    this.byId("idHome").setVisible(true);
+                    this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '대여 신청'){
                     var oView = this.getView();                
                     if (!this._pDialog) {
@@ -222,13 +235,30 @@ sap.ui.define([
                     this._pDialog.then(function(oDialog){
                         oDialog.open();
                     });
+                    this.byId("idHome").setVisible(true);
+                    this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '대여 확인'){
-
+                    this.oModel.read(sCurrentPath, {
+                        success: function(oReturn) {
+                            this.getView().getModel("login").setProperty('/rental', oReturn);
+                        }.bind(this)
+                    });
+                    this.byId("idHome").setVisible(false);
+                    this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(true);
+                    this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '대여 이력'){
-
+                    this.byId("idHome").setVisible(false);
+                    this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(true);
                 }else{
                     this.byId("idHome").setVisible(true);
                     this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
                 }
 
             },
@@ -596,8 +626,6 @@ sap.ui.define([
                     Retfee : sRetfee,
                     Curkey : sCurkey
                 };
-
-                console.log(oRental);
 
                 MessageBox["confirm"]("신청하시겠습니까?", {
                     actions: [MessageBox.Action.YES, MessageBox.Action.NO],
