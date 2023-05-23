@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns:internal="sap.landvisz.internal" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified">
+    <Dialog id="idReturnDialog" title="반납 정보 입력">
+        <content>
+            <form:SimpleForm
+                    editable="true">
+                <Label text="계기판 사진"/>
+                <u:FileUploader
+                        id="idCarUploader"
+                        width="403px"
+                        tooltip="Upload product cover photo to the local server"
+                        style="Emphasized"
+                        placeholder="Choose a file for Upload..."
+                        change="onChangeImage"/>
+                <Label text="Image"/>
+                <Image id="idCarImage" src=""/>
+                <Label text="계기판 주행거리"/>
+                <Input id="idDistance" value="" change="onValueChange" />
+                <Label text="차량 확인 필요"/>
+                <CheckBox id="idCheckBox"/>
+            </form:SimpleForm>
+        </content>
+        <beginButton>
+            <Button text="반납" press="onReturnPress"/>
+        </beginButton>
+        <endButton>
+            <Button text="취소" press="onReturnClose"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

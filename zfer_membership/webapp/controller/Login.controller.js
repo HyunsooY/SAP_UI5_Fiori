@@ -4,12 +4,15 @@ sap.ui.define([
     'sap/ui/core/Fragment',
     "sap/m/MessageBox",
     "sap/ui/core/library",
-    "sap/ui/model/Filter"
+    "sap/ui/model/Filter",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/Text"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Fragment, MessageBox, CoreLibrary, Filter) {
+    function (Controller, JSONModel, Fragment, MessageBox, CoreLibrary, Filter, Dialog, Button, Text) {
         "use strict";
 
         var ValueState = CoreLibrary.ValueState,
@@ -21,13 +24,50 @@ sap.ui.define([
         return Controller.extend("ER.zfermembership.controller.Login", {
             formatter: {
                 dateTime: function(oDate) {
-                    let oDateTimeInstance;
+                    if(oDate === '취소 차량'){
+                        var Cancelcar = '취소 차량'
+                        return Cancelcar;
+                    }else if(oDate === '대여 중'){
+                        var Rent = '대여 중'
+                        return Rent;
+                    }else{
+                        let oDateTimeInstance;
 
-                    oDateTimeInstance = sap.ui.core.format.DateFormat.getDateTimeInstance({
-                        pattern : 'yyyy-MM-dd'
-                    });
+                        oDateTimeInstance = sap.ui.core.format.DateFormat.getDateTimeInstance({
+                            pattern : 'yyyy-MM-dd'
+                        });
 
-                    return oDateTimeInstance.format(oDate);
+                        return oDateTimeInstance.format(oDate);
+                    }
+                },
+                Time: function(oTime) {
+                    if (oTime === 'X') {
+                        var Time = '';
+                        return Time;
+                    } else {
+                        var time = new Date(oTime);
+                        var timeHour = new String;
+                        var timeMinute = new String;
+                        var timeSecond = new String;
+
+                        if(time.getUTCHours() < 10){
+                            timeHour = '0'+time.getUTCHours();
+                        }else{
+                            timeHour = String(time.getUTCHours());
+                        };
+                        if(time.getUTCMinutes() < 10){
+                            timeMinute = '0'+time.getUTCMinutes();
+                        }else{
+                            timeMinute = String(time.getUTCMinutes());
+                        };
+                        if(time.getUTCSeconds() < 10){
+                            timeSecond = '0'+time.getUTCSeconds();
+                        }else{
+                            timeSecond = String(time.getUTCSeconds());
+                        }
+                        var Time = timeHour+":"+timeMinute+":"+timeSecond;
+                        return Time;
+                    }
                 }
             },
 
@@ -50,7 +90,7 @@ sap.ui.define([
                         this.getView().getModel("onzone").setProperty('/list2', oReturn.results);
                     }.bind(this)
                 });
-
+                
             },
             _defaultSet: function() {
                 // odata model 변수 세팅
@@ -120,6 +160,17 @@ sap.ui.define([
                     actions: [MessageBox.Action.YES, MessageBox.Action.NO],
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.YES) {
+                            this.byId("item1").setSelected(true);
+                            this.byId("item2").setSelected(false);
+                            this.byId("item3").setSelected(false);
+                            this.byId("item4").setSelected(false);
+                            this.byId("item5").setSelected(false);
+                            this.byId("item6").setSelected(false);
+                            this.byId("item7").setSelected(false);
+                            this.byId("idHome").setVisible(true);
+                            this.byId("idMyInfo").setVisible(false);
+                            this.byId("idMyRental").setVisible(false);
+                            this.byId("idMyRentalHistory").setVisible(false);
                             oRouter.navTo("RouteMain", {}, true);
                         }
                     }.bind(this)
@@ -204,6 +255,9 @@ sap.ui.define([
                 let sCurrentPath = this.oModel.createKey("/CurRentalSet", {
                     Custid : jsonData.Custid
                 });
+                let sHisPath = this.oModel.createKey("/RentalInfoSet", {
+                    Custid : jsonData.Custid
+                });
                 if(sText === 'Home'){
                     this.byId("idHome").setVisible(true);
                     this.byId("idMyInfo").setVisible(false);
@@ -220,36 +274,102 @@ sap.ui.define([
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '대여 신청'){
-                    var oView = this.getView();                
-                    if (!this._pDialog) {
-                        this._pDialog = Fragment.load({
-                            id: oView.getId(),
-                            name: "ER.zfermembership/view/fragment/Rental",
-                            controller: this
-                        }).then(function(oDialog) {
-                            oDialog.attachAfterOpen(this.onDialogAfterOpen, this);
-                            oView.addDependent(oDialog);
-                            return oDialog;
-                        }.bind(this));
-                    }
-                    this._pDialog.then(function(oDialog){
-                        oDialog.open();
+                    var oView = this.getView();
+                    this.oModel.read(sCurrentPath, {
+                        success: function() {
+                            MessageBox['warning']("현재 대여 중인 차량이 있어 추가 예약이 불가합니다.", {
+                                actions: [MessageBox.Action.YES],
+                                onClose: function (oAction) {
+                                    if (oAction === MessageBox.Action.YES) {   
+                                    }
+                                }.bind(this)
+                            })
+                        },
+                        error: function() {   
+                            if (!this._pDialog) {
+                                this._pDialog = Fragment.load({
+                                    id: oView.getId(),
+                                    name: "ER.zfermembership/view/fragment/Rental",
+                                    controller: this
+                                }).then(function(oDialog) {
+                                    oDialog.attachAfterOpen(this.onDialogAfterOpen, this);
+                                    oView.addDependent(oDialog);
+                                    return oDialog;
+                                }.bind(this));
+                            };
+                            this._pDialog.then(function(oDialog){
+                                oDialog.open();
+                            });
+                            this.byId("idHome").setVisible(true);
+                            this.byId("idMyInfo").setVisible(false);
+                            this.byId("idMyRental").setVisible(false);
+                            this.byId("idMyRentalHistory").setVisible(false);
+                        }.bind(this)
                     });
-                    this.byId("idHome").setVisible(true);
-                    this.byId("idMyInfo").setVisible(false);
-                    this.byId("idMyRental").setVisible(false);
-                    this.byId("idMyRentalHistory").setVisible(false);
                 }else if(sText === '대여 확인'){
                     this.oModel.read(sCurrentPath, {
                         success: function(oReturn) {
+                            // 보험료 비율 하드 코딩..
+                            if(oReturn.Insurance === 'I05'){
+                                oReturn.Retfee = oReturn.Retfee * (1 + 10 / 100);
+                            }else if(oReturn.Insurance === 'I30'){
+                                oReturn.Retfee = oReturn.Retfee * (1 + 7 / 100);
+                            }else if(oReturn.Insurance === 'I70'){
+                                oReturn.Retfee = oReturn.Retfee * (1 + 5 / 100);
+                            };
+
+                            oReturn.Retfee = (Math.floor((Math.floor(oReturn.Retfee)) / 10) * 10).toLocaleString();
+                            this.byId("idRettotfeeCheck").setText(oReturn.Retfee);
                             this.getView().getModel("login").setProperty('/rental', oReturn);
+                            this.byId("idHome").setVisible(false);
+                            this.byId("idMyInfo").setVisible(false);
+                            this.byId("idMyRental").setVisible(true);
+                            this.byId("idMyRentalHistory").setVisible(false);
+                        }.bind(this),
+
+                        error: function() {
+                            MessageBox['warning']("현재 대여 중인 차량이 없습니다.", {
+                                actions: [MessageBox.Action.YES],
+                                onClose: function (oAction) {
+                                    if (oAction === MessageBox.Action.YES) {
+                                        this.byId("idHome").setVisible(true);
+                                        this.byId("idMyInfo").setVisible(false);
+                                        this.byId("idMyRental").setVisible(false);
+                                        this.byId("idMyRentalHistory").setVisible(false);
+                                    };
+                                }.bind(this)
+                            });
                         }.bind(this)
                     });
-                    this.byId("idHome").setVisible(false);
-                    this.byId("idMyInfo").setVisible(false);
-                    this.byId("idMyRental").setVisible(true);
-                    this.byId("idMyRentalHistory").setVisible(false);
+                    
                 }else if(sText === '대여 이력'){
+                    var oFilterHis = new Filter('Custid', 'EQ', jsonData.Custid);
+                    this.oModel.read('/RentalInfoSet', {
+                        success: function(oReturn){
+                            for(var i=0; i<oReturn.results.length; i++){
+                                // 보험료 비율 하드 코딩..
+                                if(oReturn.results[i].Insurance === 'I05'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 10 / 100);
+                                }else if(oReturn.results[i].Insurance === 'I30'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 7 / 100);
+                                }else if(oReturn.results[i].Insurance === 'I70'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 5 / 100);
+                                };
+                                oReturn.results[i].Retfee = (Math.floor((Math.floor(oReturn.results[i].Retfee)) / 10) * 10).toLocaleString();
+
+                                if(oReturn.results[i].Delflag === 'X'){
+                                    oReturn.results[i].Fdate = '취소 차량';
+                                    oReturn.results[i].Retendtime.ms = 'X';
+                                }
+                                if(!oReturn.results[i].Staflag && !oReturn.results[i].Delflag){
+                                    oReturn.results[i].Fdate = '대여 중';
+                                    oReturn.results[i].Retendtime.ms = 'X';
+                                }
+                            };
+                            this.getView().getModel("login").setProperty('/rentalhis', oReturn.results);
+                        }.bind(this)
+                    });
+                    this.byId("idMyHisTable").getBinding("rows").filter(oFilterHis);
                     this.byId("idHome").setVisible(false);
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
@@ -646,6 +766,146 @@ sap.ui.define([
                     }.bind(this)
                 });
                 
+            },
+            
+            onRentalCancel: function() {
+                let oLogin = this.getView().getModel("login").getProperty('/login');
+                let sCancelPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : oLogin.Custid
+                });
+
+                this.oModel.read(sCancelPath, {
+                    success: function(oReturn){
+                        this.getView().getModel("login").setProperty('/currental', oReturn);
+                    }.bind(this)
+                });
+                
+                if (!this.oDialog) {
+                    this.oDialog = new Dialog({
+                      type: sap.m.DialogType.Message,
+                      title: "대여 예약 취소",
+                      content: new Text({ text: "사유를 선택해 주십시오." }),
+                      buttons: [
+                        new Button({
+                          type: sap.m.ButtonType.Neutral,
+                          text: "단순 변심",
+                          press: function () {
+                            MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : 단순 변심", {
+                                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                                onClose: function (oAction) {
+                                    if (oAction === MessageBox.Action.YES) {
+                                        var oCurrental = this.getView().getModel("login").getProperty('/currental');
+                                        oCurrental.Delflag = 'X';
+                                        oCurrental.Note = '취소 사유:단순 변심';
+                                        this.oModel.update(sCancelPath, oCurrental, {
+                                            success: function() {
+                                                MessageBox['warning']("취소 처리 되었습니다. 다음에도 EReON을 찾아주시면 감사하겠습니다.", {
+                                                    actions: [MessageBox.Action.YES],
+                                                    onClose: function (oAction) {
+                                                        if (oAction === MessageBox.Action.YES) {
+                                                            this.byId("idHome").setVisible(false);
+                                                            this.byId("idMyInfo").setVisible(false);
+                                                            this.byId("idMyRental").setVisible(false);
+                                                            this.byId("idMyRentalHistory").setVisible(true);   
+                                                            this.oDialog.close();
+                                                        }
+                                                    }.bind(this)
+                                                });
+                                            }.bind(this)
+                                        });
+                                    }
+                                }.bind(this)
+                            });
+                          }.bind(this)
+                        }),
+                        new Button({
+                          text: "차량 문제",
+                          type: sap.m.ButtonType.Critical,
+                          press: function () {
+                            MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : 차량 문제", {
+                                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                                onClose: function (oAction) {
+                                    if (oAction === MessageBox.Action.YES) {
+                                        var oCurrental = this.getView().getModel("login").getProperty('/currental');
+                                        oCurrental.Delflag = 'X';
+                                        oCurrental.Note = '취소 사유:차량 문제';
+                                        this.oModel.update(sCancelPath, oCurrental, {
+                                            success: function() {
+                                                MessageBox['warning']("불편을 드려 진심으로 죄송합니다. 다음에도 EReON을 찾아주시면 감사하겠습니다.", {
+                                                    actions: [MessageBox.Action.YES],
+                                                    onClose: function (oAction) {
+                                                        if (oAction === MessageBox.Action.YES) {
+                                                            this.byId("idHome").setVisible(false);
+                                                            this.byId("idMyInfo").setVisible(false);
+                                                            this.byId("idMyRental").setVisible(false);
+                                                            this.byId("idMyRentalHistory").setVisible(true);                                                        
+                                                            this.oDialog.close();   
+                                                        }
+                                                    }.bind(this)
+                                                });
+                                            }.bind(this)
+                                        });
+                                    }
+                                }.bind(this)
+                            });
+                          }.bind(this)
+                        }),
+                        new Button({
+                          text: "취소",
+                          press: function () {
+                            this.oDialog.close();
+                          }.bind(this)
+                        })
+                      ]
+                    });
+                  }
+                this.oDialog.open();
+            },
+
+            onCarReturn: function() {
+                var oDialog = this.byId("idReturnDialog");
+                
+                if(oDialog) {
+                    oDialog.open();
+                }else{
+                    this.loadFragment({
+                        name : "ER/zfermembership/view/fragment/Return"
+                    }).then(function(oDialog){
+                        oDialog.open();
+                    }, this);
+                };
+            },
+
+            onReturnPress: function() {
+                var that = this;
+                let oLogin = this.getView().getModel("login").getProperty('/login');
+                let sCancelPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : oLogin.Custid
+                });
+
+                this.oModel.read(sCancelPath, {
+                    success: function(oReturn){
+                        this.getView().getModel("login").setProperty('/currental', oReturn);
+                        this.oModel.read(this.oModel.createKey("/CarSet",{Carid : oReturn.Carid}), {
+                            success: function(oReturn){
+                                that.getView().getModel("login").setProperty('/car', oReturn);
+                                console.log(oReturn);                            
+                            }.bind(this)
+                        })
+                    }.bind(this)
+                });
+            },
+
+            onReturnClose: function(oEvent) {
+                var oDialog = oEvent.getSource().getParent();
+                sap.m.MessageToast.show("취소되었습니다.");
+                oDialog.close();
+            },
+
+            onChangeImage: function () {
+                var sValue = this.byId("idCarUploader").getValue();
+                var sImage = "/model/image/"+sValue;
+                this.byId("idCarImage").setSrc(sImage);          
             },
     
             handleNavigationChange: function (oEvent) {

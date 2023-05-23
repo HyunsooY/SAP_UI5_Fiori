@@ -2,7 +2,7 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table"
     xmlns:webc="sap.ui.webc.main" xmlns:fiori="sap.ui.webc.fiori"
-    xmlns:form="sap.ui.layout.form">
+    xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
     <Page id="page" title="{i18n>title}" showHeader="false">
         <content>
             <OverflowToolbar style="Clear">
@@ -22,10 +22,10 @@
                             <fiori:SideNavigationSubItem id="item5" text="대여 이력" />
                         </fiori:items>
                     </fiori:SideNavigationItem>
-                    <fiori:SideNavigationItem icon="calendar" text="Events"/>
+                    <fiori:SideNavigationItem id="item6" icon="calendar" text="Events"/>
                     <fiori:fixedItems>
                         <!-- <fiori:SideNavigationItem icon="chain-link" text="Useful Links" /> -->
-                        <fiori:SideNavigationItem icon="action-settings" text="Setting" />
+                        <fiori:SideNavigationItem id="item7" icon="action-settings" text="Setting" />
                     </fiori:fixedItems>
                 </fiori:SideNavigation>
                 <Image id="idHome" src="/model/image/background/EReON.jpg" width="100%"/>
@@ -71,7 +71,7 @@
                     </form:SimpleForm>
                 </VBox>
                 <VBox id="idMyRental" visible="false">
-                    <form:SimpleForm width="1048px" >
+                    <form:SimpleForm width="1048px">
                         <form:toolbar>
                             <Toolbar height="100px">
                                 <Avatar
@@ -79,96 +79,178 @@
                                         displayShape="Square"
                                         displaySize="L"
                                     />
-                                <Text text="나의 대여 현황"/>
+                                <Text text="{login>/login/Name}의 대여 현황" class="boldText"/>
                             </Toolbar>
                         </form:toolbar>
                         <form:content>
-                            <HBox >
-                                <VBox class="sapUiSmallMarginBegin">
-                                    <Image src="{= '/model/image/cty/' + ${login>/rental/Ctyid} + '.png' }"/>
-                                    <VBox class="sapUiLargeMarginTop sapUiSmallMarginBottom">
-                                        <Label text="차종"/>
-                                        <Text text="{login>/rental/Ctyname}"/>
+                            <VBox >
+                                <HBox >
+                                    <VBox class="sapUiSmallMarginBeginEnd">
+                                        <Image src="{= '/model/image/cty/' + ${login>/rental/Ctyid} + '.png' }"/>
+                                        <VBox class="sapUiLargeMarginTop sapUiSmallMarginBottom">
+                                            <Label text="차종"/>
+                                            <Text text="{login>/rental/Ctyname}"/>
+                                        </VBox>
+                                        <VBox class="sapUiSmallMarginBottom">
+                                            <Label text="색상"/>
+                                            <Text text="{login>/rental/Colname}"/>
+                                        </VBox>
+                                        <VBox >
+                                            <Label text="번호판"/>
+                                            <Text text="{login>/rental/Canum}"/>
+                                        </VBox>
                                     </VBox>
-                                    <VBox class="sapUiSmallMarginBottom">
-                                        <Label text="색상"/>
-                                        <Text text="{login>/rental/Colname}"/>
+                                    <VBox class="sapUiSmallMarginBeginEnd" visible="true">
+                                        <VBox class="sapUiSmallMarginBottom">
+                                            <Label text="대여 예정지점"/>
+                                            <Text text="{login>/rental/Staname}"/>
+                                        </VBox>
+                                        <VBox class="sapUiSmallMarginBottom" width="200px">
+                                            <Label text="대여 예정일자"/>
+                                            <Text text="{path:'login>/rental/Rtdate', formatter:'.formatter.dateTime'}" width="200px"/>
+                                        </VBox>
+                                        <VBox class="sapUiLargeMarginBottom">
+                                            <Label text="대여 예정시각"/>
+                                            <Text id="idStatimeCheck" text="{path:'login>/rental/Statime/ms', formatter:'.formatter.Time'}"/>
+                                        </VBox>
+                                        <VBox class="sapUiSmallMarginBottom">
+                                            <Label text="반납 예정지점"/>
+                                            <Text text="{login>/rental/Retname}"/>
+                                        </VBox>
+                                        <VBox class="sapUiSmallMarginBottom" width="200px">
+                                            <Label text="반납 예정일자"/>
+                                            <Text text="{path:'login>/rental/Rndate', formatter:'.formatter.dateTime'}" width="200px"/>
+                                        </VBox>
+                                        <VBox >
+                                            <Label text="반납 예정시각"/>
+                                            <Text id="idEndtimeCheck" text="{path:'login>/rental/Endtime/ms', formatter:'.formatter.Time'}"/>
+                                        </VBox>
                                     </VBox>
-                                    <VBox >
-                                        <Label text="번호판"/>
-                                        <Text text="{login>/rental/Canum}"/>
+                                    <VBox class="sapUiSmallMarginBeginEnd">
+                                        <VBox class="sapUiLargeMarginBottom">
+                                            <Label text="보험료"/>
+                                            <Text text="{login>/rental/Insstandard}"/>
+                                        </VBox>
+                                        <VBox class="sapUiLargeMarginTopBottom">
+                                            <Label text="대여 요금"/>
+                                            <HBox>
+                                                <Text id="idRettotfeeCheck" text="" class="boldText sapUiSmallMarginEnd"/>
+                                                <Text text="{login>/rental/Curkey}"/>
+                                            </HBox>
+                                        </VBox>
                                     </VBox>
-                                </VBox>
-                                <VBox class="sapUiSmallMarginBeginEnd" visible="false">
-                                    <VBox class="sapUiSmallMarginBottom">
-                                        <Label text="대여 예정지점"/>
-                                        <Text text="{login>/rental/Staname}"/>
-                                    </VBox>
-                                    <VBox class="sapUiSmallMarginBottom" width="200px">
-                                        <Label text="대여 예정일자"/>
-                                        <Text text="{login>/rental/Rtdate}" width="200px"/>
-                                    </VBox>
-                                    <VBox class="sapUiLargeMarginBottom">
-                                        <Label text="대여 예정시각"/>
-                                        <Text text="{login>/rental/Statime}"/>
-                                    </VBox>
-                                    <VBox class="sapUiSmallMarginBottom">
-                                        <Label text="반납 예정지점"/>
-                                        <Text text="{login>/rental/Retname}"/>
-                                    </VBox>
-                                    <VBox class="sapUiSmallMarginBottom" width="200px">
-                                        <Label text="반납 예정일자"/>
-                                        <Text text="{login>/rental/Rndate}" width="200px"/>
-                                    </VBox>
-                                    <VBox >
-                                        <Label text="반납 예정시각"/>
-                                        <Text text="{login>/rental/Endtime}"/>
-                                    </VBox>
-                                </VBox>
-                                <VBox >
-                                    <VBox class="sapUiLargeMarginBottom">
-                                        <Label text="보험료"/>
-                                        <Text text="{login>/rental/Insurance}"/>
-                                    </VBox>
-                                    <VBox class="sapUiLargeMarginTopBottom">
-                                        <Label text="대여 요금"/>
-                                        <HBox>
-                                            <Text text="{login>/rental/Retfee}" class="boldText sapUiSmallMarginEnd"/>
-                                            <Text text="{login>/rental/Curkey}"/>
-                                        </HBox>
-                                    </VBox>
-                                </VBox>
-                            </HBox>
-                            <!-- <Label text="아이디"/>
-                            <Text text="{login>/login/Custid}" width="403px"/>
-                            <Label text="성명"/>
-                            <Text text="{login>/login/Name}" width="403px"/>
-                            <Label text="성별"/>
-                            <Text text="{login>/login/Gender}" width="403px"/>
-                            <Label text="생년월일"/>
-                            <Text text="{path : 'login>/login/Birth', formatter: '.formatter.dateTime'}" width="403px"/>
-                            <Label text="전화번호"/>
-                            <Text id="" text="{login>/login/Telno}" visible="true" width="403px"/>
-                            <Label text="주소"/>
-                            <Text id="" text="{login>/login/Address}" visible="true" width="403px"/>
-                            <Label text="가입일자"/>
-                            <Text text="{path : 'login>/login/Joindate', formatter: '.formatter.dateTime'}" width="403px"/>
-                            <Label text="고객등급"/>
-                            <Text text="{charge>/grade/Gradeid}" width="403px"/> -->
+                                </HBox>
+                                <HBox justifyContent="End">
+                                    <Button id="idRentalCancel" text="대여 취소" press="onRentalCancel" class="buttonJust"/>
+                                    <Button id="idCarReturn" text="차량 반납" type="Emphasized" press="onCarReturn"/>
+                                </HBox>
+                            </VBox>
                         </form:content>
-                        <Toolbar >
-                            <ToolbarSpacer />
-                            <Button id="idRentalCancel" text="대여 취소" press="onRentalCancel"/>
-                            <Button id="idCarReturn" text="차량 반납" type="Emphasized" press="onCarReturn"/>
-                        </Toolbar>
                     </form:SimpleForm>
                 </VBox>
 
                 <VBox id="idMyRentalHistory" visible="false">
-                    <Table >
+                    <t:Table
+                        id="idMyHisTable"
+                        rows="{login>/rentalhis}"
+                        selectionMode="Single"
+                        selectionBehavior="RowOnly"
+                        visibleRowCount="10"
+                        paste="onPaste"
+                        ariaLabelledBy="title">
+                        <t:extension>
+                            <Toolbar height="100px">
+                                <Avatar
+                                        src="sap-icon://car-rental"
+                                        displayShape="Square"
+                                        displaySize="L"
+                                        class="sapUiSmallMarginBegin"
+                                    />
+                                <Title text="{login>/login/Name}의 대여 이력" class="boldText"/>
+                            </Toolbar> 
+                        </t:extension>
+                        <t:columns>
+                            <t:Column width="40px" hAlign="Center">
+                                <Label text="" />
+                                <t:template>
+                                    <core:Icon src="{= ${login>Delflag} === 'X' ? 'sap-icon://cancel' : ${login>Staflag} ? 'sap-icon://sys-enter' : 'sap-icon://pending'}"
+                                             color="{= ${login>Delflag} === 'X' ? '#FF0000' : ${login>Staflag} ? '#1DDB16' : '#FFBB00'}"
+                                             />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="100px" hAlign="Center">
+                                <Label text="대여 상태" />
+                                <t:template>
+                                    <Text text="{= ${login>Delflag} === 'X' ? '대여 취소' : ${login>Staflag} ? '반납 완료' : '대여 중' }"/>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="130px" hAlign="Center">
+                                <Label text="대여일자 및 시각" />
+                                <t:template>
+                                    <ObjectIdentifier title="{path:'login>Rndate', formatter:'.formatter.dateTime'}"
+                                                    text="{path:'login>Retstatime/ms', formatter:'.formatter.Time'}"/>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="130px" hAlign="Center">
+                                <Label text="반납일자 및 시각" />
+                                <t:template>
+                                    <ObjectIdentifier title="{path:'login>Fdate', formatter:'.formatter.dateTime'}"
+                                                    text="{path:'login>Retendtime/ms', formatter:'.formatter.Time'}"/>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="대여지점" />
+                                <t:template>
+                                    <Text text="{login>Staname}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="반납지점" />
+                                <t:template>
+                                    <Text text="{login>Retname}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="120px" hAlign="Center">
+                                <Label text="차종" />
+                                <t:template>
+                                    <Text text="{login>Ctyname}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="60px" hAlign="Center">
+                                <Label text="색상" />
+                                <t:template>
+                                    <Text text="{login>Colname}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="80px" hAlign="Center">
+                                <Label text="번호판" />
+                                <t:template>
+                                    <Text text="{login>Canum}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="110px" hAlign="Center">
+                                <Label text="보험" />
+                                <t:template>
+                                    <Text text="{login>Insstandard}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="82px" hAlign="Right">
+                                <Label text="대여 요금" textAlign="Center"/>
+                                <t:template>
+                                    <Text text="{login>Retfee}" wrapping="false"/>
+                                </t:template>
+                            </t:Column>
+                        </t:columns>
+                    </t:Table>
+                    <!-- <Table id="idMyHisTable"
+                        sticky="HeaderToolbar,ColumnHeaders"
+                        items="{login>/rentalhis}"
+                        fixedLayout="Strict"
+                        growing="true"
+                        growingThreshold="15">
                         <headerToolbar>
                             <Toolbar >
-                                <Title />
+                                <Title text="{login>/login/Name} 의 대여 이력"/>
                             </Toolbar>
                         </headerToolbar>
                         <columns>
@@ -183,9 +265,15 @@
                                 </cells>
                             </ColumnListItem>
                         </items>
-                    </Table>
+                    </Table> -->
                 </VBox>
             </HBox>
         </content>
+        <!-- <footer>
+                        <Toolbar>
+                            <ToolbarSpacer />
+                            
+                        </Toolbar>
+                    </footer> -->
     </Page>
 </mvc:View>

@@ -57,12 +57,13 @@ sap.ui.define([
                             Custid : sId,
                             Name : sName
                         }, true);
+                        this.byId("idLoginID").setValue('');
+                        this.byId("idLoginName").setValue('');
                     }.bind(this),
                     error: function() {
                         sap.m.MessageToast.show("존재하지 않는 회원입니다!");
                     }
-                })
-                
+                });
             },            
             onCreate: function() {
                 let oCustomer = this.oMainModel.getData();
