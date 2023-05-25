@@ -1,11 +1,12 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller, JSONModel, Filter) {
         "use strict";
 
         return Controller.extend("ER.zferapproval.controller.Main", {
@@ -53,6 +54,12 @@ sap.ui.define([
                         this.getView().getModel('app').setProperty('/login', oReturn.results);
                     }.bind(this)
                 });
+                
+                this.onSelect();
+
+            },
+
+            onSelect: function() {
                 this.oModel.read('/ApprovalSet', {
                     success: function(oReturn) {
                         var iAll = new Number;
@@ -73,9 +80,32 @@ sap.ui.define([
                         this.getView().getModel('app').setProperty('/count', {All : iAll, Req : iRequest, App : iApprove, Den : iDeny});
                         this.getView().getModel('app').setProperty('/all', oReturn.results);
                     }.bind(this)
-                })
+                });
+                var sSelectedkey = this.byId("idIconTabBar").getSelectedKey();
+                var sAppstate = new String;
+                if(!sSelectedkey){
+                    sSelectedkey = 'all';
+                }else{
+                    if(sSelectedkey === 'req'){
+                        sAppstate = 'R';
+                    }else if(sSelectedkey === 'app'){
+                        sAppstate = 'A';
+                    }else if(sSelectedkey === 'den'){
+                        sAppstate = 'D';
+                    }else{
+                        sAppstate = '';
+                    }
+                }
 
-            },
+                let oFilter;
+                if (!sAppstate) {
+                    oFilter = new Filter({});
+                }else{
+                   oFilter = new Filter({path:'Appstate', operator:'EQ', value1:sAppstate})
+                        
+                }
+                this.byId("idAppTable").getBinding("rows").filter(oFilter);
+            }
 
         });
     });

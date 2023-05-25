@@ -91,22 +91,25 @@
 			<f:content>
 		
 				<t:Table
+						id="idAppTable"
 						rows="{app>/all}"
 						selectionMode="None"
 						visibleRowCountMode="Fixed"
 						visibleRowCount="10"
 						>
 					<t:extension>
-						<!-- <OverflowToolbar style="Clear" height="100%" >
-							<Title text="Products"/> -->
+						<OverflowToolbar style="Clear" height="100%" >
+							<!-- <Title text="Products"/> -->
 							<IconTabBar
-								id="idIconTabBarSeparatorNoIcon"
-								expanded="true"
+								id="idIconTabBar"
 								class="sapUiResponsiveContentPadding"
-								selectedKey="info">
+								expanded="false"
+								selectedKey="info"
+								expandable="false"
+								select="onSelect">
 									<items>
 										<IconTabFilter
-											key="info"
+											key="all"
 											icon="sap-icon://inbox"
 											text="전체"
 											iconColor="Neutral"
@@ -115,21 +118,21 @@
 										</IconTabFilter>
 										<IconTabSeparator icon=""/>
 										<IconTabFilter
-											key="attachments"
+											key="req"
 											icon="sap-icon://end-user-experience-monitoring"
 											text="결재 예정"
 											iconColor="Critical"
 											count="{app>/count/Req}">
 										</IconTabFilter>
 										<IconTabFilter
-											key="notes"
+											key="app"
 											icon="sap-icon://employee-approvals"
 											text="결재 승인"
 											iconColor="Positive"
 											count="{app>/count/App}">
 										</IconTabFilter>
 										<IconTabFilter
-											key="people"
+											key="den"
 											icon="sap-icon://employee-rejections"
 											text="결재 반려"
 											iconColor="Negative"
@@ -137,52 +140,60 @@
 										</IconTabFilter>
 									</items>
 							</IconTabBar>
-						<!-- </OverflowToolbar> -->
+							
+						</OverflowToolbar>
 					</t:extension>
 					<t:columns>
-						<t:Column hAlign="Center">
+						<t:Column width="90px" hAlign="Center">
 							<Label text="상태" />
 							<t:template>
 								<tnt:InfoLabel id="idAppstate" text="{=${app>Appstate} === 'D' ? '반려' : ${app>Appstate} === 'A' ? '승인' : '예정'}" 
 								renderMode="Loose" colorScheme="{=${app>Appstate} === 'D' ? 2 : ${app>Appstate} === 'A' ? 7 : 1}"/>
 							</t:template> 
 						</t:Column>
-						<t:Column hAlign="Center">
+						<t:Column width="150px" hAlign="Center">
 							<Label text="결재문서번호" />
 							<t:template>
 								<Text text="{app>Appdounum}" wrapping="false" />
 							</t:template>
 						</t:Column>
-						<t:Column hAlign="Center">
+						<t:Column width="150px" hAlign="Center">
 							<Label text="요청문서번호" />
 							<t:template>
 								<Text text="{app>Requestid}"/>
 							</t:template>
 						</t:Column>
-						<t:Column hAlign="Center">
+						<t:Column width="110px" hAlign="Center">
 							<Label text="요청문서정보" />
 							<t:template>
 								<Button text="문서정보" press="onRequestButton"
 								enabled="{=${app>Appstate} === 'D' ? false : true}"/>
 							</t:template>
 						</t:Column>
-                        <t:Column hAlign="Center">
+                        <t:Column width="300px" hAlign="Center">
 							<Label text="요청 내용" />
 							<t:template>
 								<Text text="{app>Repdesc}"/>
 							</t:template>
 						</t:Column>
-                        <t:Column hAlign="Center">
+                        <t:Column width="130px" hAlign="Center">
 							<Label text="상신자 정보" />
 							<t:template>
                                 <ObjectIdentifier title="{app>Reportid}" text="{app>Reportname}"/>
 							</t:template>
 						</t:Column>
-                        <t:Column hAlign="Center">
+                        <t:Column width="135px" hAlign="Center">
                             <ObjectIdentifier title="" text=""/>
 							<Label text="상신일자 및 시간" />
 							<t:template>
 								<ObjectIdentifier title="{path : 'app>Repdate', formatter : '.formatter.dateTime'}" text="{path : 'app>Reptime/ms', formatter : '.formatter.Time'}"/>
+							</t:template>
+						</t:Column>
+						<t:Column width="110px" hAlign="Center">
+							<Label text="결재 정보" />
+							<t:template>
+								<Button text="{=${app>Appstate} === 'D' ? '반려 상세' : ${app>Appstate} === 'A' ? '승인 상세' : ''}" press="onApprovalButton"
+								visible="{=${app>Appstate} === 'R' ? false : true}"/>
 							</t:template>
 						</t:Column>						
 						<!-- <t:Column width="6rem" hAlign="End">
