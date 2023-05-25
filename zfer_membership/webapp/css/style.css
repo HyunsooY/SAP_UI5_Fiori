@@ -60,3 +60,29 @@
 .buttonJust {
     margin-right: 10px;
 }
+
+.rentPage{
+    background-image: url("/model/image/background/reservation.png");
+    background-size: 40%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.myTransparentTable {
+    border-collapse: collapse;
+    background-image: url("/model/image/background/reservation.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.myTransparentForm .sapUiFormContent {
+    background-color: transparent;
+}
+
+.myTransparentForm .sapUiFormElement {
+    background-image: url("/model/image/background/reservation.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

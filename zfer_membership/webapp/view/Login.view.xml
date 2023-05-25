@@ -70,8 +70,8 @@
                         </form:content>
                     </form:SimpleForm>
                 </VBox>
-                <VBox id="idMyRental" visible="false">
-                    <form:SimpleForm width="1048px">
+                <VBox id="idMyRental" visible="false" class="rentPage">
+                    <form:SimpleForm width="1048px" class="myTransparentForm">
                         <form:toolbar>
                             <Toolbar height="100px">
                                 <Avatar
@@ -132,7 +132,7 @@
                                             <Text text="{login>/rental/Insstandard}"/>
                                         </VBox>
                                         <VBox class="sapUiLargeMarginTopBottom">
-                                            <Label text="대여 요금"/>
+                                            <Label text="요금"/>
                                             <HBox>
                                                 <Text id="idRettotfeeCheck" text="" class="boldText sapUiSmallMarginEnd"/>
                                                 <Text text="{login>/rental/Curkey}"/>
@@ -149,15 +149,16 @@
                     </form:SimpleForm>
                 </VBox>
 
-                <VBox id="idMyRentalHistory" visible="false">
+                <VBox id="idMyRentalHistory" visible="false" class="rentPage">
                     <t:Table
                         id="idMyHisTable"
                         rows="{login>/rentalhis}"
-                        selectionMode="Single"
+                        selectionMode="None"
                         selectionBehavior="RowOnly"
                         visibleRowCount="10"
                         paste="onPaste"
-                        ariaLabelledBy="title">
+                        ariaLabelledBy="title"
+                        class="myTransparentTable">
                         <t:extension>
                             <Toolbar height="100px">
                                 <Avatar
@@ -178,33 +179,33 @@
                                              />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="100px" hAlign="Center">
+                            <t:Column width="90px" hAlign="Center">
                                 <Label text="대여 상태" />
                                 <t:template>
                                     <Text text="{= ${login>Delflag} === 'X' ? '대여 취소' : ${login>Staflag} ? '반납 완료' : '대여 중' }"/>
                                 </t:template>
                             </t:Column>
-                            <t:Column width="130px" hAlign="Center">
+                            <t:Column width="125px" hAlign="Center">
                                 <Label text="대여일자 및 시각" />
                                 <t:template>
                                     <ObjectIdentifier title="{path:'login>Rndate', formatter:'.formatter.dateTime'}"
                                                     text="{path:'login>Retstatime/ms', formatter:'.formatter.Time'}"/>
                                 </t:template>
                             </t:Column>
-                            <t:Column width="130px" hAlign="Center">
+                            <t:Column width="125px" hAlign="Center">
                                 <Label text="반납일자 및 시각" />
                                 <t:template>
                                     <ObjectIdentifier title="{path:'login>Fdate', formatter:'.formatter.dateTime'}"
                                                     text="{path:'login>Retendtime/ms', formatter:'.formatter.Time'}"/>
                                 </t:template>
                             </t:Column>
-                            <t:Column width="90px" hAlign="Center">
+                            <t:Column width="87px" hAlign="Center">
                                 <Label text="대여지점" />
                                 <t:template>
                                     <Text text="{login>Staname}" wrapping="false" />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="90px" hAlign="Center">
+                            <t:Column width="87px" hAlign="Center">
                                 <Label text="반납지점" />
                                 <t:template>
                                     <Text text="{login>Retname}" wrapping="false" />
@@ -234,10 +235,16 @@
                                     <Text text="{login>Insstandard}" wrapping="false" />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="82px" hAlign="Right">
-                                <Label text="대여 요금" textAlign="Center"/>
+                            <t:Column width="95px" hAlign="Right">
+                                <Label text="요금" textAlign="Center"/>
                                 <t:template>
-                                    <Text text="{login>Retfee}" wrapping="false"/>
+                                    <Text text="{=${
+                                            parts: [
+                                                { path: 'login>Retfee' },
+                                                { path: 'login>Drivfee' }
+                                            ],
+                                            formatter:'.formatter.NumberSum'
+                                            }+'원'}"  wrapping="false" />
                                 </t:template>
                             </t:Column>
                         </t:columns>

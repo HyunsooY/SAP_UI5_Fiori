@@ -116,7 +116,7 @@
 								>
 								<Table id="idCarTable"
 									items="{path:'rentcar>/car'}"
-									mode="SingleSelect"
+									mode="SingleSelectLeft"
 									selectionChange="onCarSelectChange">
 									<headerToolbar>
 										<Toolbar >
@@ -124,19 +124,19 @@
 										</Toolbar>
 									</headerToolbar>
 									<columns>
-										<Column >
+										<Column hAlign="Center">
 											<Text text="차량 이미지"/>
 										</Column>
-										<Column visible="false" >
+										<Column hAlign="Center" visible="false" >
 											<Text text="차량ID"/>
 										</Column>
-										<Column >
+										<Column hAlign="Center">
 											<Text text="차종"/>
 										</Column>
-										<Column >
+										<Column hAlign="Center">
 											<Text text="색상"/>
 										</Column>
-										<Column >
+										<Column hAlign="Center">
 											<Text text="번호판"/>
 										</Column>
 									</columns>

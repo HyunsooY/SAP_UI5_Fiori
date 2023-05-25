@@ -2,28 +2,53 @@
 	xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
 	xmlns:u="sap.ui.unified">
-    <Dialog id="idReturnDialog" title="반납 정보 입력">
+    <Dialog id="idReturnDialog" showHeader="false">
         <content>
+        <Toolbar height="50px">
+            <Avatar
+                src="sap-icon://car-rental"
+                displayShape="Circle"
+                displaySize="S"
+            />
+            <Text text="반납 정보 입력" class="boldText"/>
+        </Toolbar>
             <form:SimpleForm
                     editable="true">
                 <Label text="계기판 사진"/>
                 <u:FileUploader
-                        id="idCarUploader"
+                        id="idCarInfoUploader"
                         width="403px"
                         tooltip="Upload product cover photo to the local server"
                         style="Emphasized"
-                        placeholder="Choose a file for Upload..."
-                        change="onChangeImage"/>
+                        placeholder="휴대폰으로 사진을 찍어 업로드하십시오."
+                        change="onChangeCarInfoImage"/>
                 <Label text="Image"/>
-                <Image id="idCarImage" src=""/>
+                <Image id="idCarInfoImage" src=""/>
                 <Label text="계기판 주행거리"/>
-                <Input id="idDistance" value="" change="onValueChange" />
+                <HBox >
+                    <Input id="idDistance" value="" change="onReturnChange" width="370px" />
+                    <Text id="idDistunit" text="KM" class="sapUiTinyMarginBegin"/>
+                </HBox>
                 <Label text="차량 확인 필요"/>
                 <CheckBox id="idCheckBox"/>
             </form:SimpleForm>
+            <form:SimpleForm>
+                <VBox >
+                    <HBox class="sapUiSmallMarginBottom">
+                        <Title text="주행 요금"/>
+                        <Text id="idDrivfee" class="boldText sapUiSmallMarginBeginEnd"/>
+                        <Text id="idCurrency1" text="KRW" class="boldText" visible="false"/>
+                    </HBox>
+                    <HBox >
+                        <Button id="idDrivfeeCalc" text="주행요금 계산" press="onDrivfeeCalc" width="200px"/>
+                    </HBox>
+                </VBox>
+            </form:SimpleForm>
+            <MessageStrip id="idLateReturn" text="[지연 반납] 추가 요금 부여됩니다."
+                    showIcon="true" type="Warning" visible="false" />
         </content>
         <beginButton>
-            <Button text="반납" press="onReturnPress"/>
+            <Button id="idReturnButton" text="반납" enabled="false" press="onReturnPress"/>
         </beginButton>
         <endButton>
             <Button text="취소" press="onReturnClose"/>

@@ -68,7 +68,18 @@ sap.ui.define([
                         var Time = timeHour+":"+timeMinute+":"+timeSecond;
                         return Time;
                     }
+                },
+                NumberSum: function(value1, value2) {
+                    // var value = Number(Number(value1) + Number(value2));
+                    if(value2){
+                        var value = (Number(value1) + Number(value2)).toLocaleString();
+                        return value;
+                    }else{
+                        var value = Number(value1).toLocaleString();
+                        return value;
+                    }
                 }
+
             },
 
             onInit: function () {
@@ -249,6 +260,37 @@ sap.ui.define([
                 });
             },
 
+            onGetRentalHis: function() {
+                let jsonData = this.oMainModel.getProperty("/customer");
+                var oFilterHis = new Filter('Custid', 'EQ', jsonData.Custid);
+                    this.oModel.read('/RentalInfoSet', {
+                        success: function(oReturn){
+                            for(var i=0; i<oReturn.results.length; i++){
+                                // 보험료 비율 하드 코딩..
+                                if(oReturn.results[i].Insurance === 'I05'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 10 / 100);
+                                }else if(oReturn.results[i].Insurance === 'I30'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 7 / 100);
+                                }else if(oReturn.results[i].Insurance === 'I70'){
+                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 5 / 100);
+                                };
+                                oReturn.results[i].Retfee = Math.floor((Math.floor(oReturn.results[i].Retfee)) / 10) * 10; //////////
+
+                                if(oReturn.results[i].Delflag === 'X'){
+                                    oReturn.results[i].Fdate = '취소 차량';
+                                    oReturn.results[i].Retendtime.ms = 'X';
+                                }
+                                if(!oReturn.results[i].Staflag && !oReturn.results[i].Delflag){
+                                    oReturn.results[i].Fdate = '대여 중';
+                                    oReturn.results[i].Retendtime.ms = 'X';
+                                }
+                            };
+                            this.getView().getModel("login").setProperty('/rentalhis', oReturn.results);
+                        }.bind(this)
+                    });
+                    this.byId("idMyHisTable").getBinding("rows").filter(oFilterHis);
+            },
+
             onSelectionChange: function(oEvent) {
                 let sText = oEvent.getParameters().item.mProperties.text;
                 let jsonData = this.oMainModel.getProperty("/login");
@@ -332,10 +374,11 @@ sap.ui.define([
                                 actions: [MessageBox.Action.YES],
                                 onClose: function (oAction) {
                                     if (oAction === MessageBox.Action.YES) {
-                                        this.byId("idHome").setVisible(true);
+                                        this.onGetRentalHis();
+                                        this.byId("idHome").setVisible(false);
                                         this.byId("idMyInfo").setVisible(false);
                                         this.byId("idMyRental").setVisible(false);
-                                        this.byId("idMyRentalHistory").setVisible(false);
+                                        this.byId("idMyRentalHistory").setVisible(true);  
                                     };
                                 }.bind(this)
                             });
@@ -343,33 +386,7 @@ sap.ui.define([
                     });
                     
                 }else if(sText === '대여 이력'){
-                    var oFilterHis = new Filter('Custid', 'EQ', jsonData.Custid);
-                    this.oModel.read('/RentalInfoSet', {
-                        success: function(oReturn){
-                            for(var i=0; i<oReturn.results.length; i++){
-                                // 보험료 비율 하드 코딩..
-                                if(oReturn.results[i].Insurance === 'I05'){
-                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 10 / 100);
-                                }else if(oReturn.results[i].Insurance === 'I30'){
-                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 7 / 100);
-                                }else if(oReturn.results[i].Insurance === 'I70'){
-                                    oReturn.results[i].Retfee = oReturn.results[i].Retfee * (1 + 5 / 100);
-                                };
-                                oReturn.results[i].Retfee = (Math.floor((Math.floor(oReturn.results[i].Retfee)) / 10) * 10).toLocaleString();
-
-                                if(oReturn.results[i].Delflag === 'X'){
-                                    oReturn.results[i].Fdate = '취소 차량';
-                                    oReturn.results[i].Retendtime.ms = 'X';
-                                }
-                                if(!oReturn.results[i].Staflag && !oReturn.results[i].Delflag){
-                                    oReturn.results[i].Fdate = '대여 중';
-                                    oReturn.results[i].Retendtime.ms = 'X';
-                                }
-                            };
-                            this.getView().getModel("login").setProperty('/rentalhis', oReturn.results);
-                        }.bind(this)
-                    });
-                    this.byId("idMyHisTable").getBinding("rows").filter(oFilterHis);
+                    this.onGetRentalHis();
                     this.byId("idHome").setVisible(false);
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
@@ -680,7 +697,7 @@ sap.ui.define([
                 if(timeDiffMinute <= 30){
                     iRetfee = oFee.Retfee;
                 }else{
-                    iRetfee = oFee.Retfee + (timeDiffMinute - 30) / 10 * oFee.Extrafee;
+                    iRetfee = oFee.Retfee + (timeDiffMinute - 30) * 1000 / (oFee.Extrafee / 600);
                 };
 
                 if(StaDate.getDay() === 0 || StaDate.getDay() === 6){
@@ -755,7 +772,8 @@ sap.ui.define([
                             this.oModel.create("/RentalSet", oRental, {
                                 success: function() {
                                     sap.m.MessageToast.show("고객님의 차량 대여 신청이 정상적으로 처리되었습니다.");
-                                },
+                                    this.onRentalDialogClear();
+                                }.bind(this),
                                 error: function() {
                                     sap.m.MessageToast.show("서버 문제 발생으로 인하여 대여 신청이 실패하였습니다.");
                                 }
@@ -803,6 +821,7 @@ sap.ui.define([
                                                     actions: [MessageBox.Action.YES],
                                                     onClose: function (oAction) {
                                                         if (oAction === MessageBox.Action.YES) {
+                                                            this.onGetRentalHis();
                                                             this.byId("idHome").setVisible(false);
                                                             this.byId("idMyInfo").setVisible(false);
                                                             this.byId("idMyRental").setVisible(false);
@@ -835,6 +854,7 @@ sap.ui.define([
                                                     actions: [MessageBox.Action.YES],
                                                     onClose: function (oAction) {
                                                         if (oAction === MessageBox.Action.YES) {
+                                                            this.onGetRentalHis();
                                                             this.byId("idHome").setVisible(false);
                                                             this.byId("idMyInfo").setVisible(false);
                                                             this.byId("idMyRental").setVisible(false);
@@ -863,49 +883,185 @@ sap.ui.define([
             },
 
             onCarReturn: function() {
+                let oLogin = this.getView().getModel("login").getProperty('/login');
+                let sReturnPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : oLogin.Custid
+                });                
+
                 var oDialog = this.byId("idReturnDialog");
+
+                this.oModel.read(sReturnPath, {
+                    success: function(oReturn){
+                        this.getView().getModel("login").setProperty('/currental', oReturn);
+                        var oToday = new Date();
+                        var oRetstatime = new Date(oReturn.Retstatime.ms);
+                        var oRndate = new Date(oReturn.Rndate.getFullYear(), oReturn.Rndate.getMonth(), oReturn.Rndate.getDate(), oRetstatime.getUTCHours(), oRetstatime.getUTCMinutes(), oRetstatime.getUTCSeconds());    
+
+                        if(oToday >= oRndate){
+                            if(oDialog) {
+                                oDialog.open();
+                            }else{
+                                this.loadFragment({
+                                    name : "ER/zfermembership/view/fragment/Return"
+                                }).then(function(oDialog){
+                                    oDialog.open();
+                                }, this);
+                            };
+                        }else{
+                            MessageBox['warning']("이용 전인 차량입니다. 반납 처리 불가합니다.", {
+                                actions: [MessageBox.Action.YES],
+                                onClose: function (oAction) {
+                                    if (oAction === MessageBox.Action.YES) {
+                                    }
+                                }
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+
+            onDrivfeeCalc: function() {
+                var oRentalData = this.getView().getModel("login").getProperty('/currental');
+                var oCarData = this.getView().getModel("login").getProperty('/car');
+                var oChargeData = this.getView().getModel("login").getProperty('/fee');
+                var bCheck = this.byId("idCheckBox").getSelected();
                 
-                if(oDialog) {
-                    oDialog.open();
+                var oToday = new Date();
+                var oDate = new Date();
+                var oRetstatime = new Date(oRentalData.Retstatime.ms);
+                var oEndtime = new Date(oRentalData.Endtime.ms);
+                var oRndate = new Date(oRentalData.Rndate.getFullYear(), oRentalData.Rndate.getMonth(), oRentalData.Rndate.getDate(), oRetstatime.getUTCHours(), oRetstatime.getUTCMinutes(), oRetstatime.getUTCSeconds());
+                var oRtdate = new Date(oRentalData.Rtdate.getFullYear(), oRentalData.Rtdate.getMonth(), oRentalData.Rtdate.getDate(), oEndtime.getUTCHours(), oEndtime.getUTCMinutes(), oEndtime.getUTCSeconds());
+
+                var sBktime = (oToday - oRndate) / (1000 * 60 * 60);
+                var nAccdist = Number(this.byId("idDistance").getValue());
+                sBktime = Math.floor(sBktime);
+
+                oToday = new Date(oToday.setMinutes(oToday.getMinutes() - oToday.getTimezoneOffset()));
+                oRentalData.Fdate = oToday;
+                oRentalData.Retendtime ='PT'+oDate.getHours()+'H'+oDate.getMinutes()+'M'+oDate.getSeconds()+'S';
+                oRentalData.Bktime = sBktime;
+                oRentalData.Drivdist = String(nAccdist - Number(oCarData.Accdist));
+                oRentalData.Distunit = 'KM';
+
+                if(oRtdate < oDate){
+                    var nExtraSecond = (oDate - oRtdate) / 1000;
+                    this.byId("idCurrency1").setVisible(true);
+                    this.byId("idLateReturn").setVisible(true);
+                    oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee) + nExtraSecond * Number(oChargeData.Extrafee) / (10 * 60);
                 }else{
-                    this.loadFragment({
-                        name : "ER/zfermembership/view/fragment/Return"
-                    }).then(function(oDialog){
-                        oDialog.open();
-                    }, this);
+                    this.byId("idCurrency1").setVisible(true);
+                    this.byId("idLateReturn").setVisible(false);
+                    oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee)
                 };
+
+                var sDrivfee = (Math.floor(oRentalData.Drivfee / 10) * 10).toLocaleString();
+                this.byId("idDrivfee").setText(sDrivfee);
+                oRentalData.Drivfee = String((Math.floor(oRentalData.Drivfee / 10) * 10));
+                oRentalData.Staflag = true;
+                
+                if(bCheck === true){
+                    oCarData.Castatus = '3';
+                }else{
+                    oCarData.Castatus = '1';
+                };
+                oCarData.Accdist = String(nAccdist);
+                oCarData.Bcharge = String(Number(oCarData.Bcharge) + 1);
+                oCarData.Nowoz = oRentalData.Retoz;
+                this.getView().getModel("login").setProperty('/returndata', oRentalData);
+                this.getView().getModel("login").setProperty('/returncar', oCarData);
+                
+                this.byId("idReturnButton").setEnabled(this.byId("idDrivfee").getText(oRentalData.Drivfee) ? true : false);
+
             },
 
             onReturnPress: function() {
-                var that = this;
-                let oLogin = this.getView().getModel("login").getProperty('/login');
-                let sCancelPath = this.oModel.createKey("/CurRentalSet", {
-                    Custid : oLogin.Custid
-                });
+                var oReturndata = this.getView().getModel("login").getProperty('/returndata');
+                var oReturncar = this.getView().getModel("login").getProperty('/returncar');
 
-                this.oModel.read(sCancelPath, {
-                    success: function(oReturn){
-                        this.getView().getModel("login").setProperty('/currental', oReturn);
-                        this.oModel.read(this.oModel.createKey("/CarSet",{Carid : oReturn.Carid}), {
-                            success: function(oReturn){
-                                that.getView().getModel("login").setProperty('/car', oReturn);
-                                console.log(oReturn);                            
+                let sReturnPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : oReturndata.Custid
+                });
+                let sCarPath = this.oModel.createKey("/CarSet", {
+                    Carid : oReturncar.Carid
+                });
+                var sText = "차량이 정상 반납 처리되었습니다. 저희 EReON을 이용해주셔서 감사드립니다. 항상 최상의 서비스로 고객님께 다가갈 것을 약속드리며 다음 번에도 만나뵙길 기대하겠습니다.";
+                
+                this.oModel.update(sReturnPath, oReturndata, {
+                    success: function() {
+                        this.onGetRentalHis();
+                        this.byId("idHome").setVisible(false);
+                        this.byId("idMyInfo").setVisible(false);
+                        this.byId("idMyRental").setVisible(false);
+                        this.byId("idMyRentalHistory").setVisible(true);                                                        
+                        this.byId("idReturnDialog").close();   
+                        MessageBox['success'](sText, {
+                            actions: [MessageBox.Action.YES],
+                            onClose: function (oAction) {
+                                if (oAction === MessageBox.Action.YES) {
+                                    this.onReturnClear();
+                                }
                             }.bind(this)
-                        })
+                        });
+                        this.oModel.update(sCarPath, oReturncar, {
+                            success: function() {
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
             onReturnClose: function(oEvent) {
-                var oDialog = oEvent.getSource().getParent();
+                var oDialog = oEvent.getSource().getParent()
+                this.onReturnClear();
                 sap.m.MessageToast.show("취소되었습니다.");
                 oDialog.close();
             },
 
-            onChangeImage: function () {
-                var sValue = this.byId("idCarUploader").getValue();
+            // onChangeImage: function () {
+            //     var sValue = this.byId("idCarUploader").getValue();
+            //     var sImage = "/model/image/license/"+sValue;
+            //     this.byId("idCarImage").setSrc(sImage);          
+            // },
+
+            onChangeCarInfoImage: function() {
+                var sValue = this.byId("idCarInfoUploader").getValue();
                 var sImage = "/model/image/"+sValue;
-                this.byId("idCarImage").setSrc(sImage);          
+                this.byId("idCarInfoImage").setSrc(sImage);   
+            },
+
+            onReturnChange: function(){
+                var that = this;
+                var sImage = this.byId("idCarInfoImage").getSrc();
+                var sDist = this.byId("idDistance").getValue();
+                
+                let oRental = this.getView().getModel("login").getProperty('/currental');
+                let sCarPath = this.oModel.createKey("/CarSet", {
+                    Carid : oRental.Carid
+                });
+
+                this.oModel.read(sCarPath, {
+                    success: function(oReturn){
+                        that.getView().getModel("login").setProperty('/car', oReturn);
+                        that.oModel.read(that.oModel.createKey("/FeeSet", {Ctyid : oReturn.Ctyid}), {
+                            success: function(oReturn){
+                                that.getView().getModel("login").setProperty('/fee', oReturn);
+                            }.bind(this)
+                        });
+                        this.byId("idDistance").setValueState(sImage && sDist ? sDist < Number(oReturn.Accdist) ? 'Error' : 'None' : 'None');
+                        this.byId("idDistance").setValueStateText(sImage && sDist ? sDist < Number(oReturn.Accdist) ? '차량의 누적거리를 확인해주십시오.' : '' : '');                   
+                    }.bind(this)
+                })
+
+            },
+            onReturnClear: function() {
+                this.byId("idCarInfoUploader").setValue('');
+                this.byId("idCarInfoImage").setSrc('');
+                this.byId("idDistance").setValue('');
+                this.byId("idCheckBox").setSelected(false);
+                this.byId("idLateReturn").setVisible(false);
+                this.byId("idDrivfee").setText('');
+                this.byId("idCurrency1").setVisible(false);
             },
     
             handleNavigationChange: function (oEvent) {
@@ -998,43 +1154,44 @@ sap.ui.define([
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.YES) {
                             this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
-                            
-                            if(this.byId("idStaZoneComboBox").getValue()){
-                                this.getView().getModel("rentcar").setProperty('/car', []);
-                                };
-                            this.byId("idStaBranchComboBox").setValue('');
-                            this.byId("idStaZoneComboBox").setValue('');
-                            this.byId("idStaoz").setVisible(false);
-                            this.byId("idRetBranchComboBox").setValue('');
-                            this.byId("idRetZoneComboBox").setValue('');
-                            this.byId("idRetoz").setVisible(false);
-                            this.byId("idStadate").setValue('');
-                            this.byId("idStatime").setValue('');
-                            this.byId("idRetdate").setValue('');
-                            this.byId("idRettime").setValue('');
-                            this.byId("idInsuranceComboBox").setValue('');
-                            this.byId("idRettotfee").setText('');
-                            this.byId("idStaText").setText('');
-                            this.byId("idRetText").setText('');
-                            this.byId("idCtyText").setText('');
-                            this.byId("idColText").setText('');
-                            this.byId("idCanum").setText('');
-                            this.byId("idStadateText").setText('');
-                            this.byId("idStatimeText").setText('');
-                            this.byId("idRetdateText").setText('');
-                            this.byId("idRettimeText").setText('');
-                            this.byId("idInsurText").setText('');
-                            this.byId("idRettotfeeText").setText('');
-                            this.byId("idCurrency").setVisible(false);
-                            this.byId("idStaozText").setText('');
-                            this.byId("idRetozText").setText('');
-                            
+                            this.onRentalDialogClear();
                             this.byId("idRentalDialog").close();
-
                             this.getView().getModel().setData(Object.assign({}, oData));
                         }
                     }.bind(this)
                 });
+            },
+
+            onRentalDialogClear: function() {
+                if(this.byId("idStaZoneComboBox").getValue()){
+                    this.getView().getModel("rentcar").setProperty('/car', []);
+                    this.byId("idStaBranchComboBox").setValue('');
+                    this.byId("idStaZoneComboBox").setValue('');
+                    this.byId("idStaoz").setVisible(false);
+                    this.byId("idRetBranchComboBox").setValue('');
+                    this.byId("idRetZoneComboBox").setValue('');
+                    this.byId("idRetoz").setVisible(false);
+                    this.byId("idStadate").setValue('');
+                    this.byId("idStatime").setValue('');
+                    this.byId("idRetdate").setValue('');
+                    this.byId("idRettime").setValue('');
+                    this.byId("idInsuranceComboBox").setValue('');
+                    this.byId("idRettotfee").setText('');
+                    this.byId("idStaText").setText('');
+                    this.byId("idRetText").setText('');
+                    this.byId("idCtyText").setText('');
+                    this.byId("idColText").setText('');
+                    this.byId("idCanum").setText('');
+                    this.byId("idStadateText").setText('');
+                    this.byId("idStatimeText").setText('');
+                    this.byId("idRetdateText").setText('');
+                    this.byId("idRettimeText").setText('');
+                    this.byId("idInsurText").setText('');
+                    this.byId("idRettotfeeText").setText('');
+                    this.byId("idCurrency").setVisible(false);
+                    this.byId("idStaozText").setText('');
+                    this.byId("idRetozText").setText('');
+                };
             },
     
             productWeighStateFormatter: function (oVal) {

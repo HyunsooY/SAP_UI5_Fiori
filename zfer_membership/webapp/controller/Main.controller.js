@@ -78,18 +78,6 @@ sap.ui.define([
                 let sLicenseCheck = this.byId("idLicenseCheck").getText();
                 let sNewDate = new Date();
 
-                // if(iName === '' || iBirth === '' || iTel === '' || iAdd === '' || iLic === ''){
-                //     this.onValueChange();
-                // }else{
-                //     this.oModel.create("/CustomerSet", oData, {
-                //         success: function() {
-                //             sap.m.MessageToast.show("Create Success!");
-                //         },
-                //         error: function() {
-                //             sap.m.MessageToast.show("Error Success!");
-                //         }
-                //     });
-                // }
                 if(sAdultCheck === '' || sID === '' || sName === '' || sGender === '' || sBirth === '' ||
                     sTelno === '' || sAddress === '' || sLicnum === '' || sLicenseCheck === '') {
                         sap.m.MessageToast.show("입력되지 않은 정보가 존재합니다.")
@@ -100,7 +88,8 @@ sap.ui.define([
                                 if (oAction === MessageBox.Action.YES) {
                                     this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
                                     oCustomer.Birth = new Date(oCustomer.Birth);
-                                    oCustomer.Joindate = new Date(sNewDate.getMinutes + 540);
+                                    oCustomer.Joindate = new Date(sNewDate.setMinutes(sNewDate.getMinutes() - sNewDate.getTimezoneOffset()));
+                                    debugger;
                                     this.oModel.create("/CustomerSet", oCustomer, {
                                         success: function() {
                                             sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");
@@ -127,6 +116,8 @@ sap.ui.define([
                 let iTel = oControlTel.getValue();
                 let iAdd = oControlAdd.getValue();
                 let iLic = oControlLic.getValue();
+                let iGender = this.byId("idGenderSeg").getSelectedKey();
+                let iImage = this.byId("idUploader").getValue();
 
                 let currentDate = new Date();
                 let birthDate = new Date(iBirth);
@@ -181,8 +172,8 @@ sap.ui.define([
                 oControlLic.setValueStateText(iLic ? '' : '면허번호를 입력해주세요.');
 
                 // this.byId("idBDate").setValue(this.byId("idBirthDate").getValue());
-
-                // this.byId("idJoinButton").setEnabled(iName !== '' && iBirth !== '' && iTel !== '' && iAdd !== '' && iLic !== ''? true : false);
+                this.byId("idJoinButton").setEnabled(iName && iBirth && iTel && iAdd && iLic && iGender && iImage ? true : false);
+                
             },
             // onJoin: function() {
 
@@ -402,8 +393,37 @@ sap.ui.define([
                 this.handleButtonsVisibility();
             },
     
-            handleWizardCancel: function () {
-                this._handleMessageBoxOpen("회원가입을 취소하시겠습니까?", "warning");
+            onJoinCancel: function () {
+                MessageBox['warning']('회원가입을 취소하시겠습니까?', {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: function (oAction) {
+                        if (oAction === MessageBox.Action.YES) {
+                            this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
+                            this.byId("idBirthDate").setValue('');
+                            this.byId("idInputID").setValue('');
+                            this.byId("idInputName").setValue('');
+                            this.byId("idGenderSeg").setSelectedKey('');
+                            this.byId("idBdate").setValue('');
+                            this.byId("idInputTel").setValue('');
+                            this.byId("idInputAdd").setValue('');
+                            this.byId("idJoinDate").setValue('');
+                            this.byId("idUploader").setValue('');
+                            this.byId("idImage").setSrc('');
+                            this.byId("idInputLic").setValue('');
+                            this.byId("idAdultCheckReview").setText('');
+                            this.byId("idIDReview").setText('');
+                            this.byId("idNameReview").setText('');
+                            this.byId("idGenderReview").setText('');
+                            this.byId("idBirthReview").setText('');
+                            this.byId("idTelnoReview").setText('');
+                            this.byId("idAddressReview").setText('');
+                            this.byId("idLicnumReview").setText('');
+                            this.byId("idLicenseCheck").setText('');
+                            this.byId("idDialog").close();
+                            this.getView().getModel().setData(Object.assign({}, oData));
+                        }
+                    }.bind(this)
+                });
             },
     
             _handleMessageBoxOpen: function (sMessage, sMessageBoxType) {

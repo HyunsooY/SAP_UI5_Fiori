@@ -82,6 +82,7 @@
 									valueState="None" placeholder="조아핑" width="403px" type="Text"/>
 								<Label text="성 별" />
 								<SegmentedButton
+									id="idGenderSeg"
 									width="403px"
 									selectedKey="{join>/Gender}"
 									selectedItem="setGenderFromSegmented">
@@ -214,8 +215,8 @@
 					<Button id="idBackButton" text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
 					<Button id="idNextButton" text="다음" type="Emphasized" enabled="false" visible="{/nextButtonVisible}" press="onDialogNextButton" />
 					<Button id="idReviewButton" text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
-					<Button id="idJoinButton" text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" />
-					<Button	text="취소" type="Transparent" press="handleWizardCancel"/>
+					<Button id="idJoinButton" text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" enabled="false" />
+					<Button	text="취소" type="Transparent" press="onJoinCancel"/>
 				</OverflowToolbar>
 			</f:footer>
 		</f:DynamicPage>

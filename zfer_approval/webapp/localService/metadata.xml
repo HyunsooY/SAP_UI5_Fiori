@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWER_APPROVAL_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Approval" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Appdounum"/>
+                </Key>
+                <Property Name="Appdounum" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="결재문서번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="요청ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="상신내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="상신자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="상신자명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="상신 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="상신 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="결재자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="결재자명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="결재 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Apptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="결재 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appstate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="결재 상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Returndesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="반려사유" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="재상신여부" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZGWER_APPROVAL_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ApprovalSet" EntityType="ZGWER_APPROVAL_SRV.Approval" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWER_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWER_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
