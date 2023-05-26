@@ -7,12 +7,13 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/m/Dialog",
     "sap/m/Button",
-    "sap/m/Text"
+    "sap/m/Text",
+    "sap/m/TextArea"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Fragment, MessageBox, CoreLibrary, Filter, Dialog, Button, Text) {
+    function (Controller, JSONModel, Fragment, MessageBox, CoreLibrary, Filter, Dialog, Button, Text, TextArea) {
         "use strict";
 
         var ValueState = CoreLibrary.ValueState,
@@ -797,89 +798,77 @@ sap.ui.define([
                         this.getView().getModel("login").setProperty('/currental', oReturn);
                     }.bind(this)
                 });
+
+                let oDialog = this.byId("idCancelDialog");
+                if(oDialog) {
+                    oDialog.open();
+                }else{
+                    this.loadFragment({
+                        name : "ER/zfermembership/view/fragment/Cancel"
+                    }).then(function(oDialog){
+                        oDialog.open();
+                    }, this);
+                };
+
+            },
+
+            onCancelRadioSelect: function() {
+                var sSelectedText = this.byId("idRadioGroup").getSelectedButton().mProperties.text;
+                var sCancelNote = '취소 사유:'+sSelectedText;
+                this.byId("idCancelText").setValue(sCancelNote);
                 
-                if (!this.oDialog) {
-                    this.oDialog = new Dialog({
-                      type: sap.m.DialogType.Message,
-                      title: "대여 예약 취소",
-                      content: new Text({ text: "사유를 선택해 주십시오." }),
-                      buttons: [
-                        new Button({
-                          type: sap.m.ButtonType.Neutral,
-                          text: "단순 변심",
-                          press: function () {
-                            MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : 단순 변심", {
-                                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                                onClose: function (oAction) {
-                                    if (oAction === MessageBox.Action.YES) {
-                                        var oCurrental = this.getView().getModel("login").getProperty('/currental');
-                                        oCurrental.Delflag = 'X';
-                                        oCurrental.Note = '취소 사유:단순 변심';
-                                        this.oModel.update(sCancelPath, oCurrental, {
-                                            success: function() {
-                                                MessageBox['warning']("취소 처리 되었습니다. 다음에도 EReON을 찾아주시면 감사하겠습니다.", {
-                                                    actions: [MessageBox.Action.YES],
-                                                    onClose: function (oAction) {
-                                                        if (oAction === MessageBox.Action.YES) {
-                                                            this.onGetRentalHis();
-                                                            this.byId("idHome").setVisible(false);
-                                                            this.byId("idMyInfo").setVisible(false);
-                                                            this.byId("idMyRental").setVisible(false);
-                                                            this.byId("idMyRentalHistory").setVisible(true);   
-                                                            this.oDialog.close();
-                                                        }
-                                                    }.bind(this)
-                                                });
-                                            }.bind(this)
-                                        });
-                                    }
+            },
+            onCancelPress: function() {
+                let oDialog = this.byId("idCancelDialog");
+                let oLogin = this.getView().getModel("login").getProperty('/login');
+                let sCancelPath = this.oModel.createKey("/CurRentalSet", {
+                    Custid : oLogin.Custid
+                });
+                var sSelectedText = this.byId("idRadioGroup").getSelectedButton().mProperties.text;
+                var sMessage = new String;
+                if(sSelectedText === '단순 변심'){
+                    sMessage = "취소 처리 되었습니다. 다음에도 EReON을 찾아주시면 감사하겠습니다."
+                }else if(sSelectedText === '차량 문제'){
+                    sMessage = "불편을 드려 진심으로 죄송합니다. 다음에도 EReON을 찾아주시면 감사하겠습니다."
+                }
+                var sCancelNote = '취소 사유:'+sSelectedText;
+                MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : "+sSelectedText, {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: function (oAction) {
+                        if (oAction === MessageBox.Action.YES) {
+                            var oCurrental = this.getView().getModel("login").getProperty('/currental');
+                            oCurrental.Delflag = 'X';
+                            oCurrental.Note = sCancelNote;
+                            this.oModel.update(sCancelPath, oCurrental, {
+                                success: function() {
+                                    MessageBox['warning'](sMessage, {
+                                        actions: [MessageBox.Action.YES],
+                                        onClose: function (oAction) {
+                                            if (oAction === MessageBox.Action.YES) {
+                                                this.onGetRentalHis();
+                                                this.byId("idRadioGroup").setSelectedIndex(-1);
+                                                this.byId("idCancelText").setValue('');
+                                                oDialog.close();
+                                                this.byId("idHome").setVisible(false);
+                                                this.byId("idMyInfo").setVisible(false);
+                                                this.byId("idMyRental").setVisible(false);
+                                                this.byId("idMyRentalHistory").setVisible(true);   
+                                            }
+                                        }.bind(this)
+                                    });
                                 }.bind(this)
                             });
-                          }.bind(this)
-                        }),
-                        new Button({
-                          text: "차량 문제",
-                          type: sap.m.ButtonType.Critical,
-                          press: function () {
-                            MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : 차량 문제", {
-                                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                                onClose: function (oAction) {
-                                    if (oAction === MessageBox.Action.YES) {
-                                        var oCurrental = this.getView().getModel("login").getProperty('/currental');
-                                        oCurrental.Delflag = 'X';
-                                        oCurrental.Note = '취소 사유:차량 문제';
-                                        this.oModel.update(sCancelPath, oCurrental, {
-                                            success: function() {
-                                                MessageBox['warning']("불편을 드려 진심으로 죄송합니다. 다음에도 EReON을 찾아주시면 감사하겠습니다.", {
-                                                    actions: [MessageBox.Action.YES],
-                                                    onClose: function (oAction) {
-                                                        if (oAction === MessageBox.Action.YES) {
-                                                            this.onGetRentalHis();
-                                                            this.byId("idHome").setVisible(false);
-                                                            this.byId("idMyInfo").setVisible(false);
-                                                            this.byId("idMyRental").setVisible(false);
-                                                            this.byId("idMyRentalHistory").setVisible(true);                                                        
-                                                            this.oDialog.close();   
-                                                        }
-                                                    }.bind(this)
-                                                });
-                                            }.bind(this)
-                                        });
-                                    }
-                                }.bind(this)
-                            });
-                          }.bind(this)
-                        }),
-                        new Button({
-                          text: "취소",
-                          press: function () {
-                            this.oDialog.close();
-                          }.bind(this)
-                        })
-                      ]
-                    });
-                  }
-                this.oDialog.open();
+                        }
+                    }.bind(this)
+                });
+            },
+            
+            onCancelClose: function(oEvent) {
+                var oDialog = oEvent.getSource().getParent()
+                this.byId("idRadioGroup").setSelectedIndex(-1);
+                this.byId("idCancelText").setValue('');
+                sap.m.MessageToast.show("취소되었습니다.");
+                oDialog.close();
             },
 
             onCarReturn: function() {

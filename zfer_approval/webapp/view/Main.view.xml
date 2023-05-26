@@ -69,19 +69,42 @@
 										backgroundDesign="Transparent"
 										class="sapUiNoContentPadding">
 									<content>
-										<layout:HorizontalLayout
-												allowWrapping="true">
-											<layout:VerticalLayout
-													class="sapUiMediumMarginEnd">
-												<ObjectAttribute title="Location" text="Warehouse A"/>
+										<VBox >
+										<Text text="로그인 정보" class="boldText sapUiSmallMarginBottom"/>
+										<HBox>
+												<FlexBox wrap="Wrap" fitContainer="true">
+													<Avatar
+														src="sap-icon://customer"
+														displayShape="Circle"
+														displaySize="L"
+														class="sapUiMediumMarginEnd"
+													/>
+												</FlexBox>
+												<VBox
+													class="sapUiLargeMarginEnd sapUiSmallMarginBottom" width="1200px">
+													<Title text="Employee Information" class="sapUiTinyMarginBottom"/>
+													<Text text="{='사번 : '+${app>/login/Employeeid}}" class="sapUiSmallMarginBottom"/>
+													<Text text="{='부서 : '+${app>/login/Deptname}}"/>
+													<Text text="{='이름 : '+${app>/login/Name}+' '+${app>/login/Rankname}}"/>
+												<!-- <ObjectAttribute title="Location" text="Warehouse A"/>
 												<ObjectAttribute title="Halway" text="23L"/>
-												<ObjectAttribute title="Rack" text="34"/>
-											</layout:VerticalLayout>
-											<layout:VerticalLayout>
-												<ObjectAttribute title="Availability"/>
-												<ObjectStatus text="In Stock" state="Success" />
-											</layout:VerticalLayout>
-										</layout:HorizontalLayout>
+												<ObjectAttribute title="Rack" text="34"/> -->
+												</VBox>
+												
+												<VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom" width="150%">
+													<Title text="Contact Information" class="sapUiTinyMarginBottom" />
+
+													<HBox class="sapUiTinyMarginBottom">
+														<c:Icon src="sap-icon://outgoing-call" />
+														<Text id="idTel" text="{path:'app>/login/Telno', formatter:'.formatter.Telno'}" class="sapUiSmallMarginBegin" />
+													</HBox>
+													<HBox>
+														<c:Icon src="sap-icon://email" />
+														<Text id="idEmail" text="{app>/login/Email}" class="sapUiSmallMarginBegin" />
+													</HBox>
+												</VBox>
+											</HBox>
+										</VBox>
 									</content>
 								</Panel>
 							</items>
@@ -163,13 +186,13 @@
 								<Text text="{app>Requestid}"/>
 							</t:template>
 						</t:Column>
-						<t:Column width="110px" hAlign="Center">
+						<!-- <t:Column width="110px" hAlign="Center">
 							<Label text="요청문서정보" />
 							<t:template>
 								<Button text="문서정보" press="onRequestButton"
 								enabled="{=${app>Appstate} === 'D' ? false : true}"/>
 							</t:template>
-						</t:Column>
+						</t:Column> -->
                         <t:Column width="300px" hAlign="Center">
 							<Label text="요청 내용" />
 							<t:template>
@@ -190,10 +213,11 @@
 							</t:template>
 						</t:Column>
 						<t:Column width="110px" hAlign="Center">
-							<Label text="결재 정보" />
+							<Label text="문서 상세" />
 							<t:template>
-								<Button text="{=${app>Appstate} === 'D' ? '반려 상세' : ${app>Appstate} === 'A' ? '승인 상세' : ''}" press="onApprovalButton"
-								visible="{=${app>Appstate} === 'R' ? false : true}"/>
+								<!-- <Button text="{=${app>Appstate} === 'D' ? '반려 상세' : ${app>Appstate} === 'A' ? '승인 상세' : ''}" press="onApprovalButton"
+								visible="{=${app>Appstate} === 'R' ? false : true}"/> -->
+								<Button text="{=${app>Appstate} === 'D' ? '반려 상세' : ${app>Appstate} === 'A' ? '승인 상세' : '결재 진행'}" press="onApprovalButton"/>
 							</t:template>
 						</t:Column>						
 						<!-- <t:Column width="6rem" hAlign="End">

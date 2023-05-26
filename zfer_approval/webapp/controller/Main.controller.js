@@ -43,6 +43,12 @@ sap.ui.define([
                     }
                     var Time = timeHour+":"+timeMinute+":"+timeSecond;
                     return Time;
+                },
+
+                Telno : function(oTelno) {
+                    oTelno = String(oTelno);
+                    var Telno = oTelno.substr(0, 3)+"-"+oTelno.substr(4, 4)+"-"+oTelno.substr(4, 4);
+                    return Telno;
                 }
             },
 
@@ -51,7 +57,7 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel(), 'app');
                 this.oModel.read('/LoginSet', {
                     success: function(oReturn) {
-                        this.getView().getModel('app').setProperty('/login', oReturn.results);
+                        this.getView().getModel('app').setProperty('/login', oReturn.results[0]);
                     }.bind(this)
                 });
                 
@@ -105,7 +111,26 @@ sap.ui.define([
                         
                 }
                 this.byId("idAppTable").getBinding("rows").filter(oFilter);
-            }
+            },
 
+            onApprovalButton: function(oEvent) {
+                var oApproval = oEvent.getSource().getParent().getRowBindingContext().getObject();
+                this.getView().getModel('app').setProperty('/docu', oApproval);
+                var oDialog = this.byId("idDetailDialog");
+                if(oDialog) {
+                    oDialog.open();
+                }else{
+                    this.loadFragment({
+                        name : "ER/zferapproval/view/fragment/Detail"
+                    }).then(function(oDialog){
+                        oDialog.open();
+                    }, this);
+                }
+            },
+
+            onApprovalClose: function(oEvent) {
+                var oDialog = oEvent.getSource().getParent();
+                oDialog.close();
+            }
         });
     });

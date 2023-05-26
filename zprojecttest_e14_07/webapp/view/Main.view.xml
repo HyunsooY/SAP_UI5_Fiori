@@ -1,9 +1,10 @@
-<mvc:View controllerName="zprojectteste1407.controller.Main"
+<mvc:View xmlns:imageeditor="sap.suite.ui.commons.imageeditor" controllerName="zprojectteste1407.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content>
             <Button text="go detail" press="onButtonPress"/>
+            <Image src="https://file.mk.co.kr/meet/neds/2020/08/image_readtop_2020_806214_15966989534307612.jpg"/>
         </content>
     </Page>
 </mvc:View>
