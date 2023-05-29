@@ -14,7 +14,7 @@
                 <fiori:SideNavigation id="sideNavigation" selectionChange="onSelectionChange">
                     <fiori:header text="Work"/>
                     <fiori:SideNavigationItem id="item1" icon="home" text="Home" selected="true"/>
-                    <fiori:SideNavigationItem id="item2" icon="employee" text="내 정보"/>
+                    <!-- <fiori:SideNavigationItem id="item2" icon="employee" text="내 정보"/> -->
                     <fiori:SideNavigationItem icon="car-rental" text="차량 대여" >
                         <fiori:items>   
                             <fiori:SideNavigationSubItem id="item3" text="대여 신청" />
@@ -25,7 +25,9 @@
                     <fiori:SideNavigationItem id="item6" icon="calendar" text="Events"/>
                     <fiori:fixedItems>
                         <!-- <fiori:SideNavigationItem icon="chain-link" text="Useful Links" /> -->
-                        <fiori:SideNavigationItem id="item7" icon="action-settings" text="Setting" />
+                        <!-- <fiori:SideNavigationItem id="item7" icon="action-settings" text="Setting" /> -->
+                        <fiori:SideNavigationItem id="item2" icon="action-settings" text="내 정보" />
+
                     </fiori:fixedItems>
                 </fiori:SideNavigation>
                 <Image id="idHome" src="/model/image/background/EReON.jpg" width="100%"/>
@@ -273,6 +275,58 @@
                             </ColumnListItem>
                         </items>
                     </Table> -->
+                </VBox>
+                <VBox id="idEvent" visible="false" alignContent="Center">
+                    <HBox alignContent="Center">
+                        <SlideTile class="sapUiTinyMarginBegin sapUiTinyMarginTop">
+                        <GenericTile id="idGeneTileOne" sizeBehavior="Responsive"
+                            backgroundImage="/model/image/event/EReONJeju.png"
+                            frameType="TwoByOne" press="OnPressOneTile" >
+                            <TileContent id="idTileOne" frameType="Auto" footer="May 21, 2023">
+                                <NewsContent id="idNewsOne"
+                                    contentText="드디어 EReON이 제주에 상륙합니다~! 다양한 상품과 혜택을 가져보세요!"
+                                    subheader="Today, EReON 이벤트" />
+                            </TileContent>
+                            </GenericTile>
+                            <GenericTile id="idGeneTileTwo" sizeBehavior="Responsive"
+                                backgroundImage="/model/image/event/EReONBusan.jpeg"
+                                frameType="TwoByOne" press="OnPressTwoTile">
+                                <TileContent id="idTileTwo" frameType="Auto" footer="May 23, 2023">
+                                    <NewsContent id="idNewsTwo"
+                                        contentText="[부산지점] 열심히 일한 당신! EReON과 함께 여행을 즐겨보세요~!"
+                                        subheader="Today, EReON 이벤트" />
+                                </TileContent>
+                            </GenericTile>
+                            <GenericTile id="idGeneTileThree" sizeBehavior="Responsive"
+                                backgroundImage="/model/image/event/EReONCoupon.jpeg"
+                                frameType="TwoByOne" press="OnPressThreeTile">
+                                <TileContent id="idTileThree" frameType="Auto" footer="May 15, 2023">
+                                    <NewsContent id="idNewsThree"
+                                        contentText="5월 한달도 열심히 찾아주신 고객님들을 위해 저희 EReON이 쿠폰을 준비했습니다!"
+                                        subheader="Today, EReON 이벤트" />
+                                </TileContent>
+                            </GenericTile>
+                            <GenericTile id="idGeneTileFour" sizeBehavior="Responsive"
+                                backgroundImage="/model/image/event/EReONAccount.jpeg"
+                                frameType="TwoByOne" press="OnPressFourTile">
+                                <TileContent id="idTileFour" frameType="Auto" footer="May 29, 2023">
+                                    <NewsContent id="idNewsFour"
+                                        contentText="저희 EReON이 고객님들의 사랑을 받고 이렇게나 성장했어요! 2023 상반기 결산내용 입니다."
+                                        subheader="Today, EReON 이벤트" />
+                                </TileContent>
+                            </GenericTile>
+                        </SlideTile>
+                        <VBox id="idEventVbox" visible="false" class="sapUiMediumMarginBegin">
+                            <Toolbar >
+                                <Title id="idToolbarTitle" width="610px"/>
+                            </Toolbar>
+                            <Toolbar >
+                                <ToolbarSpacer />
+                                <Text id="idToolbarText"/>
+                            </Toolbar>
+                            <Image id="onEventImage" class="sapUiMediumMarginBegin"/>
+                        </VBox>
+                    </HBox>
                 </VBox>
             </HBox>
         </content>

@@ -178,7 +178,7 @@ sap.ui.define([
                             this.byId("item4").setSelected(false);
                             this.byId("item5").setSelected(false);
                             this.byId("item6").setSelected(false);
-                            this.byId("item7").setSelected(false);
+                            // this.byId("item7").setSelected(false);
                             this.byId("idHome").setVisible(true);
                             this.byId("idMyInfo").setVisible(false);
                             this.byId("idMyRental").setVisible(false);
@@ -306,16 +306,19 @@ sap.ui.define([
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(false);
+                    this.byId("idEvent").setVisible(false);
                 }else if(sText === '내 정보'){
                     this.byId("idHome").setVisible(false);
                     this.byId("idMyInfo").setVisible(true);
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(false);
+                    this.byId("idEvent").setVisible(false);
                 }else if (sText === '차량 대여'){
                     this.byId("idHome").setVisible(true);
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(false);
+                    this.byId("idEvent").setVisible(false);
                 }else if(sText === '대여 신청'){
                     var oView = this.getView();
                     this.oModel.read(sCurrentPath, {
@@ -347,6 +350,7 @@ sap.ui.define([
                             this.byId("idMyInfo").setVisible(false);
                             this.byId("idMyRental").setVisible(false);
                             this.byId("idMyRentalHistory").setVisible(false);
+                            this.byId("idEvent").setVisible(false);
                         }.bind(this)
                     });
                 }else if(sText === '대여 확인'){
@@ -368,6 +372,7 @@ sap.ui.define([
                             this.byId("idMyInfo").setVisible(false);
                             this.byId("idMyRental").setVisible(true);
                             this.byId("idMyRentalHistory").setVisible(false);
+                            this.byId("idEvent").setVisible(false);
                         }.bind(this),
 
                         error: function() {
@@ -379,7 +384,8 @@ sap.ui.define([
                                         this.byId("idHome").setVisible(false);
                                         this.byId("idMyInfo").setVisible(false);
                                         this.byId("idMyRental").setVisible(false);
-                                        this.byId("idMyRentalHistory").setVisible(true);  
+                                        this.byId("idMyRentalHistory").setVisible(true);
+                                        this.byId("idEvent").setVisible(false);  
                                     };
                                 }.bind(this)
                             });
@@ -392,11 +398,23 @@ sap.ui.define([
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(true);
+                    this.byId("idEvent").setVisible(false);
+                }else if(sText === 'Events'){
+                    this.byId("idEventVbox").setVisible(false);
+                    this.byId("idToolbarTitle").setText('');
+                    this.byId("idToolbarText").setText('');
+                    this.byId("onEventImage").setSrc('');
+                    this.byId("idHome").setVisible(false);
+                    this.byId("idMyInfo").setVisible(false);
+                    this.byId("idMyRental").setVisible(false);
+                    this.byId("idMyRentalHistory").setVisible(false);
+                    this.byId("idEvent").setVisible(true);
                 }else{
                     this.byId("idHome").setVisible(true);
                     this.byId("idMyInfo").setVisible(false);
                     this.byId("idMyRental").setVisible(false);
                     this.byId("idMyRentalHistory").setVisible(false);
+                    this.byId("idEvent").setVisible(false);
                 }
 
             },
@@ -798,17 +816,21 @@ sap.ui.define([
                         this.getView().getModel("login").setProperty('/currental', oReturn);
                     }.bind(this)
                 });
+                
+                var oView = this.getView();
 
-                let oDialog = this.byId("idCancelDialog");
-                if(oDialog) {
-                    oDialog.open();
-                }else{
-                    this.loadFragment({
-                        name : "ER/zfermembership/view/fragment/Cancel"
-                    }).then(function(oDialog){
+                if(!this.byId("idCancelDialog")){
+                    Fragment.load({
+                        id: oView.getId(),
+                        name: "ER.zfermembership/view/fragment/Cancel",
+                        controller: this
+                    }).then(function (oDialog) {
+                        oView.addDependent(oDialog);
                         oDialog.open();
-                    }, this);
-                };
+                    });
+                }else{
+                    this.byId("idCancelDialog").open();
+                }
 
             },
 
@@ -852,7 +874,8 @@ sap.ui.define([
                                                 this.byId("idHome").setVisible(false);
                                                 this.byId("idMyInfo").setVisible(false);
                                                 this.byId("idMyRental").setVisible(false);
-                                                this.byId("idMyRentalHistory").setVisible(true);   
+                                                this.byId("idMyRentalHistory").setVisible(true);
+                                                this.byId("idEvent").setVisible(false);   
                                             }
                                         }.bind(this)
                                     });
@@ -877,7 +900,7 @@ sap.ui.define([
                     Custid : oLogin.Custid
                 });                
 
-                var oDialog = this.byId("idReturnDialog");
+                // var oDialog = this.byId("idReturnDialog");
 
                 this.oModel.read(sReturnPath, {
                     success: function(oReturn){
@@ -887,15 +910,20 @@ sap.ui.define([
                         var oRndate = new Date(oReturn.Rndate.getFullYear(), oReturn.Rndate.getMonth(), oReturn.Rndate.getDate(), oRetstatime.getUTCHours(), oRetstatime.getUTCMinutes(), oRetstatime.getUTCSeconds());    
 
                         if(oToday >= oRndate){
-                            if(oDialog) {
-                                oDialog.open();
-                            }else{
-                                this.loadFragment({
-                                    name : "ER/zfermembership/view/fragment/Return"
-                                }).then(function(oDialog){
+                            var oView = this.getView();
+
+                            if(!this.byId("idReturnDialog")){
+                                Fragment.load({
+                                    id: oView.getId(),
+                                    name: "ER.zfermembership/view/fragment/Return",
+                                    controller: this
+                                }).then(function (oDialog) {
+                                    oView.addDependent(oDialog);
                                     oDialog.open();
-                                }, this);
-                            };
+                                });
+                            }else{
+                                this.byId("idReturnDialog").open();
+                            }
                         }else{
                             MessageBox['warning']("이용 전인 차량입니다. 반납 처리 불가합니다.", {
                                 actions: [MessageBox.Action.YES],
@@ -982,7 +1010,8 @@ sap.ui.define([
                         this.byId("idHome").setVisible(false);
                         this.byId("idMyInfo").setVisible(false);
                         this.byId("idMyRental").setVisible(false);
-                        this.byId("idMyRentalHistory").setVisible(true);                                                        
+                        this.byId("idMyRentalHistory").setVisible(true);
+                        this.byId("idEvent").setVisible(false);                                                        
                         this.byId("idReturnDialog").close();   
                         MessageBox['success'](sText, {
                             actions: [MessageBox.Action.YES],
@@ -1002,7 +1031,7 @@ sap.ui.define([
 
             onReturnClose: function(oEvent) {
                 var oDialog = oEvent.getSource().getParent()
-                this.onReturnClear();
+                this.onReturnClear(oDialog);
                 sap.m.MessageToast.show("취소되었습니다.");
                 oDialog.close();
             },
@@ -1051,6 +1080,46 @@ sap.ui.define([
                 this.byId("idLateReturn").setVisible(false);
                 this.byId("idDrivfee").setText('');
                 this.byId("idCurrency1").setVisible(false);
+            },
+
+            OnPressOneTile: function(oEvent){
+                let sTitle = this.byId("idNewsOne").getContentText();
+                let sDate = this.byId("idTileOne").getFooter();
+                let sImage = this.byId("idGeneTileOne").getBackgroundImage();
+                this.byId("idEventVbox").setVisible(true);
+                this.byId("idToolbarTitle").setText(sTitle);
+                this.byId("idToolbarText").setText(sDate);
+                this.byId("onEventImage").setSrc(sImage);
+            },
+
+            OnPressTwoTile: function(oEvent){
+                let sTitle = this.byId("idNewsTwo").getContentText();
+                let sDate = this.byId("idTileTwo").getFooter();
+                let sImage = this.byId("idGeneTileTwo").getBackgroundImage();
+                this.byId("idEventVbox").setVisible(true);
+                this.byId("idToolbarTitle").setText(sTitle);
+                this.byId("idToolbarText").setText(sDate);
+                this.byId("onEventImage").setSrc(sImage);
+            },
+
+            OnPressThreeTile: function(oEvent){
+                let sTitle = this.byId("idNewsThree").getContentText();
+                let sDate = this.byId("idTileThree").getFooter();
+                let sImage = this.byId("idGeneTileThree").getBackgroundImage();
+                this.byId("idEventVbox").setVisible(true);
+                this.byId("idToolbarTitle").setText(sTitle);
+                this.byId("idToolbarText").setText(sDate);
+                this.byId("onEventImage").setSrc(sImage);
+            },
+
+            OnPressFourTile: function(oEvent){
+                let sTitle = this.byId("idNewsFour").getContentText();
+                let sDate = this.byId("idTileFour").getFooter();
+                let sImage = this.byId("idGeneTileFour").getBackgroundImage();
+                this.byId("idEventVbox").setVisible(true);
+                this.byId("idToolbarTitle").setText(sTitle);
+                this.byId("idToolbarText").setText(sDate);
+                this.byId("onEventImage").setSrc(sImage);
             },
     
             handleNavigationChange: function (oEvent) {
