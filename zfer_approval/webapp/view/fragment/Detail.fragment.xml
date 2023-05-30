@@ -4,7 +4,7 @@
      contentHeight="100%" contentWidth="100%" >
         <content>
             <VBox >
-                <HBox height="350px" visible="{=${app>/request/Request} === 'CRN' ? true : false}">
+                <HBox height="380px" visible="{=${app>/request/Request} === 'CRN' ? true : false}">
                     <VBox class="sapUiSmallMargin">
                         <Title text="문서 정보" width="550px" class="sapUiTinyMarginBottom"/>
                         <VBox >
@@ -84,7 +84,7 @@
                         </Table>
                     </VBox>
                 </HBox >
-                <HBox height="350px" visible="{=${app>/request/Request} === 'CON' ? true : false}">
+                <HBox height="380px" visible="{=${app>/request/Request} === 'CON' ? true : false}">
                     <VBox class="sapUiSmallMargin">
                         <Title text="문서 정보" width="400px" class="sapUiTinyMarginBottom"/>
                         <VBox >
@@ -182,7 +182,7 @@
                         </Table>
                     </VBox>
                 </HBox >
-                <HBox height="350px" visible="{=${app>/request/Request} === 'RRN' ? true : false}">
+                <HBox height="380px" visible="{=${app>/request/Request} === 'RRN' ? true : false}">
                     <VBox class="sapUiSmallMargin">
                         <Title text="문서 정보" width="350px" class="sapUiTinyMarginBottom"/>
                         <VBox >
@@ -282,7 +282,7 @@
                         </HBox>
                     </VBox>
                 </HBox >
-                <HBox height="350px" visible="{=${app>/request/Request} === 'JCN' ? true : false}">
+                <HBox height="380px" visible="{=${app>/request/Request} === 'JCN' ? true : false}">
                     <VBox class="sapUiSmallMargin">
                         <Title text="문서 정보" width="350px" class="sapUiTinyMarginBottom"/>
                         <VBox >

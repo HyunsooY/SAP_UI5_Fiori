@@ -54,7 +54,7 @@ sap.ui.define([
 
                 Telno : function(oTelno) {
                     oTelno = String(oTelno);
-                    var Telno = oTelno.substr(0, 3)+"-"+oTelno.substr(4, 4)+"-"+oTelno.substr(4, 4);
+                    var Telno = oTelno.substr(0, 3)+"-"+oTelno.substr(4, 4)+"-"+oTelno.substr(7, 4);
                     return Telno;
                 },
 
@@ -477,7 +477,7 @@ sap.ui.define([
                                         })
                                     }else{
                                     };
-                                    MessageBox['confirm']("승인되었습니다.", {
+                                    MessageBox['success']("승인되었습니다.", {
                                         actions: [MessageBox.Action.YES],
                                         onClose: function (oAction) {
                                             if (oAction === MessageBox.Action.YES) {
@@ -523,7 +523,7 @@ sap.ui.define([
                             if (oAction === MessageBox.Action.YES) {
                                 this.oModel.update(sPath, oDocu, {
                                     success: function() {
-                                        MessageBox['confirm']("반려되었습니다.", {
+                                        MessageBox['warning']("반려되었습니다.", {
                                             actions: [MessageBox.Action.YES],
                                             onClose: function (oAction) {
                                                 if (oAction === MessageBox.Action.YES) {
