@@ -1,6 +1,7 @@
 /* Enter your custom styles here */
+/* Enter your custom styles here */
 .mainPage {
-    background-image: url("/sap/bc/ui5_ui5/sap/model/image/background/EReON.png");
+    /* background-image: url("/model/image/background/EReON.png"); */
     background-size: 40%;
     background-position:  top;
     background-repeat: no-repeat;
@@ -60,3 +61,7 @@
 .buttonJust {
     margin-right: 10px;
 }
+
+.sapTntSideNavigation .sapTntSideNavFixedItem {
+    margin-top: 16px; /* 적절한 간격으로 조정 */
+  }

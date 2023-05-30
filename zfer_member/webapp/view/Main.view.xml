@@ -1,0 +1,23 @@
+<mvc:View controllerName="ER.zfermember.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="EReON 로그인" class="mainPage" showHeader="false" >
+        <content >
+            <VBox alignItems="Center" width="403px" class="mainVbox">
+                <VBox >
+                    <Label text="아이디" width="403px" />
+                    <Input id="idLoginID" value="{login>/Custid}" width="403px" />
+                </VBox>
+                <VBox class="Vbox1">
+                    <Label text="성명" width="403px" />
+                    <Input id="idLoginName" value="{login>/Name}" width="403px" />
+
+                    <HBox width="403px" alignItems="Center">
+                        <Button id="LoginButton" text="로그인" press="onLogin" class="button1" width="150px"/>
+                        <Button id="JoinButton" text="회원가입" press="onJoinEreon" class="button2" width="150px"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

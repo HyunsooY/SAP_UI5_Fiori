@@ -22,7 +22,7 @@ sap.ui.define([
 			backButtonVisible: false,
         };
 
-        return Controller.extend("ER.zfermembership.controller.Login", {
+        return Controller.extend("ER.zfermember.controller.Login", {
             formatter: {
                 dateTime: function(oDate) {
                     if(oDate === '취소 차량'){
@@ -345,7 +345,7 @@ sap.ui.define([
                             if (!this._pDialog) {
                                 this._pDialog = Fragment.load({
                                     id: oView.getId(),
-                                    name: "ER.zfermembership/view/fragment/Rental",
+                                    name: "ER.zfermember/view/fragment/Rental",
                                     controller: this
                                 }).then(function(oDialog) {
                                     oDialog.attachAfterOpen(this.onDialogAfterOpen, this);
@@ -381,6 +381,7 @@ sap.ui.define([
                             oReturn.Retfee = (Math.floor((Math.floor(oReturn.Retfee)) / 10) * 10).toLocaleString();
                             this.byId("idRettotfeeCheck").setText(oReturn.Retfee);
                             this.getView().getModel("login").setProperty('/rental', oReturn);
+                            this.byId("idCurrentRental").setSrc(_rootPath+'/model/image/cty/'+oReturn.Ctyid+'.png');
                             this.byId("idHome").setVisible(false);
                             this.byId("idMyInfo").setVisible(false);
                             this.byId("idMyRental").setVisible(true);
@@ -465,7 +466,7 @@ sap.ui.define([
                 this.oModel.read('/RentcarSet', {
                     success: function(oReturn){
                         for(var i=0; i<oReturn.length; i++){
-                            oReturn.results[i].src = _rootPath+'/model/image/cty/'+oReturn.results[i].Ctyid+'.png';
+                            oReturn.results[i].Src = _rootPath+'/model/image/cty/'+oReturn.results[i].Ctyid+'.png';
                         }
                         this.getView().getModel("rentcar").setProperty('/car', oReturn.results);
                     }.bind(this)
@@ -847,7 +848,7 @@ sap.ui.define([
                 if(!this.byId("idCancelDialog")){
                     Fragment.load({
                         id: oView.getId(),
-                        name: "ER.zfermembership/view/fragment/Cancel",
+                        name: "ER.zfermember/view/fragment/Cancel",
                         controller: this
                     }).then(function (oDialog) {
                         oView.addDependent(oDialog);
@@ -940,7 +941,7 @@ sap.ui.define([
                             if(!this.byId("idReturnDialog")){
                                 Fragment.load({
                                     id: oView.getId(),
-                                    name: "ER.zfermembership/view/fragment/Return",
+                                    name: "ER.zfermember/view/fragment/Return",
                                     controller: this
                                 }).then(function (oDialog) {
                                     oView.addDependent(oDialog);
@@ -1072,7 +1073,7 @@ sap.ui.define([
                 var sImage = "/model/image/"+ sValue;
                 // this.byId("idCarInfoImage").setSrc(sImage);
                 if(_rootPath){
-                    this.byId("idCarInfoImage").setSrc(_rootPath + sImage);
+                    this.byId("idCarInfoImage").setSrc(_rootPath+sImage);
                 }   
             },
 
@@ -1113,13 +1114,13 @@ sap.ui.define([
             OnPressOneTile: function(oEvent){
                 let sTitle = this.byId("idNewsOne").getContentText();
                 let sDate = this.byId("idTileOne").getFooter();
-                let sImage = this.byId("idGeneTileOne").getBackgroundImage();
+                // let sImage = this.byId("idGeneTileOne").getBackgroundImage();
                 this.byId("idEventVbox").setVisible(true);
                 this.byId("idToolbarTitle").setText(sTitle);
                 this.byId("idToolbarText").setText(sDate);
                 // this.byId("onEventImage").setSrc(sImage);
                 if(_rootPath){
-                    this.byId("onEventImage").setSrc(_rootPath + sImage);
+                    this.byId("onEventImage").setSrc(_rootPath +'/model/image/event/EReONJeju.png');
                 }
                 
             },
@@ -1127,39 +1128,39 @@ sap.ui.define([
             OnPressTwoTile: function(oEvent){
                 let sTitle = this.byId("idNewsTwo").getContentText();
                 let sDate = this.byId("idTileTwo").getFooter();
-                let sImage = this.byId("idGeneTileTwo").getBackgroundImage();
+                // let sImage = this.byId("idGeneTileTwo").getBackgroundImage();
                 this.byId("idEventVbox").setVisible(true);
                 this.byId("idToolbarTitle").setText(sTitle);
                 this.byId("idToolbarText").setText(sDate);
                 // this.byId("onEventImage").setSrc(sImage);
                 if(_rootPath){
-                    this.byId("onEventImage").setSrc(_rootPath + sImage);
+                    this.byId("onEventImage").setSrc(_rootPath +'/model/image/event/EReONBusan.png');
                 }
             },
 
             OnPressThreeTile: function(oEvent){
                 let sTitle = this.byId("idNewsThree").getContentText();
                 let sDate = this.byId("idTileThree").getFooter();
-                let sImage = this.byId("idGeneTileThree").getBackgroundImage();
+                // let sImage = this.byId("idGeneTileThree").getBackgroundImage();
                 this.byId("idEventVbox").setVisible(true);
                 this.byId("idToolbarTitle").setText(sTitle);
                 this.byId("idToolbarText").setText(sDate);
                 // this.byId("onEventImage").setSrc(sImage);
                 if(_rootPath){
-                    this.byId("onEventImage").setSrc(_rootPath + sImage);
+                    this.byId("onEventImage").setSrc(_rootPath +'/model/image/event/EReONCoupon.png');
                 }
             },
 
             OnPressFourTile: function(oEvent){
                 let sTitle = this.byId("idNewsFour").getContentText();
                 let sDate = this.byId("idTileFour").getFooter();
-                let sImage = this.byId("idGeneTileFour").getBackgroundImage();
+                // let sImage = this.byId("idGeneTileFour").getBackgroundImage();
                 this.byId("idEventVbox").setVisible(true);
                 this.byId("idToolbarTitle").setText(sTitle);
                 this.byId("idToolbarText").setText(sDate);
                 // this.byId("onEventImage").setSrc(sImage);
                 if(_rootPath){
-                    this.byId("onEventImage").setSrc(_rootPath + sImage);
+                    this.byId("onEventImage").setSrc(_rootPath +'/model/image/event/EReONAccount.png');
                 }
             },
     

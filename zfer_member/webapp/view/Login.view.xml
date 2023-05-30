@@ -1,4 +1,4 @@
-<mvc:View controllerName="ER.zfermembership.controller.Login"
+<mvc:View controllerName="ER.zfermember.controller.Login"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table"
     xmlns:webc="sap.ui.webc.main" xmlns:fiori="sap.ui.webc.fiori"
@@ -105,7 +105,7 @@
                             <VBox >
                                 <HBox >
                                     <VBox class="sapUiSmallMarginBeginEnd">
-                                        <Image src="{login>/rental/src}"/>
+                                        <Image id="idCurrentRental" src=""/>
                                         <VBox class="sapUiLargeMarginTop sapUiSmallMarginBottom">
                                             <Label text="차종"/>
                                             <Text text="{login>/rental/Ctyname}"/>

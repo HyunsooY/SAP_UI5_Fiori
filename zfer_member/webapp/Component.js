@@ -1,18 +1,16 @@
 /**
  * eslint-disable @sap/ui5-jsdocs/no-jsdoc
  */
-var _rootPath = jQuery.sap.getModulePath("ER.zfermembership").split('/~')[0];
-// var oModel = new sap.ui.model.json.JSONModel({ rootPath: _rootPath });
-// sap.ui.getCore().setModel(oModel, "config");
+var _rootPath = jQuery.sap.getModulePath("ER.zfermember").split('/~')[0];
 sap.ui.define([
         "sap/ui/core/UIComponent",
         "sap/ui/Device",
-        "ER/zfermembership/model/models"
+        "ER/zfermember/model/models"
     ],
     function (UIComponent, Device, models) {
         "use strict";
 
-        return UIComponent.extend("ER.zfermembership.Component", {
+        return UIComponent.extend("ER.zfermember.Component", {
             metadata: {
                 manifest: "json"
             },

@@ -17,7 +17,7 @@ sap.ui.define([
 			reviewButton: false,
 			backButtonVisible: false,
 		};
-        return Controller.extend("ER.zfermembership.controller.Main", {
+        return Controller.extend("ER.zfermember.controller.Main", {
             onInit: function () {
                 var oModel = new JSONModel(),
 				oInitialModelState = Object.assign({}, oData);
@@ -28,7 +28,9 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel(), "login");
                 this._defaultSet();
                 this.byId("LoginButton").addStyleClass("LoginButton");
-                this.byId("JoinButton").addStyleClass("JoinButton");               
+                this.byId("JoinButton").addStyleClass("JoinButton");
+                this.onAfterRendering();
+                
             },
             _defaultSet: function() {
                 // odata model 변수 세팅
@@ -42,6 +44,20 @@ sap.ui.define([
                 // oEvent.getParameters().arguments
                 var oArgu = oEvent.getParameter("arguments");
             },
+
+            onAfterRendering: function() {
+                var _rootPath = jQuery.sap.getModulePath("ER.zfermember").split('/~')[0];
+                var style = document.createElement("style");
+                style.innerHTML = `
+                  .mainPage {
+                    background-image: url("${_rootPath}/model/image/background/EReON.png");
+                    background-size: 40%;
+                    background-position: top;
+                    background-repeat: no-repeat;
+                  }
+                `;
+                document.head.appendChild(style);
+              },
 
             onLogin: function() {
                 let sId = this.byId("idLoginID").getValue();
@@ -188,7 +204,7 @@ sap.ui.define([
                 if (!this._pDialog) {
                     this._pDialog = Fragment.load({
                         id: oView.getId(),
-                        name: "ER.zfermembership/view/fragment/Join",
+                        name: "ER.zfermember/view/fragment/Join",
                         controller: this
                     }).then(function(oDialog) {
                         oDialog.attachAfterOpen(this.onDialogAfterOpen, this);
