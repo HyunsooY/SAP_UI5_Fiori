@@ -103,6 +103,9 @@ sap.ui.define([
                     }.bind(this)
                 });
                 
+                if(_rootPath){
+                    this.byId("idHome").setSrc(_rootPath + '/model/image/background/EReON.jpg');
+                }
             },
             _defaultSet: function() {
                 // odata model 변수 세팅
@@ -139,31 +142,30 @@ sap.ui.define([
 
                 this.oModel.read(sCntPath, {
                     success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/retcount', oReturn);
+                        var Retcount = oReturn.Rentalcount;
+                        var Grade = new String;
+                        if(Retcount >= 20 && Retcount < 40){
+                            Grade = 'N';
+                        }else if(Retcount >= 40 && Retcount < 70){
+                            Grade = 'O';
+                        }else if(Retcount >= 70 && Retcount < 100){
+                            Grade = 'R';
+                        }else if(Retcount >= 100){
+                            Grade = 'E';
+                        }else{
+                            Grade = 'Z';
+                        }
+                        var sGradePath = this.oModel.createKey("/GradeSet", {
+                            Gradeid : Grade
+                        });
+                        this.oModel.read(sGradePath, {
+                            success: function(oReturn){
+                                this.getView().getModel("charge").setProperty('/grade', oReturn);
+                            }.bind(this)
+                        });
                     }.bind(this)
                 });
                 
-                var Retcount = this.getView().getModel("charge").getProperty('/retcount/Rentalcount');
-                var Grade = new String;
-                if(Retcount >= 20 && Retcount < 40){
-                    Grade = 'N';
-                }else if(Retcount >= 40 && Retcount < 70){
-                    Grade = 'O';
-                }else if(Retcount >= 70 && Retcount < 100){
-                    Grade = 'R';
-                }else if(Retcount >= 100){
-                    Grade = 'E';
-                }else{
-                    Grade = 'Z';
-                }
-                var sGradePath = this.oModel.createKey("/GradeSet", {
-                    Gradeid : Grade
-                });
-                this.oModel.read(sGradePath, {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/grade', oReturn);
-                    }.bind(this)
-                });
             },
 
             onLogout: function() {
@@ -296,8 +298,7 @@ sap.ui.define([
             },
 
             onSelectionChange: function(oEvent) {
-                let sText = oEvent.getParameters().item.mProperties.text;
-                debugger;
+                let sText = oEvent.getParameter('item').getText();
                 let jsonData = this.oMainModel.getProperty("/login");
                 let sCurrentPath = this.oModel.createKey("/CurRentalSet", {
                     Custid : jsonData.Custid

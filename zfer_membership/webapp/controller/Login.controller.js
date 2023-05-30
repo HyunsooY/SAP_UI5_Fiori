@@ -297,7 +297,6 @@ sap.ui.define([
 
             onSelectionChange: function(oEvent) {
                 let sText = oEvent.getParameters().item.mProperties.text;
-                debugger;
                 let jsonData = this.oMainModel.getProperty("/login");
                 let sCurrentPath = this.oModel.createKey("/CurRentalSet", {
                     Custid : jsonData.Custid
