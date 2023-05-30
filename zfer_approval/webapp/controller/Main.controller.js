@@ -128,7 +128,18 @@ sap.ui.define([
 
             onDocuButton: function(oEvent) {
                 var oLogin = this.getView().getModel('app').getProperty('/login');
-                var oApproval = oEvent.getSource().getParent().getRowBindingContext().getObject();
+                // var oApproval = oEvent.getSource().getParent().getRowBindingContext().getObject();
+                var oColumn = oEvent.getSource().getParent();
+                var oTable = oColumn.getParent();
+                var oBindingInfo = oTable.getBindingInfo("rows");
+              
+                if (oBindingInfo) {
+                  var iRowIndex = oTable.indexOfRow(oColumn);
+              
+                  if (iRowIndex !== -1) {
+                    var oApproval = oTable.getContextByIndex(iRowIndex).getObject();
+                  }
+                }
                 let sRequest = oApproval.Requestid.substr(0, 3);
                 this.getView().getModel('app').setProperty('/request', {Request : sRequest});
 

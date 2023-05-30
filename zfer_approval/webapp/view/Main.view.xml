@@ -73,12 +73,13 @@
 										<Text text="로그인 정보" class="boldText sapUiSmallMarginBottom"/>
 										<HBox>
 												<FlexBox wrap="Wrap" fitContainer="true">
-													<Avatar
+													<!-- <Avatar
 														src="sap-icon://customer"
 														displayShape="Circle"
 														displaySize="L"
 														class="sapUiMediumMarginEnd"
-													/>
+													/> -->
+													<c:Icon src="sap-icon://customer" size="100px" class="sapUiMediumMarginEnd"/>
 												</FlexBox>
 												<VBox
 													class="sapUiLargeMarginEnd sapUiSmallMarginBottom" width="1200px">
@@ -141,7 +142,7 @@
 										<IconTabSeparator icon=""/>
 										<IconTabFilter
 											key="req"
-											icon="sap-icon://end-user-experience-monitoring"
+											icon="sap-icon://employee-lookup"
 											text="결재 예정"
 											iconColor="Critical"
 											count="{app>/count/Req}">
@@ -162,7 +163,6 @@
 										</IconTabFilter>
 									</items>
 							</IconTabBar>
-							
 						</OverflowToolbar>
 					</t:extension>
 					<t:columns>
@@ -179,8 +179,8 @@
 								<Text text="{app>Appdounum}" wrapping="false" />
 							</t:template>
 						</t:Column>
-						<t:Column width="160px" hAlign="Center">
-							<Label text="요청문서번호" />
+						<t:Column width="160px" hAlign="Center" filterProperty="Requestid">
+							<Label text="요청문서번호"/>
 							<t:template>
 								<Text text="{app>Requestid}"/>
 							</t:template>
@@ -198,13 +198,13 @@
 								<Text text="{app>Repdesc}"/>
 							</t:template>
 						</t:Column>
-                        <t:Column width="140px" hAlign="Center">
+                        <t:Column width="140px" hAlign="Center" filterProperty="Reportname">
 							<Label text="상신자 정보" />
 							<t:template>
                                 <ObjectIdentifier title="{app>Reportid}" text="{app>Reportname}"/>
 							</t:template>
 						</t:Column>
-                        <t:Column width="145px" hAlign="Center">
+                        <t:Column width="145px" hAlign="Center" sortProperty="Repdate">
 							<Label text="상신일자 및 시간" />
 							<t:template>
 								<ObjectIdentifier title="{path : 'app>Repdate', formatter : '.formatter.dateTime'}" text="{path : 'app>Reptime/ms', formatter : '.formatter.Time'}"/>
