@@ -17,7 +17,7 @@ sap.ui.define([
 			reviewButton: false,
 			backButtonVisible: false,
 		};
-        return Controller.extend("ER.zfermember.controller.Main", {
+        return Controller.extend("ER.zfercustomer.controller.Main", {
             onInit: function () {
                 var oModel = new JSONModel(),
 				oInitialModelState = Object.assign({}, oData);
@@ -46,7 +46,7 @@ sap.ui.define([
             },
 
             onAfterRendering: function() {
-                var _rootPath = jQuery.sap.getModulePath("ER.zfermember").split('/~')[0];
+                var _rootPath = jQuery.sap.getModulePath("ER.zfercustomer").split('/~')[0];
                 var style = document.createElement("style");
                 style.innerHTML = `
                   .mainPage {
@@ -204,7 +204,7 @@ sap.ui.define([
                 if (!this._pDialog) {
                     this._pDialog = Fragment.load({
                         id: oView.getId(),
-                        name: "ER.zfermember/view/fragment/Join",
+                        name: "ER.zfercustomer/view/fragment/Join",
                         controller: this
                     }).then(function(oDialog) {
                         oDialog.attachAfterOpen(this.onDialogAfterOpen, this);

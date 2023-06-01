@@ -442,70 +442,81 @@ sap.ui.define([
                 oDocu.Apptime ='PT'+oToday.getUTCHours()+'H'+oToday.getUTCMinutes()+'M'+oToday.getUTCSeconds()+'S';
                 oDocu.Appstate = 'A';
                 var iTime = oToday.getUTCHours() * 60 * 60 * 1000 + oToday.getUTCMinutes() * 60 * 1000 + oToday.getUTCSeconds() * 1000;
-                MessageBox["success"]("승인 처리 하시겠습니까?", {
-                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                    onClose: function (oAction) {
-                        if (oAction === MessageBox.Action.YES) {
-                            this.oModel.update(sPath, oDocu, {
-                                success: function() {
-                                    if(sRequest === 'RRN'){
-                                        var sCarpath = this.oModel.createKey('/CarSet', {
-                                            Carid : oDetail.Carid
-                                        });
-                                        this.oModel.read(sCarpath, {
-                                            success: function(oReturn){
-                                                oReturn.Castatus = '5';
-                                                this.oModel.update(sCarpath, oReturn, {
-                                                    success: function() {
+                
+                if(oLogin.Positionid === 'BM' || oLogin.Positionid === 'TM'){
+                    MessageBox["success"]("승인 처리 하시겠습니까?", {
+                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                        onClose: function (oAction) {
+                            if (oAction === MessageBox.Action.YES) {
+                                this.oModel.update(sPath, oDocu, {
+                                    success: function() {
+                                        if(sRequest === 'RRN'){
+                                            var sCarpath = this.oModel.createKey('/CarSet', {
+                                                Carid : oDetail.Carid
+                                            });
+                                            this.oModel.read(sCarpath, {
+                                                success: function(oReturn){
+                                                    oReturn.Castatus = '5';
+                                                    this.oModel.update(sCarpath, oReturn, {
+                                                        success: function() {
 
-                                                    }.bind(this)
-                                                })
-                                            }.bind(this)
-                                        })
-                                    }else if(sRequest === 'JCN'){
-                                        var sCarpath = this.oModel.createKey('/CarSet', {
-                                            Carid : oDetail.Carid
-                                        });
-                                        var sJunkpath = this.oModel.createKey('/JunkcarSet', {
-                                            Junkcarid : oApproval.Requestid
-                                        });
-                                        this.oModel.read(sCarpath, {
-                                            success: function(oReturn){
-                                                oReturn.Castatus = '6';
-                                                oReturn.Delflag = 'X';
-                                                this.oModel.update(sCarpath, oReturn, {
-                                                    success: function() {
+                                                        }.bind(this)
+                                                    })
+                                                }.bind(this)
+                                            })
+                                        }else if(sRequest === 'JCN'){
+                                            var sCarpath = this.oModel.createKey('/CarSet', {
+                                                Carid : oDetail.Carid
+                                            });
+                                            var sJunkpath = this.oModel.createKey('/JunkcarSet', {
+                                                Junkcarid : oApproval.Requestid
+                                            });
+                                            this.oModel.read(sCarpath, {
+                                                success: function(oReturn){
+                                                    oReturn.Castatus = '6';
+                                                    oReturn.Delflag = 'X';
+                                                    this.oModel.update(sCarpath, oReturn, {
+                                                        success: function() {
 
-                                                    }.bind(this)
-                                                })
+                                                        }.bind(this)
+                                                    })
+                                                }.bind(this)
+                                            });
+                                            oDetail.Staflag = true;
+                                            this.oModel.update(sJunkpath, oDetail, {
+                                                success: function() {
+
+                                                }.bind(this)
+                                            })
+                                        }else{
+                                        };
+                                        MessageBox['success']("승인되었습니다.", {
+                                            actions: [MessageBox.Action.YES],
+                                            onClose: function (oAction) {
+                                                if (oAction === MessageBox.Action.YES) {
+                                                    var aApphis = this.getView().getModel('app').getProperty('/apphis');
+                                                    var iIndex = aApphis.length - 1;
+                                                    aApphis[iIndex].Appdate = oDocu.Appdate;
+                                                    aApphis[iIndex].Apptime.ms = iTime;
+                                                    aApphis[iIndex].Appstate = oDocu.Appstate;
+                                                    this.getView().getModel('app').setProperty('/apphis', aApphis);
+                                                }
                                             }.bind(this)
                                         });
-                                        oDetail.Staflag = true;
-                                        this.oModel.update(sJunkpath, oDetail, {
-                                            success: function() {
-
-                                            }.bind(this)
-                                        })
-                                    }else{
-                                    };
-                                    MessageBox['success']("승인되었습니다.", {
-                                        actions: [MessageBox.Action.YES],
-                                        onClose: function (oAction) {
-                                            if (oAction === MessageBox.Action.YES) {
-                                                var aApphis = this.getView().getModel('app').getProperty('/apphis');
-                                                var iIndex = aApphis.length - 1;
-                                                aApphis[iIndex].Appdate = oDocu.Appdate;
-                                                aApphis[iIndex].Apptime.ms = iTime;
-                                                aApphis[iIndex].Appstate = oDocu.Appstate;
-                                                this.getView().getModel('app').setProperty('/apphis', aApphis);
-                                            }
-                                        }.bind(this)
-                                    });
-                                }.bind(this)
-                            });
-                        }
-                    }.bind(this)
-                });
+                                    }.bind(this)
+                                });
+                            }
+                        }.bind(this)
+                    });
+                }else{
+                    MessageBox['error']("권한이 없습니다.", {
+                        actions: [MessageBox.Action.YES],
+                        onClose: function (oAction) {
+                            if (oAction === MessageBox.Action.YES) {
+                            }
+                        }.bind(this)
+                    });
+                }
             },
 
             onPressDeny: function() {
@@ -522,40 +533,49 @@ sap.ui.define([
                 oDocu.Apptime ='PT'+oToday.getUTCHours()+'H'+oToday.getUTCMinutes()+'M'+oToday.getUTCSeconds()+'S';
                 oDocu.Appstate = 'D';
                 oDocu.Returndesc = this.byId("idDesc").getValue();
-                this.byId("idDesc").setValueState(oDocu.Returndesc ? "None" : "Error");
-                this.byId("idDesc").setValueStateText(oDocu.Returndesc ? "" : "반려 사유를 입력해 주십시오.")
-
+                
                 var iTime = oToday.getUTCHours() * 60 * 60 * 1000 + oToday.getUTCMinutes() * 60 * 1000 + oToday.getUTCSeconds() * 1000;
-
-                if(oDocu.Returndesc){
-                    MessageBox["warning"]("반려 처리 하시겠습니까?", {
-                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                if(oLogin.Positionid === 'BM' || oLogin.Positionid === 'TM'){
+                    this.byId("idDesc").setValueState(oDocu.Returndesc ? "None" : "Error");
+                    this.byId("idDesc").setValueStateText(oDocu.Returndesc ? "" : "반려 사유를 입력해 주십시오.");
+                    if(oDocu.Returndesc){
+                        MessageBox["warning"]("반려 처리 하시겠습니까?", {
+                            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                            onClose: function (oAction) {
+                                if (oAction === MessageBox.Action.YES) {
+                                    this.oModel.update(sPath, oDocu, {
+                                        success: function() {
+                                            MessageBox['warning']("반려되었습니다.", {
+                                                actions: [MessageBox.Action.YES],
+                                                onClose: function (oAction) {
+                                                    if (oAction === MessageBox.Action.YES) {
+                                                        var aApphis = this.getView().getModel('app').getProperty('/apphis');
+                                                        var iIndex = aApphis.length - 1;
+                                                        aApphis[iIndex].Appdate = oDocu.Appdate;
+                                                        aApphis[iIndex].Apptime.ms = iTime;
+                                                        aApphis[iIndex].Appstate = oDocu.Appstate;
+                                                        aApphis[iIndex].Returndesc = oDocu.Returndesc;
+                                                        this.getView().getModel('app').setProperty('/apphis', aApphis);
+                                                        this.byId("idDesc").setValue('');
+                                                    }
+                                                }.bind(this)
+                                            });
+                                        }.bind(this)
+                                    });
+                                }
+                            }.bind(this)
+                        });
+                    }else{
+                      
+                    }
+                }else{
+                    MessageBox['error']("권한이 없습니다.", {
+                        actions: [MessageBox.Action.YES],
                         onClose: function (oAction) {
                             if (oAction === MessageBox.Action.YES) {
-                                this.oModel.update(sPath, oDocu, {
-                                    success: function() {
-                                        MessageBox['warning']("반려되었습니다.", {
-                                            actions: [MessageBox.Action.YES],
-                                            onClose: function (oAction) {
-                                                if (oAction === MessageBox.Action.YES) {
-                                                    var aApphis = this.getView().getModel('app').getProperty('/apphis');
-                                                    var iIndex = aApphis.length - 1;
-                                                    aApphis[iIndex].Appdate = oDocu.Appdate;
-                                                    aApphis[iIndex].Apptime.ms = iTime;
-                                                    aApphis[iIndex].Appstate = oDocu.Appstate;
-                                                    aApphis[iIndex].Returndesc = oDocu.Returndesc;
-                                                    this.getView().getModel('app').setProperty('/apphis', aApphis);
-                                                    this.byId("idDesc").setValue('');
-                                                }
-                                            }.bind(this)
-                                        });
-                                    }.bind(this)
-                                });
                             }
                         }.bind(this)
                     });
-                }else{
-                    
                 }
             }
         });

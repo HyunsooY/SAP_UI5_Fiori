@@ -5,7 +5,7 @@ sap.ui.define(
     function(BaseController) {
       "use strict";
   
-      return BaseController.extend("ER.zfermember.controller.App", {
+      return BaseController.extend("ER.zfercustomer.controller.App", {
         onInit() {
         }
       });

@@ -1,0 +1,224 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
+	xmlns:layout="sap.ui.layout"
+	xmlns:image="sap.suite.ui.commons.imageeditor">
+	<Dialog
+		id="idDialog"
+		showHeader="false"
+		verticalScrolling="false"
+		contentHeight="70%"
+		contentWidth="80%">
+		<f:DynamicPage
+			stickySubheaderProvider="CreateJoinWizard"
+			toggleHeaderOnTitleClick="false"
+			class="sapUiNoContentPadding"
+			showFooter="true">
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="EReON 회원가입"/>
+					</f:heading>
+				</f:DynamicPageTitle>
+			</f:title>
+			<f:content>
+				<Wizard id="CreateJoinWizard"
+						class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+						showNextButton="false"
+						navigationChange="handleNavigationChange"
+						renderMode="Page">
+					<WizardStep id="AdultStep"
+								title="미성년자 여부 확인"
+								validated="true"
+								activate="productTypeActivate">
+						<Text class="sapUiSmallMarginBottom"
+								text="EReON에 오신 걸 환영합니다."/>
+						<MessageStrip class="sapUiSmallMarginBottom"
+								text="당신은 만 18세 이상입니까?"
+								showIcon="true" type="Warning"/>
+						<VBox
+								alignItems="Start"
+								justifyContent="Center"
+								width="100%">
+							<SegmentedButton
+								width="320px"
+								selectedKey="{}"
+								selectionChange="setAdultCheckFromSegmented">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://accept" key="yes" text="예"/>
+									<SegmentedButtonItem icon="sap-icon://cancel" key="no" text="아니오"/>
+								</items>
+							</SegmentedButton>
+						</VBox>
+						<MessageStrip id="idAdultCheck"
+								class="sapUiSmallMarginTop"
+								text="만 18세 미만은 가입하실 수 없습니다"
+								showIcon="true" type="Error" visible="false"/>
+						<VBox id="idCheckBirth" class="sapUiSmallMarginTop">
+							<Label text="생년월일" />
+							<DatePicker id="idBirthDate" 
+										value="{join>/Birth}"
+										displayFormat="yyyy-MM-dd" 
+										valueFormat="yyyy-MM-dd"
+										change="onBirthChange" valueState="None" width="403px"/>
+						</VBox>
+					</WizardStep>
+					<WizardStep id="CustInfoStep"
+								validated="false"
+								title="고객 정보 입력"
+								activate="additionalInfoValidation">
+						<MessageStrip class="sapUiSmallMarginBottom"
+								text="고객 정보를 입력해 주십시오."
+								showIcon="true" type="Information"/>
+							<form:SimpleForm
+								editable="true">
+								<Label text="아이디" />									
+								<Input id="idInputID" value="{join>/Custid}" enabled="false" width="403px"/>
+								<Label text="성 명" />
+								<Input id="idInputName" value="{join>/Name}" 
+									valueState="None" placeholder="조아핑" width="403px" type="Text" change="onNameChange"/>
+								<Label text="성 별" />
+								<SegmentedButton
+									id="idGenderSeg"
+									width="403px"
+									selectedKey="{join>/Gender}"
+									selectedItem="setGenderFromSegmented">
+									<items>
+										<SegmentedButtonItem icon="sap-icon://male" key="M" text="남성"/>
+										<SegmentedButtonItem icon="sap-icon://female" key="F" text="여성"/>
+									</items>
+								</SegmentedButton>
+								<Label text="생년월일" />
+								<!-- <DatePicker id="idBate" value="{
+										constraints : {displayFormat : 'Date'},
+										path : 'join/>Birth',
+										type : 'sap.ui.model.odata.type.DateTime'
+										}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+										change="onValueChange" valueState="None" width="403px"/>									 -->
+								<!-- <DatePicker id="idBDate" value="{path : 'join>/Birth', type:'sap.ui.model.odata.type.DateTime'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+									change="onValueChange" valueState="None" width="403px"/> -->
+								<!-- <DatePicker id="idBDate" 
+											value="{join>/Birth}"
+											displayFormat="yyyy-MM-dd" 
+											valueFormat="yyyy-MM-dd"
+											change="onValueChange" valueState="None" width="403px"/> -->
+								<Input id="idBdate" value="{join>/Birth}" enabled="false" width="403px"/>
+								<!-- <Input id="idBDate"  enabled="false" /> -->
+								<Label text="전화번호" />									
+								<Input id="idInputTel" value="{join>/Telno}" 
+									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" type="Tel" change="onTelChange"/>
+								<Label text="주소"/>
+								<Input id="idInputAdd" value="{join>/Address}" 
+                    				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" type="Text" change="onAddressChange"/>
+								<Label text="가입일자" visible="false"/>
+								<DatePicker id="idJoinDate" 
+												value="{join>/Joindate}"
+												valueState="None" width="403px" visible="false"/>								
+								<!-- <Input id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',
+										constraints: {displayFormat: 'Date'}" enabled="false" width="403px" visible="false"/> -->
+								<!-- <DatePicker id="idJoinDate" value="{path: 'join>/Joindate', type: 'sap.ui.model.odata.type.DateTime',
+										constraints: {displayFormat: 'Date'}" displayFormat="yyyy-MM-dd" valueFormat="yyyyMMdd"
+										 width="403px"/> -->
+						</form:SimpleForm>
+
+					</WizardStep>
+					<WizardStep id="LicenseInfoStep"
+								validated="true"
+								activate="optionalStepActivation"
+								title="면허 정보 입력">
+						<MessageStrip class="sapUiSmallMarginBottom"
+								text="면허 정보를 입력해 주십시오."
+								showIcon="true"/>
+						<!-- <Text text="	"/> -->
+						<form:SimpleForm
+								editable="true">
+							<Label text="면허증 사본"/>
+							<u:FileUploader
+									id="idUploader"
+									width="403px"
+									tooltip="Upload product cover photo to the local server"
+									style="Emphasized"
+									placeholder="Choose a file for Upload..."
+									change="onChangeImage"/>
+							<Label text="Image"/>
+							<Image id="idImage" src="" width="{/imageWidth}" />
+							<Label text="면허번호"/>
+							<Input id="idInputLic" value="{join>/Licnum}" 
+                    			valueState="None" placeholder="11-10-154201-00" width="403px" type="Text" change="onLicChange"/>
+						</form:SimpleForm>
+					</WizardStep>
+					<WizardStep
+							id="ReviewPage"
+							activate="reviewActivate"
+							complete="reviewComplete"
+							validated="true"
+							title="Review">
+								<form:SimpleForm
+										title="1. 미성년자 여부 확인"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="미성년자 여부"/>
+										<Text id="idAdultCheckReview" text="확인"/>
+										<Link press="editStepOne" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="2. 고객 정보 입력"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="아이디"/>
+										<Text id="idIDReview" text="{join>/Custid}"/>
+										<Label text="성명"/>
+										<Text id="idNameReview" text="{join>/Name}"/>
+										<Label text="성별"/>
+										<Text id="idGenderReview" text="{join>/Gender}"/>
+										<Label text="생년월일"/>
+										<Text id="idBirthReview" text="{join>/Birth}"/>
+										<Label text="전화번호"/>
+										<Text id="idTelnoReview" text="{join>/Telno}"/>
+										<Label text="주소"/>
+										<Text id="idAddressReview" text="{join>/Address}"/>
+										<!-- <Label text="가입일자"/> -->
+										<!-- <Text id="ProductDescriptionChosen4" text="{join>/Joindate}"/> -->
+										<Link press="editStepTwo" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="3. 면허 정보 입력"
+										minWidth="1024"
+										editable="false"
+										layout="ResponsiveGridLayout">
+									<form:content>
+										<Label text="면허번호"/>
+										<Text id="idLicnumReview" text="{join>/Licnum}"/>
+										<Label text="면허증 등록 여부"/>
+										<Text id="idLicenseCheck" text=""/>
+										<Link press="editStepThree" text="Edit" />
+									</form:content>
+								</form:SimpleForm>
+					</WizardStep>
+				</Wizard>
+			</f:content>
+
+			<f:footer>
+				<OverflowToolbar>
+					<ToolbarSpacer/>
+					<Button id="idBackButton" text="이전" visible="{/backButtonVisible}" press="onDialogBackButton" />
+					<Button id="idNextButton" text="다음" type="Emphasized" enabled="false" visible="{/nextButtonVisible}" press="onDialogNextButton" />
+					<Button id="idReviewButton" text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
+					<Button id="idJoinButton" text="가입" type="Emphasized" visible="{/finishButtonVisible}" press="onCreate" enabled="false" />
+					<Button	text="취소" type="Transparent" press="onJoinCancel"/>
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+	</Dialog>
+</core:FragmentDefinition>

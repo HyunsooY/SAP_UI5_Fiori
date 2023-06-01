@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns:internal="sap.landvisz.internal" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified">
+    <Dialog id="idCancelDialog" showHeader="false">
+        <content>
+        <Toolbar height="50px">
+            <!-- <Avatar
+                src="sap-icon://cancel"
+                displayShape="Circle"
+                displaySize="S"
+            /> -->
+            <core:Icon src="sap-icon://cancel" size="30px" color="#FF0000"/>
+            <Text text="대여 예약 취소" class="boldText"/>
+        </Toolbar>
+            <form:SimpleForm
+                    editable="true">
+                <VBox >
+                    <Title text="사유를 선택해 주십시오."/>
+                    <RadioButtonGroup id="idRadioGroup" class="sapUiSmallMarginBottom" select="onCancelRadioSelect">
+                        <RadioButton id="idSimple" selected="false" text="단순 변심"/>
+                        <RadioButton id="idCarproblem" selected="false" text="차량 문제" />
+                    </RadioButtonGroup>
+                    <Label text="상세 내용"/>
+                    <TextArea id="idCancelText" width="100%"/>
+                </VBox>
+            </form:SimpleForm>
+        </content>
+        <beginButton>
+            <Button id="idSubmitButton" text="입력" press="onCancelPress"/>
+        </beginButton>
+        <endButton>
+            <Button text="취소" press="onCancelClose"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

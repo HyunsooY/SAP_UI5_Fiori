@@ -22,7 +22,7 @@ sap.ui.define([
 			backButtonVisible: false,
         };
 
-        return Controller.extend("ER.zfermember.controller.Login", {
+        return Controller.extend("ER.zfercustomer.controller.Login", {
             formatter: {
                 dateTime: function(oDate) {
                     if(oDate === '취소 차량'){
@@ -346,7 +346,7 @@ sap.ui.define([
                             if (!this._pDialog) {
                                 this._pDialog = Fragment.load({
                                     id: oView.getId(),
-                                    name: "ER.zfermember/view/fragment/Rental",
+                                    name: "ER.zfercustomer/view/fragment/Rental",
                                     controller: this
                                 }).then(function(oDialog) {
                                     oDialog.attachAfterOpen(this.onDialogAfterOpen, this);
@@ -461,19 +461,28 @@ sap.ui.define([
                 var sBranch = this.byId("idStaBranchComboBox")._getSelectedItemText();
                 var sZone = this.byId("idStaZoneComboBox")._getSelectedItemText();
                 let sStartzone = this.byId("idStaZoneComboBox").getSelectedKey();
+                let aFilter = [];
                 let oFilter = new Filter({path:'Nowoz', operator:'EQ', value1:sStartzone});
-
+                aFilter.push(oFilter);
+                let aSrc = [];
+                debugger;
                 this.getView().setModel(new JSONModel(), "rentcar");
                 this.oModel.read('/RentcarSet', {
+                    filters: aFilter,
                     success: function(oReturn){
-                        for(var i=0; i<oReturn.length; i++){
-                            oReturn.results[i].Src = _rootPath+'/model/image/cty/'+oReturn.results[i].Ctyid+'.png';
+                        for(var i=0; i<oReturn.results.length; i++){
+                            if(_rootPath){
+                                oReturn.results[i].Src = _rootPath + '/model/image/cty/' + oReturn.results[i].Ctyid + '.png';
+                            }else{
+                                oReturn.results[i].Src = "/model/image/cty/" + oReturn.results[i].Ctyid + ".png";
+                            }
                         }
+                        // this.getView().getModel("rentcar").setProperty('/carimage', aSrc);
                         this.getView().getModel("rentcar").setProperty('/car', oReturn.results);
                     }.bind(this)
                 });
 
-                this.byId("idCarTable").getBinding("items").filter(oFilter);
+                // this.byId("idCarTable").getBinding("items").filter(oFilter);
                 this.getView().getModel("onzone").setProperty('/now', {Ozname : sZone});
                 this.byId("idStaozText").setText(sBranch+'지점의 '+sZone);
                 this.byId("idStaZone").setText(sStartzone);
@@ -515,21 +524,26 @@ sap.ui.define([
                     var sSelectCanum = aRent[i].getCells()[4].getText();
                 }
                 this.getView().getModel("rentcar").setProperty('/selectcar', {Carid : sSelectCarid});
-                Ctyid = sSelectSrc.substr(17, 5);
+                let sCarpath = this.oModel.createKey("/CarSet", {
+                    Carid : sSelectCarid
+                });
+                this.oModel.read(sCarpath, {
+                    success: function(oReturn) {
+                        let sFeePath = this.oModel.createKey("/FeeSet", {
+                            Ctyid : oReturn.Ctyid
+                        });
+                        this.oModel.read(sFeePath, {
+                            success: function(oReturn){
+                                this.getView().getModel("charge").setProperty('/fee', oReturn);
+                            }.bind(this)
+                        });
+                    }.bind(this)
+                })
+                // Ctyid = sSelectSrc.substr(17, 5);
                 this.byId("idCarid").setText(sSelectCarid);
                 this.byId("idCtyText").setText(sSelectCtyText);
                 this.byId("idColText").setText(sSelectColor);
-                this.byId("idCanum").setText(sSelectCanum);
-
-                let sFeePath = this.oModel.createKey("/FeeSet", {
-                    Ctyid : Ctyid
-                });
-                
-                this.oModel.read(sFeePath, {
-                    success: function(oReturn){
-                        this.getView().getModel("charge").setProperty('/fee', oReturn);
-                    }.bind(this)
-                });
+                this.byId("idCanum").setText(sSelectCanum);                
             },
          
             onValueChange: function(oEvent) {
@@ -849,7 +863,7 @@ sap.ui.define([
                 if(!this.byId("idCancelDialog")){
                     Fragment.load({
                         id: oView.getId(),
-                        name: "ER.zfermember/view/fragment/Cancel",
+                        name: "ER.zfercustomer/view/fragment/Cancel",
                         controller: this
                     }).then(function (oDialog) {
                         oView.addDependent(oDialog);
@@ -942,7 +956,7 @@ sap.ui.define([
                             if(!this.byId("idReturnDialog")){
                                 Fragment.load({
                                     id: oView.getId(),
-                                    name: "ER.zfermember/view/fragment/Return",
+                                    name: "ER.zfercustomer/view/fragment/Return",
                                     controller: this
                                 }).then(function (oDialog) {
                                     oView.addDependent(oDialog);

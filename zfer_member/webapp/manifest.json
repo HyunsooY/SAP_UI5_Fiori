@@ -1,7 +1,7 @@
 {
   "_version": "1.49.0",
   "sap.app": {
-    "id": "ER.zfermember",
+    "id": "ER.zfercustomer",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -66,7 +66,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "ER.zfermember.i18n.i18n"
+          "bundleName": "ER.zfercustomer.i18n.i18n"
         }
       },
       "": {
@@ -87,7 +87,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "viewPath": "ER.zfermember.view",
+        "viewPath": "ER.zfercustomer.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false
@@ -126,7 +126,7 @@
       }
     },
     "rootView": {
-      "viewName": "ER.zfermember.view.App",
+      "viewName": "ER.zfercustomer.view.App",
       "type": "XML",
       "async": true,
       "id": "App"

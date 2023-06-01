@@ -2,7 +2,7 @@
 
 specVersion: "2.6"
 metadata:
-  name: ER.zfermember
+  name: ER.zfercustomer
 type: application
 builder:
   resources:
@@ -17,9 +17,9 @@ builder:
           url: http://edu.bgis.co.kr:8001/
           client: "100"
         app:
-          name: ZUI5_WOW
-          description: cust
-          package: $tmp
-          transport: ""
+          name: ZUIER_MEMBER
+          description: EReON Customer Rental/Return
+          package: ZEREON
+          transport: KYSK904530
         exclude:
           - /test/

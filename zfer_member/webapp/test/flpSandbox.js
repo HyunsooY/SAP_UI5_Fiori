@@ -61,7 +61,7 @@ sap.ui.define([
 								},
 								"resolutionResult": {
 									"applicationType": "SAPUI5",
-									"additionalInformation": "SAPUI5.Component=ER.zfermember",
+									"additionalInformation": "SAPUI5.Component=ER.zfercustomer",
 									"url": sap.ui.require.toUrl("ER/zfermember")
 								}
 							}

@@ -2,7 +2,7 @@
 
 specVersion: "2.6"
 metadata:
-  name: ER.zfermember
+  name: ER.zfercustomer
 type: application
 server:
   customMiddleware:

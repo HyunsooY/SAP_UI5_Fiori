@@ -17,9 +17,9 @@ builder:
           url: http://edu.bgis.co.kr:8001/
           client: "100"
         app:
-          name: ZUI5ER_APPROVAL
-          description: approval
-          package: $tmp
-          transport: ""
+          name: ZUIER_APPROVAL
+          description: EReON Approval
+          package: ZEREON
+          transport: KYSK904530
         exclude:
           - /test/

@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Opa5) {
 	"use strict";
 
-	return Opa5.extend("ER.zfermember.test.integration.arrangements.Startup", {
+	return Opa5.extend("ER.zfercustomer.test.integration.arrangements.Startup", {
 
 		iStartMyApp: function (oOptionsParameter) {
 			var oOptions = oOptionsParameter || {};
@@ -14,7 +14,7 @@ sap.ui.define([
 			// start the app UI component
 			this.iStartMyUIComponent({
 				componentConfig: {
-					name: "ER.zfermember",
+					name: "ER.zfercustomer",
 					async: true
 				},
 				hash: oOptions.hash,

@@ -1,4 +1,4 @@
-<mvc:View controllerName="ER.zfermember.controller.Main"
+<mvc:View controllerName="ER.zfercustomer.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <Page id="page" title="EReON 로그인" class="mainPage" showHeader="false" >

@@ -118,7 +118,7 @@
 						rows="{app>/all}"
 						selectionMode="None"
 						visibleRowCountMode="Fixed"
-						visibleRowCount="10"
+						visibleRowCount="{app>/count/All}"
 						>
 					<t:extension>
 						<OverflowToolbar style="Clear" height="100%" >

@@ -1,4 +1,4 @@
-<mvc:View controllerName="ER.zfermember.controller.Login"
+<mvc:View controllerName="ER.zfercustomer.controller.Login"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table"
     xmlns:webc="sap.ui.webc.main" xmlns:fiori="sap.ui.webc.fiori"
