@@ -1,0 +1,565 @@
+<core:FragmentDefinition xmlns:t="sap.ui.table" xmlns:internal="sap.landvisz.internal" xmlns="sap.m" xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt" xmlns:form="sap.ui.layout.form">
+    <Dialog id="idDetailDialog" title="{=${app>/docu/Repdesc}+'(결재문서번호 : '+${app>/docu/Appdounum}+') 의 상세'}"
+     contentHeight="100%" contentWidth="100%" >
+        <content>
+            <VBox >
+                <HBox height="380px" visible="{=${app>/request/Request} === 'CRN' ? true : false}">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="문서 정보" width="550px" class="sapUiTinyMarginBottom"/>
+                        <VBox >
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="문서 번호" width="90px"/>
+                                <Text text="{app>/docu/Requestid}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="제목" width="90px"/>
+                                <Text text="{app>/docu/Repdesc}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="요청일자" width="90px"/>
+                                <Text text="{path:'app>/detail/Prdate', formatter:'.formatter.dateTime'}" width="400px"/>
+                            </HBox>
+                            <Title text="담당자 정보" width="90px" class="sapUiMediumMarginTop sapUiTinyMarginBottom"/>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="지점" width="90px"/>
+                                <Text text="{app>/crn/Branchname}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="부서" width="90px"/>
+                                <Text text="{app>/crn/Deptname}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="사번" width="90px"/>
+                                <Text text="{app>/crn/Employeeid}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="이름" width="90px"/>
+                                <Text text="{=${app>/crn/Name}+' '+${app>/crn/Rankname}}" width="400px"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="상세 정보" class="sapUiTinyMarginBottom"/>
+                        <Table sticky="HeaderToolbar,ColumnHeaders"
+                            inset="false"
+                            items="{app>/crndetail}"
+                            width="auto">
+                            <columns >
+                                <Column width="80px" hAlign="Center">
+                                    <Text text="번호" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="차종ID" />
+                                </Column>
+                                <Column width="100px" hAlign="Center">
+                                    <Text text="차종" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="색상ID" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="색상" />
+                                </Column>
+                                <Column width="80px" hAlign="Center">
+                                    <Text text="수량" />
+                                </Column>
+                                <Column width="80px" hAlign="Center">
+                                    <Text text="단위" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{app>Prnum}" />
+                                        <Text text="{app>Ctyid}" />
+                                        <Text text="{app>Ctyname}" />
+                                        <Text text="{app>Colid}" />
+                                        <Text text="{app>Colname}" />
+                                        <Text text="{app>Quty}" />
+                                        <Text text="{app>Unit}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </HBox >
+                <HBox height="380px" visible="{=${app>/request/Request} === 'CON' ? true : false}">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="문서 정보" width="400px" class="sapUiTinyMarginBottom"/>
+                        <VBox >
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="문서 번호" width="90px"/>
+                                <Text text="{app>/docu/Requestid}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="제목" width="90px"/>
+                                <Text text="{app>/docu/Repdesc}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="요청일자" width="90px"/>
+                                <Text text="{path:'app>/detail/Podate', formatter:'.formatter.dateTime'}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="총액" width="90px"/>
+                                <Text text="{=${app>/contotal/total}+' KRW'}" width="400px"/>
+                            </HBox>
+                            <Title text="담당자 정보" width="90px" class="sapUiMediumMarginTop sapUiTinyMarginBottom"/>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="지점" width="90px"/>
+                                <Text text="{app>/con/Branchname}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="부서" width="90px"/>
+                                <Text text="{app>/con/Deptname}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="사번" width="90px"/>
+                                <Text text="{app>/con/Employeeid}" width="400px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="이름" width="90px"/>
+                                <Text text="{=${app>/con/Name}+' '+${app>/con/Rankname}}" width="400px"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="상세 정보" class="sapUiTinyMarginBottom"/>
+                        <Table sticky="HeaderToolbar,ColumnHeaders"
+                            inset="false"
+                            items="{app>/condetail}"
+                            width="auto">
+                            <columns >
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="번호" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="차종ID" />
+                                </Column>
+                                <Column width="100px" hAlign="Center">
+                                    <Text text="차종" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="색상ID" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
+                                    <Text text="색상" />
+                                </Column>
+                                <Column width="40px" hAlign="Center">
+                                    <Text text="수량" />
+                                </Column>
+                                <Column width="40px" hAlign="Center">
+                                    <Text text="단위" />
+                                </Column>
+                                <Column width="120px" hAlign="Center">
+                                    <Text text="단가" />
+                                </Column>
+                                <Column width="100px" hAlign="Center">
+                                    <Text text="납품 요청일자" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{app>Ponum}" />
+                                        <Text text="{app>Ctyid}" />
+                                        <Text text="{app>Ctyname}" />
+                                        <Text text="{app>Colid}" />
+                                        <Text text="{app>Colname}" />
+                                        <Text text="{app>Quty}" />
+                                        <Text text="{app>Unit}" />
+                                        <Text text="{
+                                            parts: [
+                                                { path: 'app>Price' },
+                                                { path: 'app>Curkey' }
+                                            ],
+                                            formatter: '.formatter.Price'
+                                            }" />
+                                        <Text text="{path:'app>Reqdate', formatter:'.formatter.dateTime'}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </HBox >
+                <HBox height="380px" visible="{=${app>/request/Request} === 'RRN' ? true : false}">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="문서 정보" width="350px" class="sapUiTinyMarginBottom"/>
+                        <VBox >
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="문서 번호" width="90px"/>
+                                <Text text="{app>/docu/Requestid}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="제목" width="90px"/>
+                                <Text text="{app>/docu/Repdesc}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="요청일자" width="90px"/>
+                                <Text text="{path:'app>/detail/Reprdate', formatter:'.formatter.dateTime'}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="요청내용" width="90px"/>
+                                <Text text="{app>/detail/Reprdesc}" width="300px"/>
+                            </HBox>
+                            <Title text="담당자 정보" width="90px" class="sapUiMediumMarginTop sapUiTinyMarginBottom"/>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="지점" width="90px"/>
+                                <Text text="{app>/rrnrep/Branchname}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="부서" width="90px"/>
+                                <Text text="{app>/rrnrep/Deptname}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="사번" width="90px"/>
+                                <Text text="{app>/rrnrep/Employeeid}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="이름" width="90px"/>
+                                <Text text="{=${app>/rrnrep/Name}+' '+${app>/rrnrep/Rankname}}" width="300px"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="상세 정보" class="sapUiTinyMarginBottom"/>
+                        <HBox >
+                            <VBox >
+                                <Label text="수리 업체 정보" class="sapUiTinyMarginBottom" />
+                                <HBox class="sapUiMediumMarginBottom">
+                                    <Text text="업체" width="90px"/>
+                                    <Text text="{=${app>/detail/Partnerid}+' '+${app>/detail/Partname}}" width="300px"/>
+                                </HBox>
+                                <Label text="차량 정보" class="sapUiTinyMarginBottom" />
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="차량ID" width="90px"/>
+                                    <Text text="{app>/detail/Carid}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="관리 지점" width="90px"/>
+                                    <Text text="{app>/detail/Ozname}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="차종" width="90px"/>
+                                    <Text text="{app>/detail/Ctyname}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="번호판" width="90px"/>
+                                    <Text text="{app>/detail/Canum}" width="300px"/>
+                                </HBox>
+                            </VBox>
+                            <VBox >
+                                <Label text="점검 정보" class="sapUiTinyMarginBottom" />
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="점검ID" width="90px"/>
+                                    <Text text="{app>/detail/Inspectid}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="지점" width="90px"/>
+                                    <Text text="{app>/rrnins/Branchname}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="부서" width="90px"/>
+                                    <Text text="{app>/rrnins/Deptname}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="사번" width="90px"/>
+                                    <Text text="{app>/rrnins/Employeeid}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="이름" width="90px"/>
+                                    <Text text="{=${app>/rrnins/Name}+' '+${app>/rrnins/Rankname}}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="점검일자" width="90px"/>
+                                    <Text text="{path:'app>/detail/Insdate', formatter:'.formatter.dateTime'}" width="300px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="점검내용" width="90px"/>
+                                    <Text text="{app>/detail/Insdesc}" width="300px"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox >
+                <HBox height="380px" visible="{=${app>/request/Request} === 'JCN' ? true : false}">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="문서 정보" width="350px" class="sapUiTinyMarginBottom"/>
+                        <VBox >
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="문서 번호" width="90px"/>
+                                <Text text="{app>/docu/Requestid}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="제목" width="90px"/>
+                                <Text text="{app>/docu/Repdesc}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="요청일자" width="90px"/>
+                                <Text text="{path:'app>/detail/Rqdate', formatter:'.formatter.dateTime'}" width="300px"/>
+                            </HBox>
+                            <Title text="담당자 정보" width="90px" class="sapUiMediumMarginTop sapUiTinyMarginBottom"/>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="지점" width="90px"/>
+                                <Text text="{app>/jcnemp/Branchname}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="부서" width="90px"/>
+                                <Text text="{app>/jcnemp/Deptname}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="사번" width="90px"/>
+                                <Text text="{app>/jcnemp/Employeeid}" width="300px"/>
+                            </HBox>
+                            <HBox class="sapUiTinyMarginBottom">
+                                <Text text="이름" width="90px"/>
+                                <Text text="{=${app>/jcnemp/Name}+' '+${app>/jcnemp/Rankname}}" width="300px"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="상세 정보" class="sapUiTinyMarginBottom"/>
+                        <HBox >
+                            <VBox >
+                                <Label text="폐차 업체 정보" class="sapUiTinyMarginBottom" />
+                                <HBox class="sapUiMediumMarginBottom">
+                                    <Text text="업체" width="90px"/>
+                                    <Text text="{=${app>/detail/Partnerid}+' '+${app>/detail/Partname}}" width="200px"/>
+                                </HBox>
+                                <Label text="차량 정보" class="sapUiTinyMarginBottom" />
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="차량ID" width="90px"/>
+                                    <Text text="{app>/detail/Carid}" width="200px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="관리 지점" width="90px"/>
+                                    <Text text="{app>/detail/Ozname}" width="200px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="차종" width="90px"/>
+                                    <Text text="{app>/detail/Ctyname}" width="200px"/>
+                                </HBox>
+                                <HBox class="sapUiTinyMarginBottom">
+                                    <Text text="번호판" width="90px"/>
+                                    <Text text="{app>/detail/Canum}" width="200px"/>
+                                </HBox>
+                            </VBox>
+                            <VBox >
+                                <Label text="점검 및 수리 정보" class="sapUiTinyMarginBottom" />
+                                <HBox >
+                                    <VBox >
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="점검ID" width="90px"/>
+                                            <Text text="{app>/detail/Inspectid}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="지점" width="90px"/>
+                                            <Text text="{app>/jcnins/Branchname}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="부서" width="90px"/>
+                                            <Text text="{app>/jcnins/Deptname}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="사번" width="90px"/>
+                                            <Text text="{app>/jcnins/Employeeid}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="이름" width="90px"/>
+                                            <Text text="{=${app>/jcnins/Name}+' '+${app>/jcnins/Rankname}}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="점검일자" width="90px"/>
+                                            <Text text="{path:'app>/detail/Insdate', formatter:'.formatter.dateTime'}" width="200px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="점검내용" width="90px"/>
+                                            <Text text="{app>/detail/Insdesc}" width="200px"/>
+                                        </HBox>
+                                    </VBox>
+                                    <VBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="수리문서정보" width="90px"/>
+                                            <Text text="{app>/detail/Reprid}" width="180px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="업체" width="90px"/>
+                                            <Text text="{=${app>/detail/Reppart}+' '+${app>/detail/Reppartname}}" width="180px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="수리 일자" width="90px"/>
+                                            <Text text="{path:'app>/detail/Repdate', formatter:'.formatter.dateTime'}" width="180px"/>
+                                        </HBox>
+                                        <HBox class="sapUiTinyMarginBottom">
+                                            <Text text="업체 평가" width="90px"/>
+                                            <Text text="{app>/detail/Repnote}" width="180px"/>
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox >
+                <HBox justifyContent="End">
+                    <Button text="승인" width="100px" type="Accept" visible="{=${app>/docu/Appstate} === 'R' ? true : false}" press="onPressApproval"/>
+                    <Button text="반려" width="100px" type="Reject" visible="{=${app>/docu/Appstate} === 'R' ? true : false}" press="onPressDeny" class="sapUiSmallMarginBeginEnd"/>
+                </HBox>
+                    <VBox class="sapUiSmallMarginBeginEnd">
+                    <Title text="결재 이력" class="sapUiTinyMarginBegin sapUiTinyMarginBottom"/>
+                    <Table
+						sticky="HeaderToolbar,ColumnHeaders"
+						inset="false"
+						items="{app>/apphis}"
+					    width="auto">
+                        <columns >
+                            <Column width="80px" hAlign="Center">
+                                <Text text="상태" />
+                            </Column>
+                            <Column width="90px" hAlign="Center">
+                                <Text text="사번" />
+                            </Column>
+                            <Column width="90px" hAlign="Center">
+                                <Text text="상신자명" />
+                            </Column>
+                            <Column width="110px" hAlign="Center">
+                                <Text text="상신일자" />
+                            </Column>
+                            <Column width="110px" hAlign="Center">
+                                <Text text="상신시각" />
+                            </Column>
+                            <Column width="40px" hAlign="Center">
+                                <Text text=""/>
+                            </Column>
+                            <Column width="90px" hAlign="Center">
+                                <Text text="사번" />
+                            </Column>
+                            <Column width="90px" hAlign="Center">
+                                <Text text="결재자명" />
+                            </Column>
+                            <Column width="110px" hAlign="Center">
+                                <Text text="결재일자" />
+                            </Column>
+                            <Column width="110px" hAlign="Center">
+                                <Text text="결재시각" />
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="사유" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <tnt:InfoLabel text="{=${app>Appstate} === 'D' ? '반려' : ${app>Appstate} === 'A' ? '승인' : '예정'}" 
+								renderMode="Loose" colorScheme="{=${app>Appstate} === 'D' ? 2 : ${app>Appstate} === 'A' ? 7 : 1}"/>
+                                    <Text text="{app>Reportid}" />
+                                    <Text text="{app>Reportname}" />
+                                    <Text text="{path:'app>Repdate', formatter:'.formatter.dateTime'}" />
+                                    <Text text="{path:'app>Reptime/ms', formatter:'.formatter.Time'}" />
+                                    <Text text=""/>
+                                    <Text text="{app>Approvalid}" />
+                                    <Text text="{app>Approvalname}" />
+                                    <Text text="{path:'app>Appdate', formatter:'.formatter.dateTime'}" />
+                                    <Text text="{path:'app>Apptime/ms', formatter:'.formatter.Time'}" />
+                                    <Text text="{app>Returndesc}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <VBox visible="{=${app>/docu/Appstate} === 'R' ? true : false}">
+                        <Title text="의견" class="sapUiTinyMarginBegin sapUiSmallMarginTop sapUiTinyMarginBottom" />
+                        <TextArea id="idDesc" placeholder="반려의 경우 반려 사유를 작성해 주십시오." width="100%" height="40px" wrapping="Soft" />
+                    </VBox>
+                    <!-- <t:Table
+						id="idHisTable"
+						rows="{app>/apphis}"
+						selectionMode="None"
+						visibleRowCountMode="Fixed"
+						visibleRowCount="3"
+						>
+                        <t:extension>
+                            <OverflowToolbar style="Clear" height="100%" >
+                                <Title text="결재 이력"/>   
+                            </OverflowToolbar>
+                        </t:extension>
+                        <t:columns>
+                            <t:Column width="80px" hAlign="Center">
+                                <Label text="상태" />
+                                <t:template>
+                                    <tnt:InfoLabel text="{=${app>Appstate} === 'D' ? '반려' : ${app>Appstate} === 'A' ? '승인' : '예정'}" 
+								        renderMode="Loose" colorScheme="{=${app>Appstate} === 'D' ? 2 : ${app>Appstate} === 'A' ? 7 : 1}"/>
+                                </t:template> 
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="사번" />
+                                <t:template>
+                                    <Text text="{app>Reportid}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="상신자명" />
+                                <t:template>
+                                    <Text text="{app>Reportname}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="110px" hAlign="Center">
+                                <Label text="상신일자" />
+                                <t:template>
+                                    <Text text="{path:'app>Repdate', formatter:'.formatter.dateTime'}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="110px" hAlign="Center">
+                                <Label text="상신시각" />
+                                <t:template>
+                                    <Text text="{path:'app>Reptime/ms', formatter:'.formatter.Time'}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="40px" hAlign="Center">
+                                <Text text="" />
+                                <t:template>
+                                    <Text text="" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="사번" />
+                                <t:template>
+                                    <Text text="{app>Approvalid}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="90px" hAlign="Center">
+                                <Label text="결재자명" />
+                                <t:template>
+                                    <Text text="{app>Approvalname}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="110px" hAlign="Center">
+                                <Label text="결재일자" />
+                                <t:template>
+                                    <Text text="{path:'app>Appdate', formatter:'.formatter.dateTime'}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="110px" hAlign="Center">
+                                <Label text="결재시각" />
+                                <t:template>
+                                    <Text text="{path:'app>Apptime/ms', formatter:'.formatter.Time'}" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="330px" hAlign="Center">
+                                <Label text="사유" />
+                                <t:template>
+                                    <Text text="{app>Returndesc}" visible="{=${app>Appstate} === 'R' ? false : true}"/>
+                                    <Input value="{app>Returndesc}" visible="{=${app>Appstate} === 'R' ? true : false}"/>
+                                </t:template>
+                            </t:Column>				
+                        </t:columns>
+                    </t:Table> -->
+                </VBox>
+            </VBox>
+        </content>
+        <!-- <beginButton>
+            <Button text="save" press="onSave"/>
+        </beginButton> -->
+        <endButton>
+            <Button text="close" press="onDocuClose"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

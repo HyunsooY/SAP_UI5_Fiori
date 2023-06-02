@@ -1,6 +1,6 @@
 <mvc:View
 		xmlns:c="sap.ui.core"
-		controllerName="ER.zferapproval.controller.Main"
+		controllerName="ER.zferdocuapproval.controller.Main"
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns:u="sap.ui.unified"
 		xmlns="sap.m"
@@ -11,54 +11,17 @@
 		xmlns:ux="sap.uxap"
 		height="100%">
 		<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">
-			<!-- DynamicPage Title -->
 			<f:title>
 				<f:DynamicPageTitle>
 					<f:heading>
 						<Title text="EReON 결재"/>
 					</f:heading>
-					<!-- <f:expandedContent>
-						<Label text="This is a subheading"/>
-					</f:expandedContent>
 					<f:snappedContent>
-						<Label text="This is a subheading"/>
+						<Label text="{=${app>/login/Branchname}+' '+${app>/login/Deptname}+' '+${app>/login/Name}+' '+${app>/login/Rankname}+'('+${app>/login/Employeeid}+')'}"/>
 					</f:snappedContent>
-					<f:snappedTitleOnMobile>
-						<Title text="This is a subheading"/>
-					</f:snappedTitleOnMobile> -->
-					
-					<!-- <f:content>
-						<OverflowToolbar>
-							<GenericTag text="SR"
-							status="Error"
-								press="onGenericTagPress"
-								design="StatusIconHidden">
-								<ObjectNumber number="2"
-									unit="M"
-									emphasized="false"
-									state="Error"/>
-							</GenericTag>
-						</OverflowToolbar>
-					</f:content>
-					<f:actions>
-						<ToolbarSpacer/>
-						<Button
-								text="Edit"
-								type="Emphasized"/>
-						<Button
-								text="Delete"
-								type="Transparent"/>
-						<Button
-								text="Copy"
-								type="Transparent"/>
-						<Button
-								icon="sap-icon://action"
-								type="Transparent"/>
-					</f:actions> -->
 				</f:DynamicPageTitle>
 			</f:title>
 
-			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
 						<FlexBox
@@ -70,7 +33,6 @@
 										class="sapUiNoContentPadding">
 									<content>
 										<VBox >
-										<Text text="로그인 정보" class="boldText sapUiSmallMarginBottom"/>
 										<HBox>
 												<FlexBox wrap="Wrap" fitContainer="true" class="sapUiSmallMarginEnd">
 													<!-- <Avatar
@@ -88,9 +50,6 @@
 													<Text text="{='사번 : '+${app>/login/Employeeid}}" class="sapUiSmallMarginBottom"/>
 													<Text text="{='부서 : '+${app>/login/Branchname}+' '+${app>/login/Deptname}}"/>
 													<Text text="{='이름 : '+${app>/login/Name}+' '+${app>/login/Rankname}}"/>
-												<!-- <ObjectAttribute title="Location" text="Warehouse A"/>
-												<ObjectAttribute title="Halway" text="23L"/>
-												<ObjectAttribute title="Rack" text="34"/> -->
 												</VBox>
 												
 												<VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom" width="150%">

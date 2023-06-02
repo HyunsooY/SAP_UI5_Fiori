@@ -1,16 +1,16 @@
 /**
  * eslint-disable @sap/ui5-jsdocs/no-jsdoc
  */
-var _rootPath = jQuery.sap.getModulePath("ER.zferapproval").split('/~')[0];
+var _rootPath = jQuery.sap.getModulePath("ER.zferdocuapproval").split('/~')[0];
 sap.ui.define([
         "sap/ui/core/UIComponent",
         "sap/ui/Device",
-        "ER/zferapproval/model/models"
+        "ER/zferdocuapproval/model/models"
     ],
     function (UIComponent, Device, models) {
         "use strict";
 
-        return UIComponent.extend("ER.zferapproval.Component", {
+        return UIComponent.extend("ER.zferdocuapproval.Component", {
             metadata: {
                 manifest: "json"
             },

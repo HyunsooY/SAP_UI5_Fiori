@@ -11,7 +11,7 @@ sap.ui.define([
     function (Controller, JSONModel, Filter, Fragment, MessageBox) {
         "use strict";
 
-        return Controller.extend("ER.zferapproval.controller.Main", {
+        return Controller.extend("ER.zferdocuapproval.controller.Main", {
             formatter: {
                 dateTime: function(oDate) {
                     let oDateTimeInstance;
@@ -411,7 +411,7 @@ sap.ui.define([
                 if(!oDetailDialog){
                     Fragment.load({
                         id: oView.getId(),
-                        name: "ER.zferapproval/view/fragment/Detail",
+                        name: "ER.zferdocuapproval/view/fragment/Detail",
                         controller: this
                     }).then(function(oDialog){
                         oView.addDependent(oDialog);

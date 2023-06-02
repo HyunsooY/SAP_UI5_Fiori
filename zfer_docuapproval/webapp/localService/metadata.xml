@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWER_APPROVAL_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Approval" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Appdounum"/>
+                </Key>
+                <Property Name="Appdounum" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="결재문서번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="요청ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="상신내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="상신자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="상신자명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="상신 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="상신 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="결재자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="결재자명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="결재 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Apptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="결재 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appstate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="결재 상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Returndesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="반려사유" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="재상신여부" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Login" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Employeeid"/>
+                </Key>
+                <Property Name="Deptid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="부서ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rankid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="직급ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Positionid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="직책ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Birth" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="생년월일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Telno" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="전화번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="이메일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branch" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="지점 코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Sapid" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="SAPID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Startdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="입사일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="성명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gender" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="성별" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Address" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="주소" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rankname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="직급명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Employeeid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branchname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="지점명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Deptname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="부서명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="직책명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Carprh" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Prid"/>
+                </Key>
+                <Property Name="Prid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="P/R번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Poid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="P/O번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branch" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="지점 코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branchname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="지점명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Prempid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="요청지점직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="성명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Prdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="요청 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflagh" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CarpriSet" Relationship="ZGWER_APPROVAL_SRV.Carpr" FromRole="FromRole_Carpr" ToRole="ToRole_Carpr"/>
+                <NavigationProperty Name="ApphisSet" Relationship="ZGWER_APPROVAL_SRV.Carprapp" FromRole="FromRole_Carprapp" ToRole="ToRole_Carprapp"/>
+            </EntityType>
+            <EntityType Name="Carpri" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Prid"/>
+                    <PropertyRef Name="Prnum"/>
+                </Key>
+                <Property Name="Prid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="P/R번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Prnum" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="순번" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="차종ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="모델명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Colid" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="색상ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Colname" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="색상명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Quty" Type="Edm.Decimal" Nullable="false" Precision="8" Scale="0" sap:unicode="false" sap:unit="Unit" sap:label="수량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Delflagi" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CarprhSet" Relationship="ZGWER_APPROVAL_SRV.Carpr" FromRole="ToRole_Carpr" ToRole="FromRole_Carpr"/>
+            </EntityType>
+            <EntityType Name="Carpoh" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Poid"/>
+                </Key>
+                <Property Name="Poid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="P/O번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Poempid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="구매직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="성명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Podate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="오더 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflagh" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CarpoiSet" Relationship="ZGWER_APPROVAL_SRV.Carpo" FromRole="FromRole_Carpo" ToRole="ToRole_Carpo"/>
+                <NavigationProperty Name="ApphisSet" Relationship="ZGWER_APPROVAL_SRV.Carpoapp" FromRole="FromRole_Carpoapp" ToRole="ToRole_Carpoapp"/>
+            </EntityType>
+            <EntityType Name="Carpoi" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Poid"/>
+                    <PropertyRef Name="Ponum"/>
+                </Key>
+                <Property Name="Poid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="P/O번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ponum" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="순번" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="차종ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="모델명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Colid" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="색상ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Colname" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="색상명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Quty" Type="Edm.Decimal" Nullable="false" Precision="8" Scale="0" sap:unicode="false" sap:unit="Unit" sap:label="수량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Price" Type="Edm.Decimal" Nullable="false" Precision="11" Scale="3" sap:unicode="false" sap:unit="Curkey" sap:label="단가" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Curkey" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="Reqdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="납품 요청 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflagi" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CarpohSet" Relationship="ZGWER_APPROVAL_SRV.Carpo" FromRole="ToRole_Carpo" ToRole="FromRole_Carpo"/>
+            </EntityType>
+            <EntityType Name="Repair" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Reprid"/>
+                </Key>
+                <Property Name="Reprid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="수리요청ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repempid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="정비팀 직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repempname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="이름" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Partnerid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="협력사ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Partname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="협력사명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reprdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="요청 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reprnum" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="순번" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Inspectid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="점검ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reprdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="요청 내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Carid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="차량ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Homeoz" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="HOME존" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ozname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="ON-ZONE 명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Canum" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="번호판" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="모델명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insempid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="정비팀 직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insempname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="이름" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="점검 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="점검 내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflagi" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ApphisSet" Relationship="ZGWER_APPROVAL_SRV.Repairapp" FromRole="FromRole_Repairapp" ToRole="ToRole_Repairapp"/>
+            </EntityType>
+            <EntityType Name="Car" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Carid"/>
+                </Key>
+                <Property Name="Carid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="차량ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="차종ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Colid" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="색상ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Homeoz" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="HOME존" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Nowoz" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="NOW존" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Castatus" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="차량 상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Accdist" Type="Edm.Decimal" Nullable="false" Precision="8" Scale="0" sap:unicode="false" sap:unit="Distunit" sap:label="누적거리" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Distunit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Lsdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="최근 정비일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bcharge" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="배터리 충전 횟수" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Purdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="구매 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Caprice" Type="Edm.Decimal" Nullable="false" Precision="11" Scale="3" sap:unicode="false" sap:unit="Curkey" sap:label="차량 가격" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Curkey" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="Canum" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="번호판" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Cwnid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="입고 문서 번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Apphis" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Requestid"/>
+                </Key>
+                <Property Name="Appdounum" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="결재문서번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="요청ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="상신내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="상신자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="이름" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="상신 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="상신 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="결재자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="이름" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="결재 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Apptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="결재 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appstate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="결재 상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Returndesc" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="반려사유" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="재상신여부" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CarprhSet" Relationship="ZGWER_APPROVAL_SRV.Carprapp" FromRole="ToRole_Carprapp" ToRole="FromRole_Carprapp"/>
+                <NavigationProperty Name="CarpohSet" Relationship="ZGWER_APPROVAL_SRV.Carpoapp" FromRole="ToRole_Carpoapp" ToRole="FromRole_Carpoapp"/>
+                <NavigationProperty Name="RepairSet" Relationship="ZGWER_APPROVAL_SRV.Repairapp" FromRole="ToRole_Repairapp" ToRole="FromRole_Repairapp"/>
+                <NavigationProperty Name="JunkcarSet" Relationship="ZGWER_APPROVAL_SRV.Junkcarapp" FromRole="ToRole_Junkcarapp" ToRole="FromRole_Junkcarapp"/>
+            </EntityType>
+            <EntityType Name="Employee" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Employeeid"/>
+                </Key>
+                <Property Name="Deptid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="부서ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rankid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="직급ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Positionid" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="직책ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Birth" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="생년월일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Telno" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="전화번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="이메일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branch" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="지점 코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Sapid" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="SAPID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Startdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="입사일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Delflag" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Delete Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="성명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Gender" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="성별" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Address" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="주소" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rankname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="직급명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Employeeid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Branchname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="지점명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Deptname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="부서명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="직책명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Junkcar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Junkcarid"/>
+                </Key>
+                <Property Name="Junkcarid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="폐차ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Inspectid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="점검ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Employeeid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="정비팀 직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="NAME" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Partnerid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="협력사ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Partname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="협력사명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rqdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="요청 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Staflag" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="전표상태구분" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Carid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="차량ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insempid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="정비팀 직원ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insempname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="INSEMPNAME" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="점검 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Insdesc" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:label="점검 내용" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Homeoz" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="HOME존" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ozname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="ON-ZONE 명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Canum" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="번호판" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ctyname" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="모델명" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reprid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="수리요청ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reppart" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="협력사ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reppartname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="REPPARTNAME" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reprdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="요청 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repnote" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="REPNOTE" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appdounum" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="결재문서번호" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reportid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="상신자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repempname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="REPEMPNAME" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="상신 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="상신 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approvalid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="결재자ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appempname" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="APPEMPNAME" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="결재 일자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Apptime" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="결재 시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appstate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="결재 상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ApphisSet" Relationship="ZGWER_APPROVAL_SRV.Junkcarapp" FromRole="FromRole_Junkcarapp" ToRole="ToRole_Junkcarapp"/>
+            </EntityType>
+            <Association Name="Carprapp" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Carprh" Multiplicity="1" Role="FromRole_Carprapp"/>
+                <End Type="ZGWER_APPROVAL_SRV.Apphis" Multiplicity="*" Role="ToRole_Carprapp"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Carprapp">
+                        <PropertyRef Name="Prid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Carprapp">
+                        <PropertyRef Name="Requestid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Carpr" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Carprh" Multiplicity="1" Role="FromRole_Carpr"/>
+                <End Type="ZGWER_APPROVAL_SRV.Carpri" Multiplicity="*" Role="ToRole_Carpr"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Carpr">
+                        <PropertyRef Name="Prid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Carpr">
+                        <PropertyRef Name="Prid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Carpo" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Carpoh" Multiplicity="1" Role="FromRole_Carpo"/>
+                <End Type="ZGWER_APPROVAL_SRV.Carpoi" Multiplicity="*" Role="ToRole_Carpo"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Carpo">
+                        <PropertyRef Name="Poid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Carpo">
+                        <PropertyRef Name="Poid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Carpoapp" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Carpoh" Multiplicity="1" Role="FromRole_Carpoapp"/>
+                <End Type="ZGWER_APPROVAL_SRV.Apphis" Multiplicity="*" Role="ToRole_Carpoapp"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Carpoapp">
+                        <PropertyRef Name="Poid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Carpoapp">
+                        <PropertyRef Name="Requestid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Repairapp" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Repair" Multiplicity="1" Role="FromRole_Repairapp"/>
+                <End Type="ZGWER_APPROVAL_SRV.Apphis" Multiplicity="*" Role="ToRole_Repairapp"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Repairapp">
+                        <PropertyRef Name="Reprid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Repairapp">
+                        <PropertyRef Name="Requestid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Junkcarapp" sap:content-version="1">
+                <End Type="ZGWER_APPROVAL_SRV.Junkcar" Multiplicity="1" Role="FromRole_Junkcarapp"/>
+                <End Type="ZGWER_APPROVAL_SRV.Apphis" Multiplicity="*" Role="ToRole_Junkcarapp"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Junkcarapp">
+                        <PropertyRef Name="Junkcarid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Junkcarapp">
+                        <PropertyRef Name="Requestid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGWER_APPROVAL_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ApprovalSet" EntityType="ZGWER_APPROVAL_SRV.Approval" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="LoginSet" EntityType="ZGWER_APPROVAL_SRV.Login" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CarprhSet" EntityType="ZGWER_APPROVAL_SRV.Carprh" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CarpriSet" EntityType="ZGWER_APPROVAL_SRV.Carpri" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CarpohSet" EntityType="ZGWER_APPROVAL_SRV.Carpoh" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CarpoiSet" EntityType="ZGWER_APPROVAL_SRV.Carpoi" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="RepairSet" EntityType="ZGWER_APPROVAL_SRV.Repair" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CarSet" EntityType="ZGWER_APPROVAL_SRV.Car" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ApphisSet" EntityType="ZGWER_APPROVAL_SRV.Apphis" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="EmployeeSet" EntityType="ZGWER_APPROVAL_SRV.Employee" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="JunkcarSet" EntityType="ZGWER_APPROVAL_SRV.Junkcar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="CarpoSet" Association="ZGWER_APPROVAL_SRV.Carpo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CarpohSet" Role="FromRole_Carpo"/>
+                    <End EntitySet="CarpoiSet" Role="ToRole_Carpo"/>
+                </AssociationSet>
+                <AssociationSet Name="CarprSet" Association="ZGWER_APPROVAL_SRV.Carpr" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CarprhSet" Role="FromRole_Carpr"/>
+                    <End EntitySet="CarpriSet" Role="ToRole_Carpr"/>
+                </AssociationSet>
+                <AssociationSet Name="CarpoappSet" Association="ZGWER_APPROVAL_SRV.Carpoapp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CarpohSet" Role="FromRole_Carpoapp"/>
+                    <End EntitySet="ApphisSet" Role="ToRole_Carpoapp"/>
+                </AssociationSet>
+                <AssociationSet Name="JunkcarappSet" Association="ZGWER_APPROVAL_SRV.Junkcarapp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="JunkcarSet" Role="FromRole_Junkcarapp"/>
+                    <End EntitySet="ApphisSet" Role="ToRole_Junkcarapp"/>
+                </AssociationSet>
+                <AssociationSet Name="RepairappSet" Association="ZGWER_APPROVAL_SRV.Repairapp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="RepairSet" Role="FromRole_Repairapp"/>
+                    <End EntitySet="ApphisSet" Role="ToRole_Repairapp"/>
+                </AssociationSet>
+                <AssociationSet Name="CarprappSet" Association="ZGWER_APPROVAL_SRV.Carprapp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CarprhSet" Role="FromRole_Carprapp"/>
+                    <End EntitySet="ApphisSet" Role="ToRole_Carprapp"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWER_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWER_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
