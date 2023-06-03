@@ -109,7 +109,7 @@
 								<!-- <Input id="idBDate"  enabled="false" /> -->
 								<Label text="전화번호" />									
 								<Input id="idInputTel" value="{join>/Telno}" 
-									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" type="Tel" change="onTelChange"/>
+									valueState="None" placeholder="00000000000, '-' 없이 입력하세요." width="403px" type="Number" change="onTelChange" maxLength="11"/>
 								<Label text="주소"/>
 								<Input id="idInputAdd" value="{join>/Address}" 
                     				valueState="None" placeholder="서울특별시 종로구 종로 51" width="403px" type="Text" change="onAddressChange"/>

@@ -116,6 +116,16 @@ sap.ui.define([
                                     });
                                     this.byId("idDialog").close();
                                     this.getView().getModel().setData(Object.assign({}, oData));
+                                    this.byId("idBirthDate").setValueState('None');
+                                    this.byId("idBirthDate").setValueStateText('');
+                                    this.byId("idInputName").setValueState('None');
+                                    this.byId("idInputName").setValueStateText('');
+                                    this.byId("idInputTel").setValueState('None');
+                                    this.byId("idInputTel").setValueStateText('');
+                                    this.byId("idInputAdd").setValueState('None');
+                                    this.byId("idInputAdd").setValueStateText('');
+                                    this.byId("idInputLic").setValueState('None');
+                                    this.byId("idInputLic").setValueStateText('');
                                 }
                             }.bind(this)
                         });
@@ -252,8 +262,14 @@ sap.ui.define([
             onTelChange: function() {
                 let oControlTel = this.byId("idInputTel");
                 let iTel = oControlTel.getValue();
-                oControlTel.setValueState(iTel ? 'None' : 'Error');
-                oControlTel.setValueStateText(iTel ? '' : '전화번호를 입력해주세요.');
+                var iMinLength = 11;
+                var iMaxLength = 11;
+
+                oControlTel.setValueState(iTel ? iTel.length >= iMinLength && iTel.length <= iMaxLength ? 'None' : 'Error' : 'Error');
+                oControlTel.setValueStateText(iTel ? iTel.length > iMinLength && iTel.length <= iMaxLength ? '' : '자리 수를 확인해 주세요.' : '전화번호를 입력해주세요.');
+                if(oControlTel.getValueState() === 'Error'){
+                    this.byId("idTelnoReview").setText('');
+                }
             },
 
             onAddressChange: function() {
@@ -266,8 +282,14 @@ sap.ui.define([
             onLicChange: function() {
                 let oControlLic = this.byId("idInputLic");
                 let iLic = oControlLic.getValue();
-                oControlLic.setValueState(iLic ? 'None' : 'Error');
-                oControlLic.setValueStateText(iLic ? '' : '면허번호를 입력해주세요.');
+                var iMinLength = 15;
+                var iMaxLength = 15;
+
+                oControlLic.setValueState(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? 'None' : 'Error' : 'Error');
+                oControlLic.setValueStateText(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? '' : '면허번호를 확인해주세요.' : '면허번호를 입력해주세요.');
+                if(oControlLic.getValueState() === 'Error'){
+                    this.byId("idTelnoRidLicnumRevieweview").setText('');
+                }
             },
 
             onJoinEreon: function () {
@@ -486,6 +508,16 @@ sap.ui.define([
                             this.byId("idUploader").setValue('');
                             this.byId("idImage").setSrc('');
                             this.byId("idInputLic").setValue('');
+                            this.byId("idBirthDate").setValueState('None');
+                            this.byId("idBirthDate").setValueStateText('');
+                            this.byId("idInputName").setValueState('None');
+                            this.byId("idInputName").setValueStateText('');
+                            this.byId("idInputTel").setValueState('None');
+                            this.byId("idInputTel").setValueStateText('');
+                            this.byId("idInputAdd").setValueState('None');
+                            this.byId("idInputAdd").setValueStateText('');
+                            this.byId("idInputLic").setValueState('None');
+                            this.byId("idInputLic").setValueStateText('');
                             this.byId("idAdultCheckReview").setText('');
                             this.byId("idIDReview").setText('');
                             this.byId("idNameReview").setText('');

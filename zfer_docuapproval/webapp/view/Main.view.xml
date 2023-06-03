@@ -153,7 +153,7 @@
 							</t:template>
 						</t:Column> -->
                         <t:Column width="350px" hAlign="Center">
-							<Label text="요청 내용" />
+							<Label text="문서 제목" />
 							<t:template>
 								<Text text="{app>Repdesc}"/>
 							</t:template>
