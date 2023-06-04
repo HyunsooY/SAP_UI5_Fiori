@@ -16,6 +16,10 @@
                         <Button id="LoginButton" text="로그인" press="onLogin" class="button1" width="150px"/>
                         <Button id="JoinButton" text="회원가입" press="onJoinEreon" class="button2" width="150px"/>
                     </HBox>
+                    <HBox class="Hbox1">
+                        <Text text="아이디를 잊으셨나요?" class="sapUiSmallMarginEnd"/>
+                        <Button id="FindButton" text="아이디 찾기" press="onFindID" class="Findbutton"/>
+                    </HBox>
                 </VBox>
             </VBox>
         </content>

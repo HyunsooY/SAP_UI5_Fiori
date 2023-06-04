@@ -444,9 +444,32 @@ sap.ui.define([
             },
 
             ////////////////////////////////////////////////////////////////////////////////
+            onClearIfSelectStart: function() {
+                this.byId("idInsuranceComboBox").setValue('');
+                this.byId("idRettotfee").setText('');
+                this.byId("idStaText").setText('');
+                this.byId("idCtyText").setText('');
+                this.byId("idColText").setText('');
+                this.byId("idCanum").setText('');
+                this.byId("idInsurText").setText('');
+                this.byId("idRettotfeeText").setText('');
+                this.byId("idCurrency").setVisible(false);
+                this.byId("idStaozText").setText('');
+            },
+
             onSelectStaBranch: function() {
                 let sStabranch = this.byId("idStaBranchComboBox").getSelectedKey();
                 let oFilter = new Filter({path:'Oz', operator:'Contains', value1:sStabranch});
+                let sStartzone = this.byId("idStaZoneComboBox").getSelectedKey();
+                if(sStartzone){
+                    this.onClearIfSelectStart();
+                    this.byId("idStaZoneComboBox").setValue('');
+                    this.byId("idSetButton").setEnabled(false);
+                    this.getView().getModel("rentcar").setProperty('/car', []);
+                    this.byId("idStaozText").setText('');
+                }else{
+                    this.onClearIfSelectStart();
+                }
                 this.byId("idStaZoneComboBox").clearSelection();
                 this.byId("idStaZoneComboBox").getBinding("items").filter(oFilter);
                 if(sStabranch) {                    
@@ -465,7 +488,7 @@ sap.ui.define([
                 let oFilter = new Filter({path:'Nowoz', operator:'EQ', value1:sStartzone});
                 aFilter.push(oFilter);
                 let aSrc = [];
-                debugger;
+                this.onClearIfSelectStart();
                 this.getView().setModel(new JSONModel(), "rentcar");
                 this.oModel.read('/RentcarSet', {
                     filters: aFilter,
@@ -497,6 +520,8 @@ sap.ui.define([
                 this.byId("idRetZoneComboBox").getBinding("items").filter(oFilter);
                 if(sRetbranch) {
                     this.byId("idRetoz").setVisible(true);
+                    this.byId("idRetZoneComboBox").setValue('');
+                    this.byId("idRetozText").setText('');
                 }else{
                     this.byId("idRetoz").setVisible(false);
                 }
@@ -706,7 +731,7 @@ sap.ui.define([
                         this.byId("idCancelButton").setVisible(true);
                         break;
                     case 3:
-                        this.byId("idBackButton").setVisible(false);
+                        this.byId("idBackButton").setVisible(true);
                         this.byId("idNextButton").setVisible(false);
                         this.byId("idSetButton").setVisible(true);
                         this.byId("idCancelButton").setVisible(true);
@@ -747,45 +772,51 @@ sap.ui.define([
                 var oFee = this.getView().getModel("charge").getProperty('/fee');
                 var oDiscount = this.getView().getModel("charge").getProperty('/grade');
                 var oInsurance = this.getView().getModel("charge").getProperty('/insurance');
-
+                var sInsurance = this.byId("idInsuranceComboBox").getSelectedKey();
                 // timeDiffMinute = Number(timeDiffMinute);
-                oFee.Retfee = Number(oFee.Retfee);
-                oFee.Extrafee = Number(oFee.Extrafee);
-                oDiscount.Discount = Number(oDiscount.Discount);
-                oInsurance.Insrate = Number(oInsurance.Insrate);
+                if(sInsurance){
+                    oFee.Retfee = Number(oFee.Retfee);
+                    oFee.Extrafee = Number(oFee.Extrafee);
+                    oDiscount.Discount = Number(oDiscount.Discount);
+                    oInsurance.Insrate = Number(oInsurance.Insrate);
 
-                if(timeDiffMinute <= 30){
-                    iRetfee = oFee.Retfee;
-                }else{
-                    iRetfee = oFee.Retfee + (timeDiffMinute - 30) * 1000 / (oFee.Extrafee / 600);
-                };
-
-                if(StaDate.getDay() === 0 || StaDate.getDay() === 6){
-                    if(StaDate >= Night1 && StaDate <= Night2){
-                        iRetfee = iRetfee;
+                    if(timeDiffMinute <= 30){
+                        iRetfee = oFee.Retfee;
                     }else{
-                        iRetfee = iRetfee * 1.4;
+                        iRetfee = oFee.Retfee + (timeDiffMinute - 30) * 1000 / (oFee.Extrafee / 600);
                     };
-                }else{
-                    if(StaDate >= Night1 && StaDate <= Night2){
-                        iRetfee = iRetfee * 0.7;
+
+                    if(StaDate.getDay() === 0 || StaDate.getDay() === 6){
+                        if(StaDate >= Night1 && StaDate <= Night2){
+                            iRetfee = iRetfee;
+                        }else{
+                            iRetfee = iRetfee * 1.4;
+                        };
                     }else{
-                        iRetfee = iRetfee;
+                        if(StaDate >= Night1 && StaDate <= Night2){
+                            iRetfee = iRetfee * 0.7;
+                        }else{
+                            iRetfee = iRetfee;
+                        };
                     };
-                };
 
-                iRetfee = iRetfee - oDiscount.Discount;
-                
-                iRettotfee = iRetfee * (1 + oInsurance.Insrate / 100);
-                iRettotfee = Math.floor(iRettotfee);
-                iRettotfee = Math.floor(iRettotfee / 10) * 10;
+                    iRetfee = iRetfee - oDiscount.Discount;
+                    
+                    iRettotfee = iRetfee * (1 + oInsurance.Insrate / 100);
+                    iRettotfee = Math.floor(iRettotfee);
+                    iRettotfee = Math.floor(iRettotfee / 10) * 10;
 
-                iRettotfee = iRettotfee.toLocaleString();
-                this.byId("idCurrency").setVisible(true);
-                this.byId("idBktime").setText(timeDiff);
-                this.byId("idRetfee").setText(iRetfee);
-                this.byId("idRettotfee").setText(iRettotfee);
-                this.byId("idRettotfeeText").setText(iRettotfee);
+                    iRettotfee = iRettotfee.toLocaleString();
+                    this.byId("idCurrency").setVisible(true);
+                    this.byId("idBktime").setText(timeDiff);
+                    this.byId("idRetfee").setText(iRetfee);
+                    this.byId("idRettotfee").setText(iRettotfee);
+                    this.byId("idRettotfeeText").setText(iRettotfee);
+                }else{
+                    this.byId("idRetfee").setText('');
+                    this.byId("idRettotfee").setText('');
+                    this.byId("idRettotfeeText").setText('');
+                }
 
             },
 

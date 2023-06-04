@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns:internal="sap.landvisz.internal" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified">
+    <Dialog id="idFindDialog" showHeader="false">
+        <content>
+        <Toolbar height="50px">
+            <core:Icon src="sap-icon://search" size="30px" color="#56BDF7"/>
+            <Text text="아이디 찾기" class="boldText"/>
+        </Toolbar>
+            <form:SimpleForm
+                    editable="true">
+                <VBox >
+                    <Title text="정보 입력" class="sapUiSmallMarginBottom"/>
+                    <Label text="성명"/>
+                    <Input id="idFindname" class="sapUiSmallMarginBottom"/>
+                    <Label text="면허번호"/>
+                    <Input id="idFindLic"/>
+                    <HBox alignItems="End" class="sapUiMediumMarginBottom">
+                        <Button text="찾기" press="onFindButtonPress" class="Findbutton2" width="70px"/>
+                    </HBox>
+                    <Title id="idFindtext" text="{='고객님의 아이디는 '+${join>/find/Custid}+' 입니다.'}" visible="false"/>
+                </VBox>
+            </form:SimpleForm>
+        </content>
+        <endButton>
+            <Button text="확인" press="onFindDialogClose"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

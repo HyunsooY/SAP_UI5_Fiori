@@ -61,6 +61,15 @@ sap.ui.define([
                 Price : function(value1, value2) {
                     var value = Number(value1).toLocaleString()+' '+value2;
                     return value;
+                },
+
+                Branch : function(oBranch) {
+                    if(oBranch === 'AAAA'){
+                        var branch = '';
+                        return branch;
+                    }else{
+                        return oBranch;
+                    }
                 }
             },
 
@@ -182,8 +191,8 @@ sap.ui.define([
                                         }else{
                                             object.Reportid = '';
                                             object.Reportname = '';
-                                            object.Repdate = '';
-                                            object.Reptime = '';
+                                            // object.Repdate = '';
+                                            // object.Reptime = '';
                                             if(object.Appstate === 'R'){
                                                 object.Approvalid = oLogin.Employeeid;
                                                 object.Approvalname = oLogin.Name;
@@ -245,8 +254,8 @@ sap.ui.define([
                                             }else{
                                                 object.Reportid = '';
                                                 object.Reportname = '';
-                                                object.Repdate = '';
-                                                object.Reptime = '';
+                                                // object.Repdate = '';
+                                                // object.Reptime = '';
                                                 if(object.Appstate === 'R'){
                                                     object.Approvalid = oLogin.Employeeid;
                                                     object.Approvalname = oLogin.Name;
@@ -305,8 +314,8 @@ sap.ui.define([
                                             }else{
                                                 object.Reportid = '';
                                                 object.Reportname = '';
-                                                object.Repdate = '';
-                                                object.Reptime = '';
+                                                // object.Repdate = '';
+                                                // object.Reptime = '';
                                                 if(object.Appstate === 'R'){
                                                     object.Approvalid = oLogin.Employeeid;
                                                     object.Approvalname = oLogin.Name;
@@ -381,8 +390,8 @@ sap.ui.define([
                                             }else{
                                                 object.Reportid = '';
                                                 object.Reportname = '';
-                                                object.Repdate = '';
-                                                object.Reptime = '';
+                                                // object.Repdate = '';
+                                                // object.Reptime = '';
                                                 if(object.Appstate === 'R'){
                                                     object.Approvalid = oLogin.Employeeid;
                                                     object.Approvalname = oLogin.Name;

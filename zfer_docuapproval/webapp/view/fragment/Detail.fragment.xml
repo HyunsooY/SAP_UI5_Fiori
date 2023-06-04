@@ -134,6 +134,9 @@
                                     <Text text="번호" />
                                 </Column>
                                 <Column width="60px" hAlign="Center">
+                                    <Text text="지점" />
+                                </Column>
+                                <Column width="60px" hAlign="Center">
                                     <Text text="차종ID" />
                                 </Column>
                                 <Column width="100px" hAlign="Center">
@@ -162,6 +165,7 @@
                                 <ColumnListItem>
                                     <cells>
                                         <Text text="{app>Ponum}" />
+                                        <ObjectIdentifier title="{path:'app>Branch', formatter:'.formatter.Branch'}" text="{path:'app>Branchname', formatter:'.formatter.Branch'}"/>
                                         <Text text="{app>Ctyid}" />
                                         <Text text="{app>Ctyname}" />
                                         <Text text="{app>Colid}" />

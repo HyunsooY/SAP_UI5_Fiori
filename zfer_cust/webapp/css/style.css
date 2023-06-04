@@ -1,9 +1,8 @@
 /* Enter your custom styles here */
-/* Enter your custom styles here */
 .mainPage {
     /* background-image: url("/model/image/background/EReON.png"); */
     background-size: 40%;
-    background-position:  top;
+    background-position: top;
     background-repeat: no-repeat;
     /* position: absolute;
     top: 150px; */
@@ -42,6 +41,22 @@
     top: 20px;
     left: 65px;
     color: #56BDF7;
+}
+
+.Hbox1 {
+    position: relative;
+    top: 40px;
+    left: 80px;
+    color: #56BDF7;
+}
+
+.Findbutton {
+    margin-top: -4px;
+}
+
+.Findbutton2 {
+    margin-top: 10SSSpx;
+    margin-left: 250px;
 }
 
 .LoginButton {

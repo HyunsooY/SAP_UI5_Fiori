@@ -131,6 +131,51 @@ sap.ui.define([
                         });
                     };
             },
+
+            onFindID: function() {
+                var oView = this.getView();
+                if(!this.byId("idFindDialog")){
+                    Fragment.load({
+                        id: oView.getId(),
+                        name: "ER.zfercust/view/fragment/FindID",
+                        controller: this
+                    }).then(function (oDialog) {
+                        oView.addDependent(oDialog);
+                        oDialog.open();
+                    });
+                }else{
+                    this.byId("idFindDialog").open();
+                }
+            },
+
+            onFindButtonPress: function() {
+                var sName = this.byId("idFindname").getValue('');
+                var sLicNum = this.byId("idFindLic").getValue('');
+
+                var sFindPath = this.oModel.createKey('/FindIdSet', {
+                    Name : sName,
+                    Licnum : sLicNum
+                });
+
+                this.oModel.read(sFindPath, {
+                    success: function(oReturn) {
+                        this.getView().getModel('join').setProperty('/find', oReturn);
+                        this.byId("idFindtext").setVisible(true);
+                    }.bind(this),
+                    error: function() {
+                        sap.m.MessageToast.show("잘못된 정보이거나 존재하지 않는 회원입니다.");
+                        this.byId("idFindtext").setVisible(false);
+                    }.bind(this)
+                });
+            },
+
+            onFindDialogClose: function(oEvent) {
+                var oDialog = oEvent.getSource().getParent();
+                this.byId("idFindname").setValue('');
+                this.byId("idFindLic").setValue('');
+                this.byId("idFindtext").setVisible(false);
+                oDialog.close();
+            },
             // onValueChange: function(oEvent) {
             //     let oControlName = this.byId("idInputName");
             //     let oControlBirth = this.byId("idBirthDate");
@@ -269,6 +314,7 @@ sap.ui.define([
                 oControlTel.setValueStateText(iTel ? iTel.length > iMinLength && iTel.length <= iMaxLength ? '' : '자리 수를 확인해 주세요.' : '전화번호를 입력해주세요.');
                 if(oControlTel.getValueState() === 'Error'){
                     this.byId("idTelnoReview").setText('');
+                    this.byId("idJoinButton").setEnabled(false);
                 }
             },
 
@@ -285,11 +331,25 @@ sap.ui.define([
                 var iMinLength = 15;
                 var iMaxLength = 15;
 
-                oControlLic.setValueState(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? 'None' : 'Error' : 'Error');
-                oControlLic.setValueStateText(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? '' : '면허번호를 확인해주세요.' : '면허번호를 입력해주세요.');
-                if(oControlLic.getValueState() === 'Error'){
-                    this.byId("idTelnoRidLicnumRevieweview").setText('');
-                }
+                var sLicCheckPath = this.oModel.createKey('/LicnumCheckSet', {
+                    Licnum : iLic
+                });
+                this.oModel.read(sLicCheckPath, {
+                    success: function(oReturn){
+                        oControlLic.setValueState('Error');
+                        oControlLic.setValueStateText(oReturn.Licnum+' 은 이미 등록된 면허번호입니다.');
+                        this.byId("idJoinButton").setEnabled(false);
+                    }.bind(this),
+                    error: function(){
+                        oControlLic.setValueState(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? 'None' : 'Error' : 'Error');
+                        oControlLic.setValueStateText(iLic ? iLic.length >= iMinLength && iLic.length <= iMaxLength ? '' : '면허번호를 확인해주세요.' : '면허번호를 입력해주세요.');
+                        if(oControlLic.getValueState() === 'Error'){
+                            this.byId("idLicnumReview").setText('');
+                            this.byId("idJoinButton").setEnabled(false);
+                        }
+                    }.bind(this)
+                })
+                
             },
 
             onJoinEreon: function () {

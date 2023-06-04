@@ -82,6 +82,8 @@
                                 <Text id="idAddressText" text="{login>/login/Address}" visible="true" width="403px"/>
                                 <Input id="idAddressInput" value="{login>/login/Address}" visible="false" width="403px"/>
                             </VBox>
+                            <Label text="면허번호"/>
+                            <Text text="{login>/login/Licnum}" width="403px"/>
                             <Label text="가입일자"/>
                             <Text text="{path : 'login>/login/Joindate', formatter: '.formatter.dateTime'}" width="403px"/>
                             <Label text="고객등급"/>
