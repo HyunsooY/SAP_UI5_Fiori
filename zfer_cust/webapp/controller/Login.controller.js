@@ -1032,36 +1032,39 @@ sap.ui.define([
                 oRentalData.Bktime = sBktime;
                 oRentalData.Drivdist = String(nAccdist - Number(oCarData.Accdist));
                 oRentalData.Distunit = 'KM';
+                if(nAccdist > Number(oCarData.Accdist)){
+                    if(oRtdate < oDate){
+                        var nExtraSecond = (oDate - oRtdate) / 1000;
+                        this.byId("idCurrency1").setVisible(true);
+                        this.byId("idLateReturn").setVisible(true);
+                        oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee) + nExtraSecond * Number(oChargeData.Extrafee) / (10 * 60);
+                    }else{
+                        this.byId("idCurrency1").setVisible(true);
+                        this.byId("idLateReturn").setVisible(false);
+                        oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee)
+                    };
 
-                if(oRtdate < oDate){
-                    var nExtraSecond = (oDate - oRtdate) / 1000;
-                    this.byId("idCurrency1").setVisible(true);
-                    this.byId("idLateReturn").setVisible(true);
-                    oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee) + nExtraSecond * Number(oChargeData.Extrafee) / (10 * 60);
+                    var sDrivfee = (Math.floor(oRentalData.Drivfee / 10) * 10).toLocaleString();
+                    this.byId("idDrivfee").setText(sDrivfee);
+                    oRentalData.Drivfee = String((Math.floor(oRentalData.Drivfee / 10) * 10));
+                    oRentalData.Staflag = true;
+                    
+                    if(bCheck === true){
+                        oCarData.Castatus = '3';
+                    }else{
+                        oCarData.Castatus = '1';
+                    };
+                    oCarData.Accdist = String(nAccdist);
+                    oCarData.Bcharge = String(Number(oCarData.Bcharge) + 1);
+                    oCarData.Nowoz = oRentalData.Retoz;
+                    this.getView().getModel("login").setProperty('/returndata', oRentalData);
+                    this.getView().getModel("login").setProperty('/returncar', oCarData);
+                    
+                    this.byId("idReturnButton").setEnabled(this.byId("idDrivfee").getText(oRentalData.Drivfee) ? true : false);
                 }else{
-                    this.byId("idCurrency1").setVisible(true);
-                    this.byId("idLateReturn").setVisible(false);
-                    oRentalData.Drivfee = Number(oRentalData.Drivdist) * Number(oChargeData.Drivfee)
-                };
-
-                var sDrivfee = (Math.floor(oRentalData.Drivfee / 10) * 10).toLocaleString();
-                this.byId("idDrivfee").setText(sDrivfee);
-                oRentalData.Drivfee = String((Math.floor(oRentalData.Drivfee / 10) * 10));
-                oRentalData.Staflag = true;
-                
-                if(bCheck === true){
-                    oCarData.Castatus = '3';
-                }else{
-                    oCarData.Castatus = '1';
-                };
-                oCarData.Accdist = String(nAccdist);
-                oCarData.Bcharge = String(Number(oCarData.Bcharge) + 1);
-                oCarData.Nowoz = oRentalData.Retoz;
-                this.getView().getModel("login").setProperty('/returndata', oRentalData);
-                this.getView().getModel("login").setProperty('/returncar', oCarData);
-                
-                this.byId("idReturnButton").setEnabled(this.byId("idDrivfee").getText(oRentalData.Drivfee) ? true : false);
-
+                    sap.m.MessageToast.show("차량 거리를 확인해 주세요.");
+                    this.byId("idDrivfee").setText('');
+                }
             },
 
             onReturnPress: function() {
