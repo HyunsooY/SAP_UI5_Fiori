@@ -38,7 +38,7 @@
                     <HBox class="sapUiSmallMarginBottom">
                         <Title text="주행 요금"/>
                         <Text id="idDrivfee" class="boldText sapUiSmallMarginBeginEnd"/>
-                        <Text id="idCurrency1" text="KRW" class="boldText" visible="false"/>
+                        <Text id="idCurrency1" text="원" class="boldText" visible="false"/>
                     </HBox>
                     <HBox >
                         <Button id="idDrivfeeCalc" text="주행요금 계산" press="onDrivfeeCalc" width="200px"/>

@@ -169,19 +169,19 @@
 						<form:SimpleForm
 								editable="true">
 							<Label text="대여일자" class="sapUiSmallMarginBottom"/>
-							<DatePicker id="idStadate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onValueChange" 
+							<DatePicker id="idStadate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onStaChange" 
 										valueState="None" valueStateText="" width="403px"/>
 							<Label text="대여 예정시각" class="sapUiSmallMarginBottom"/>
 							<TimePicker
-								id="idStatime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onValueChange"
+								id="idStatime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onStaChange"
 								support2400="true" maskMode="{= true ? 'On' : 'Off'}" placeholder="HH:mm:ss" valueState="None"
 								width="403px"/>
 							<Label text="반납 예정일자" class="sapUiSmallMarginBottom"/>
-							<DatePicker id="idRetdate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onValueChange" 
+							<DatePicker id="idRetdate" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" change="onRetChange" 
 										valueState="None" width="403px"/>
 							<Label text="반납 예정시각" class="sapUiSmallMarginBottom"/>
 							<TimePicker
-								id="idRettime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onValueChange"
+								id="idRettime" valueFormat="HH:mm:ss" displayFormat="HH:mm:ss" change="onRetChange"
 								support2400="true" maskMode="{= true ? 'On' : 'Off'}" placeholder="HH:mm:ss" 
 								width="403px"/>
 							<Label text="보험"/>
@@ -193,7 +193,7 @@
 						<form:SimpleForm class="sapUiSmallMarginTop">
 							<Title text="대여 요금" />
 							<Text id="idRettotfee" class="boldText"/>
-							<Text id="idCurrency" text="KRW" class="boldText" visible="false"/>
+							<Text id="idCurrency" text="원" class="boldText" visible="false"/>
 							<Button id="idRetfeeCalc" text="대여요금 계산" press="onRetfeeCalc" width="200px"/>
 						</form:SimpleForm>
 					</WizardStep>
@@ -269,7 +269,7 @@
 									<form:content>
 										<Label text="대여 요금"/>
 										<Text id="idRettotfeeText" class="boldText"/>
-										<Text id="idCurkey" text="KRW" class="boldText"/>
+										<Text id="idCurkey" text="원" class="boldText"/>
 										<Text id="idRetfee" visible="false"/>
 									</form:content> 
 								</form:SimpleForm>

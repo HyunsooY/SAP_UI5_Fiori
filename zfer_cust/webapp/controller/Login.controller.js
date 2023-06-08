@@ -245,7 +245,7 @@ sap.ui.define([
                         if (oAction === MessageBox.Action.YES) {
                             this.oModel.update(sFullPath, jsonData, {
                                 success: function() {
-                                    MessageBox['confirm']("탈퇴가 성공적으로 완료되었습니다. 지금까지 EReON을 이용해주셔서 감사합니다.", {
+                                    MessageBox['confirm']("탈퇴가 성공적으로 완료되었습니다. \r\n 지금까지 EReON을 이용해주셔서 감사합니다.", {
                                         actions: [MessageBox.Action.YES],
                                         onClose: function (oAction) {
                                             if (oAction === MessageBox.Action.YES) {
@@ -548,6 +548,7 @@ sap.ui.define([
                     var sSelectColor = aRent[i].getCells()[3].getText();
                     var sSelectCanum = aRent[i].getCells()[4].getText();
                 }
+                debugger;
                 this.getView().getModel("rentcar").setProperty('/selectcar', {Carid : sSelectCarid});
                 let sCarpath = this.oModel.createKey("/CarSet", {
                     Carid : sSelectCarid
@@ -571,46 +572,52 @@ sap.ui.define([
                 this.byId("idCanum").setText(sSelectCanum);                
             },
          
-            onValueChange: function(oEvent) {
+            onStaChange: function(oEvent) {
                 let currentDate = new Date();
                 let sStadate = this.byId("idStadate").getValue();
                 let Sdate = new Date(sStadate);
-                let sRetdate = this.byId("idRetdate").getValue();
-                let Rdate = new Date(sRetdate);
                 let sStatime = this.byId("idStatime").getValue();
                 let Stime = this.byId("idStatime").getDateValue();
-                let sRettime = this.byId("idRettime").getValue();
 
+                let oStadate = oEvent.getSource();
+                let bValid = oEvent.getParameter("valid");
 
-                if(Sdate.getFullYear() < currentDate.getFullYear()){
-                    this.byId("idStadate").setValueState('Error');
-                    this.byId("idStadate").setValueStateText('현재보다 이후 날짜를 입력하십시오.');
-                    this.byId("idStatime").setValueState('Error');
-                }else if(Sdate.getFullYear() === currentDate.getFullYear()){
-                    if(Sdate.getMonth() < currentDate.getMonth()){
+                if (bValid) {
+                    oStadate.setValueState('None');
+                    if(Sdate.getFullYear() < currentDate.getFullYear()){
                         this.byId("idStadate").setValueState('Error');
                         this.byId("idStadate").setValueStateText('현재보다 이후 날짜를 입력하십시오.');
                         this.byId("idStatime").setValueState('Error');
-                    }else if(Sdate.getMonth() === currentDate.getMonth()){
-                        if(Sdate.getDate() < currentDate.getDate()){
+                    }else if(Sdate.getFullYear() === currentDate.getFullYear()){
+                        if(Sdate.getMonth() < currentDate.getMonth()){
                             this.byId("idStadate").setValueState('Error');
                             this.byId("idStadate").setValueStateText('현재보다 이후 날짜를 입력하십시오.');
                             this.byId("idStatime").setValueState('Error');
-                        }else if(Sdate.getDate() === currentDate.getDate()){
-                            this.byId("idStadate").setValueState('None');
-                            this.byId("idStadateText").setText(sStadate);
-                            if(Stime){
-                                if(Stime.getHours() < currentDate.getHours()){                                    
-                                    this.byId("idStatime").setValueStateText('현재보다 이후 시간을 입력하십시오.');
-                                    this.byId("idStatime").setValueState('Error');
-                                }else if(Stime.getHours() === currentDate.getHours()){
-                                    if(Stime.getMinutes() < currentDate.getMinutes()){                                        
+                        }else if(Sdate.getMonth() === currentDate.getMonth()){
+                            if(Sdate.getDate() < currentDate.getDate()){
+                                this.byId("idStadate").setValueState('Error');
+                                this.byId("idStadate").setValueStateText('현재보다 이후 날짜를 입력하십시오.');
+                                this.byId("idStatime").setValueState('Error');
+                            }else if(Sdate.getDate() === currentDate.getDate()){
+                                this.byId("idStadate").setValueState('None');
+                                this.byId("idStadateText").setText(sStadate);
+                                if(Stime){
+                                    if(Stime.getHours() < currentDate.getHours()){                                    
                                         this.byId("idStatime").setValueStateText('현재보다 이후 시간을 입력하십시오.');
                                         this.byId("idStatime").setValueState('Error');
-                                    }else if(Stime.getMinutes() === currentDate.getMinutes()){
-                                        if(Stime.getSeconds() < Stime.getSeconds()){
+                                    }else if(Stime.getHours() === currentDate.getHours()){
+                                        if(Stime.getMinutes() < currentDate.getMinutes()){                                        
                                             this.byId("idStatime").setValueStateText('현재보다 이후 시간을 입력하십시오.');
                                             this.byId("idStatime").setValueState('Error');
+                                        }else if(Stime.getMinutes() === currentDate.getMinutes()){
+                                            if(Stime.getSeconds() < Stime.getSeconds()){
+                                                this.byId("idStatime").setValueStateText('현재보다 이후 시간을 입력하십시오.');
+                                                this.byId("idStatime").setValueState('Error');
+                                            }else{
+                                                this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
+                                                this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
+                                                this.byId("idStatimeText").setText(sStatime);
+                                            }
                                         }else{
                                             this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
                                             this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
@@ -629,6 +636,7 @@ sap.ui.define([
                             }else{
                                 this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
                                 this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
+                                this.byId("idStadateText").setText(sStadate);
                                 this.byId("idStatimeText").setText(sStatime);
                             }
                         }else{
@@ -642,44 +650,66 @@ sap.ui.define([
                         this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
                         this.byId("idStadateText").setText(sStadate);
                         this.byId("idStatimeText").setText(sStatime);
-                    }
+                    };
                 }else{
-                    this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
-                    this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
-                    this.byId("idStadateText").setText(sStadate);
-                    this.byId("idStatimeText").setText(sStatime);
+                    oStadate.setValueState('Error');
                 };
-                if(sRetdate){
-                    if(Rdate.getFullYear() < Sdate.getFullYear()){
-                        this.byId("idRetdate").setValueState('Error');
-                        this.byId("idRetdate").setValueStateText('대여 예정일자보다 이후 날짜를 입력하십시오.');
-                        this.byId("idRettime").setValueState('Error');
-                    }else if(Rdate.getFullYear() === Sdate.getFullYear()){
-                        if(Rdate.getMonth() < Sdate.getMonth()){
+                
+                // let sInsurText = this.byId("idInsuranceComboBox")._getSelectedItemText();
+                // let sInsuranceKey = this.byId("idInsuranceComboBox").getSelectedKey();
+                // this.byId("idInsurText").setText(sInsurText);
+            },
+
+            onRetChange: function(oEvent) {
+                let sStadate = this.byId("idStadate").getValue();
+                let Sdate = new Date(sStadate);
+                let sRetdate = this.byId("idRetdate").getValue();
+                let Rdate = new Date(sRetdate);
+                let sStatime = this.byId("idStatime").getValue();
+                let sRettime = this.byId("idRettime").getValue();
+
+                let oRetdate = oEvent.getSource();
+                let bValid = oEvent.getParameter("valid");
+
+                if (bValid) {
+                    oRetdate.setValueState('None');
+                    if(sRetdate){
+                        if(Rdate.getFullYear() < Sdate.getFullYear()){
                             this.byId("idRetdate").setValueState('Error');
                             this.byId("idRetdate").setValueStateText('대여 예정일자보다 이후 날짜를 입력하십시오.');
                             this.byId("idRettime").setValueState('Error');
-                        }else if(Rdate.getMonth() === Sdate.getMonth()){
-                            if(Rdate.getDate() < Sdate.getDate()){
+                        }else if(Rdate.getFullYear() === Sdate.getFullYear()){
+                            if(Rdate.getMonth() < Sdate.getMonth()){
                                 this.byId("idRetdate").setValueState('Error');
                                 this.byId("idRetdate").setValueStateText('대여 예정일자보다 이후 날짜를 입력하십시오.');
                                 this.byId("idRettime").setValueState('Error');
-                            }else if(Rdate.getDate() === Sdate.getDate()){
-                                this.byId("idRetdate").setValueState('None');
-                                this.byId("idRetdateText").setText(sRetdate);
-                                if(sRettime){
-                                    if(sRettime < sStatime){                                        
-                                        this.byId("idRettime").setValueStateText('대여 예정시각보다 이후 시간을 입력하십시오.');
-                                        this.byId("idRettime").setValueState('Error');
-                                    }else{
-                                        this.byId("idRetdate").setValueState(sStadate ? 'None' : 'Error');
-                                        this.byId("idRettime").setValueState(sStatime ? 'None' : 'Error');
-                                        this.byId("idRettimeText").setText(sRettime);
+                            }else if(Rdate.getMonth() === Sdate.getMonth()){
+                                if(Rdate.getDate() < Sdate.getDate()){
+                                    this.byId("idRetdate").setValueState('Error');
+                                    this.byId("idRetdate").setValueStateText('대여 예정일자보다 이후 날짜를 입력하십시오.');
+                                    this.byId("idRettime").setValueState('Error');
+                                }else if(Rdate.getDate() === Sdate.getDate()){
+                                    this.byId("idRetdate").setValueState('None');
+                                    this.byId("idRetdateText").setText(sRetdate);
+                                    if(sRettime){
+                                        if(sRettime < sStatime){                                        
+                                            this.byId("idRettime").setValueStateText('대여 예정시각보다 이후 시간을 입력하십시오.');
+                                            this.byId("idRettime").setValueState('Error');
+                                        }else{
+                                            this.byId("idRetdate").setValueState(sStadate ? 'None' : 'Error');
+                                            this.byId("idRettime").setValueState(sStatime ? 'None' : 'Error');
+                                            this.byId("idRettimeText").setText(sRettime);
+                                        }
                                     }
+                                }else{
+                                    this.byId("idRetdate").setValueState(sStadate ? 'None' : 'Error');
+                                    this.byId("idRettime").setValueState(sStatime ? 'None' : 'Error');
+                                    this.byId("idRetdateText").setText(sRetdate);
+                                    this.byId("idRettimeText").setText(sRettime);
                                 }
                             }else{
-                                this.byId("idRetdate").setValueState(sStadate ? 'None' : 'Error');
-                                this.byId("idRettime").setValueState(sStatime ? 'None' : 'Error');
+                                this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
+                                this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
                                 this.byId("idRetdateText").setText(sRetdate);
                                 this.byId("idRettimeText").setText(sRettime);
                             }
@@ -689,16 +719,10 @@ sap.ui.define([
                             this.byId("idRetdateText").setText(sRetdate);
                             this.byId("idRettimeText").setText(sRettime);
                         }
-                    }else{
-                        this.byId("idStadate").setValueState(sStadate ? 'None' : 'Error');
-                        this.byId("idStatime").setValueState(sStatime ? 'None' : 'Error');
-                        this.byId("idRetdateText").setText(sRetdate);
-                        this.byId("idRettimeText").setText(sRettime);
-                    }
+                    };
+                }else{
+                    oRetdate.setValueState('Error');
                 };
-                let sInsurText = this.byId("idInsuranceComboBox")._getSelectedItemText();
-                let sInsuranceKey = this.byId("idInsuranceComboBox").getSelectedKey();
-                this.byId("idInsurText").setText(sInsurText);
             },
     
             onDialogAfterOpen: function () {
@@ -862,11 +886,11 @@ sap.ui.define([
                             this._oWizard.discardProgress(this._oWizard.getSteps()[0]);
                             this.oModel.create("/RentalSet", oRental, {
                                 success: function() {
-                                    sap.m.MessageToast.show("고객님의 차량 대여 신청이 정상적으로 처리되었습니다.");
+                                    sap.m.MessageToast.show("고객님의 차량 대여 신청이 \r\n 정상적으로 처리되었습니다.");
                                     this.onRentalDialogClear();
                                 }.bind(this),
                                 error: function() {
-                                    sap.m.MessageToast.show("서버 문제 발생으로 인하여 대여 신청이 실패하였습니다.");
+                                    sap.m.MessageToast.show("서버 문제 발생으로 인하여 \r\n 대여 신청이 실패하였습니다.");
                                 }
                             });
                             this.byId("idRentalDialog").close();
@@ -921,9 +945,9 @@ sap.ui.define([
                 var sSelectedText = this.byId("idRadioGroup").getSelectedButton().mProperties.text;
                 var sMessage = new String;
                 if(sSelectedText === '단순 변심'){
-                    sMessage = "취소 처리 되었습니다. 다음에도 EReON을 찾아주시면 감사하겠습니다."
+                    sMessage = "취소 처리 되었습니다. \r\n 다음에도 EReON을 찾아주시면 감사하겠습니다."
                 }else if(sSelectedText === '차량 문제'){
-                    sMessage = "불편을 드려 진심으로 죄송합니다. 다음에도 EReON을 찾아주시면 감사하겠습니다."
+                    sMessage = "불편을 드려 진심으로 죄송합니다. \r\n 다음에도 EReON을 찾아주시면 감사하겠습니다."
                 }
                 var sCancelNote = '취소 사유:'+sSelectedText;
                 MessageBox["warning"]("차량 대여를 취소하시겠습니까? 사유 : "+sSelectedText, {
@@ -997,7 +1021,7 @@ sap.ui.define([
                                 this.byId("idReturnDialog").open();
                             }
                         }else{
-                            MessageBox['warning']("이용 전인 차량입니다. 반납 처리 불가합니다.", {
+                            MessageBox['warning']("이용 전인 차량입니다. \r\n 반납 처리 불가합니다.", {
                                 actions: [MessageBox.Action.YES],
                                 onClose: function (oAction) {
                                     if (oAction === MessageBox.Action.YES) {
@@ -1077,7 +1101,7 @@ sap.ui.define([
                 let sCarPath = this.oModel.createKey("/CarSet", {
                     Carid : oReturncar.Carid
                 });
-                var sText = "차량이 정상 반납 처리되었습니다. 저희 EReON을 이용해주셔서 감사드립니다. 항상 최상의 서비스로 고객님께 다가갈 것을 약속드리며 다음 번에도 만나뵙길 기대하겠습니다.";
+                var sText = "차량이 정상 반납 처리되었습니다. \r\n 저희 EReON을 이용해주셔서 감사드립니다. \r\n 항상 최상의 서비스로 고객님께 다가갈 것을 약속드리며 \r\n 다음 번에도 만나뵙길 기대하겠습니다.";
                 
                 this.oModel.update(sReturnPath, oReturndata, {
                     success: function() {

@@ -482,8 +482,9 @@ sap.ui.define([
                                             var sCarpath = this.oModel.createKey('/CarSet', {
                                                 Carid : oDetail.Carid
                                             });
+                                            debugger;
                                             var sJunkpath = this.oModel.createKey('/JunkcarSet', {
-                                                Junkcarid : oApproval.Requestid
+                                                Junkcarid : oDocu.Requestid
                                             });
                                             this.oModel.read(sCarpath, {
                                                 success: function(oReturn){

@@ -108,10 +108,10 @@ sap.ui.define([
                                     debugger;
                                     this.oModel.create("/CustomerSet", oCustomer, {
                                         success: function() {
-                                            sap.m.MessageToast.show("EReON의 회원이 되신 걸 환영합니다!");
+                                            sap.m.MessageToast.show("EReON의 회원이 되신 걸 \r\n 환영합니다!");
                                         },
                                         error: function() {
-                                            sap.m.MessageToast.show("회원가입이 정상적으로 이루어지지 않았습니다.");
+                                            sap.m.MessageToast.show("회원가입이 정상적으로 \r\n 이루어지지 않았습니다.");
                                         }
                                     });
                                     this.byId("idDialog").close();
@@ -163,7 +163,7 @@ sap.ui.define([
                         this.byId("idFindtext").setVisible(true);
                     }.bind(this),
                     error: function() {
-                        sap.m.MessageToast.show("잘못된 정보이거나 존재하지 않는 회원입니다.");
+                        sap.m.MessageToast.show("잘못된 정보이거나 \r\n 존재하지 않는 회원입니다.");
                         this.byId("idFindtext").setVisible(false);
                     }.bind(this)
                 });
@@ -250,7 +250,7 @@ sap.ui.define([
             //     this.byId("idJoinButton").setEnabled(iName && iBirth && iTel && iAdd && iLic && iGender && iImage ? true : false);
                 
             // },
-            onBirthChange: function() {
+            onBirthChange: function(oEvent) {
                 let oControlBirth = this.byId("idBirthDate");
                 let iBirth = oControlBirth.getValue();
                 let currentDate = new Date();
@@ -258,41 +258,49 @@ sap.ui.define([
                 let yearDiff = currentDate.getFullYear() - birthDate.getFullYear();
                 let monthDiff = birthDate.getMonth() - currentDate.getMonth();
                 let dayDiff = birthDate.getDate() - currentDate.getDate();
-            
-                if(yearDiff < 18){
-                    oControlBirth.setValueState('Error');
-                    oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
-                    this.byId("idNextButton").setEnabled(false);
-                    // this.getView().getModel().setProperty("/nextButtonEnabled", false);
-                }else if(yearDiff === 18){
-                    if(monthDiff > 0){
+                
+                let oBirth = oEvent.getSource();
+                let bValid = oEvent.getParameter("valid");
+
+                if (bValid) {
+                    oBirth.setValueState('None');
+                    if(yearDiff < 18){
                         oControlBirth.setValueState('Error');
                         oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
                         this.byId("idNextButton").setEnabled(false);
                         // this.getView().getModel().setProperty("/nextButtonEnabled", false);
-                    }else if(monthDiff === 0){
-                        if(dayDiff > 0){
+                    }else if(yearDiff === 18){
+                        if(monthDiff > 0){
                             oControlBirth.setValueState('Error');
                             oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
                             this.byId("idNextButton").setEnabled(false);
                             // this.getView().getModel().setProperty("/nextButtonEnabled", false);
+                        }else if(monthDiff === 0){
+                            if(dayDiff > 0){
+                                oControlBirth.setValueState('Error');
+                                oControlBirth.setValueStateText('입력할 수 없는 생일입니다.');
+                                this.byId("idNextButton").setEnabled(false);
+                                // this.getView().getModel().setProperty("/nextButtonEnabled", false);
+                            }else{
+                                oControlBirth.setValueState(iBirth ? 'None' : 'Error');
+                                oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
+                                this.byId("idNextButton").setEnabled(true);
+                                // this.getView().getModel().setProperty("/nextButtonEnabled", true);    
+                            }
                         }else{
                             oControlBirth.setValueState(iBirth ? 'None' : 'Error');
                             oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
                             this.byId("idNextButton").setEnabled(true);
-                            // this.getView().getModel().setProperty("/nextButtonEnabled", true);    
+                            // this.getView().getModel().setProperty("/nextButtonEnabled", true);
                         }
                     }else{
                         oControlBirth.setValueState(iBirth ? 'None' : 'Error');
                         oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
                         this.byId("idNextButton").setEnabled(true);
                         // this.getView().getModel().setProperty("/nextButtonEnabled", true);
-                    }
+                    };
                 }else{
-                    oControlBirth.setValueState(iBirth ? 'None' : 'Error');
-                    oControlBirth.setValueStateText(iBirth ? '' : '생년월일을 입력해주세요.');
-                    this.byId("idNextButton").setEnabled(true);
-                    // this.getView().getModel().setProperty("/nextButtonEnabled", true);
+                    oBirth.setValueState('Error');
                 };
                 this.byId("idBdate").setValue(iBirth);
             },
@@ -310,11 +318,26 @@ sap.ui.define([
                 var iMinLength = 11;
                 var iMaxLength = 11;
 
-                oControlTel.setValueState(iTel ? iTel.length >= iMinLength && iTel.length <= iMaxLength ? 'None' : 'Error' : 'Error');
-                oControlTel.setValueStateText(iTel ? iTel.length > iMinLength && iTel.length <= iMaxLength ? '' : '자리 수를 확인해 주세요.' : '전화번호를 입력해주세요.');
-                if(oControlTel.getValueState() === 'Error'){
-                    this.byId("idTelnoReview").setText('');
-                    this.byId("idJoinButton").setEnabled(false);
+                // oControlTel.setValueState(iTel ? iTel.length >= iMinLength && iTel.length <= iMaxLength ? 'None' : 'Error' : 'Error');
+                // oControlTel.setValueStateText(iTel ? iTel.length > iMinLength && iTel.length <= iMaxLength ? '' : '자리 수를 확인해 주세요.' : '전화번호를 입력해주세요.');
+                // if(oControlTel.getValueState() === 'Error'){
+                //     this.byId("idTelnoReview").setText('');
+                //     this.byId("idJoinButton").setEnabled(false);
+                // }
+                if(iTel.length > 0){
+                    if(iTel.length < iMinLength || iTel.length > iMaxLength){
+                        this.byId("idTelnoReview").setText('');
+                        oControlTel.setValueState('Error');
+                        oControlTel.setValueStateText('자리 수를 확인해 주세요.');
+                        this.byId("idJoinButton").setEnabled(false);
+                    }else{
+                        oControlTel.setValueState('None');
+                        oControlTel.setValueStateText('');
+                    }
+                }
+                else{
+                    oControlTel.setValueState('Error');
+                    oControlTel.setValueStateText('전화번호를 입력해 주세요.');
                 }
             },
 
@@ -521,15 +544,15 @@ sap.ui.define([
                 } else {
                     this._oWizard.nextStep();
                 }
-                if(this._iSelectedStepIndex === 0){
-                    this.onBirthChange();
-                }else if(this._iSelectedStepIndex === 1){
-                    this.onNameChange();
-                    this.onTelChange();
-                    this.onAddressChange();
-                }else if(this._iSelectedStepIndex === 2){
-                    this.onLicChange();
-                };
+                // if(this._iSelectedStepIndex === 0){
+                //     this.onBirthChange();
+                // }else if(this._iSelectedStepIndex === 1){
+                //     this.onNameChange();
+                //     this.onTelChange();
+                //     this.onAddressChange();
+                // }else if(this._iSelectedStepIndex === 2){
+                //     this.onLicChange();
+                // };
                 this._iSelectedStepIndex++;
                 this._oSelectedStep = oNextStep;
                 this.handleButtonsVisibility();
